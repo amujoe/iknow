@@ -1,12 +1,33 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
+    "pages/index/Index",
+    "pages/person/Person",
+    "pages/about/About"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Wechat",
     "navigationBarTextStyle":"black"
-  }
+  },
+  "tabBar": {
+		"color": "#dbdbdb",
+		"selectedColor": "#707070",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/Index",
+				"text": "世界",
+				"iconPath": "./images/tabbar/world.png",
+				"selectedIconPath": "./images/tabbar/world-active.png"
+			},
+			{
+				"pagePath": "pages/person/Person",
+				"text": "我",
+				"iconPath": "./images/tabbar/person.png",
+				"selectedIconPath": "./images/tabbar/person-active.png"
+			}
+		]
+	}
 }

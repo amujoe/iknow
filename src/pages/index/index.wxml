@@ -1,15 +1,29 @@
 <!--index.wxml-->
-<import src="../../wxml/motto/motto.wxml"/>
-<wxs src="../../wxs/powered.wxs" module="powered" />
 
 <view class="container">
-  <view bindtap="bindViewTap">
-    <user avatarUrl="{{userInfo.avatarUrl}}" nickName="{{userInfo.nickName}}"></user>
-  </view>
-  <view class="motto">
-    <template is="motto" data="{{motto:motto}}" />
-  </view>
-  <view class="powered">
-    <text>{{powered.by}}</text>
+  <!--浮层-->
+  <movable-area class="mov-area">
+    <movable-view class="mov-view" 
+      x="{{x}}" y="{{y}}" 
+      direction="all"
+      inertia="true"
+      out-of-bounds="true"
+      damping="50"
+      friction="5"
+      bindchange="cardMove" bindtap="seeDetail">
+    </movable-view>
+  </movable-area>
+
+  <view class="card-box">
+    <!--active-->
+    <view class="box-active card" animation="{{animation}}">
+      <view>您好 {{item_active.name}} {{item_active_index}}</view>
+    </view>
+    <!--next-->
+    <view class="box-top card" animation="{{animation_t}}">
+      <view>您好 {{item_next.name}} {{item_active_index}}</view>
+    </view>
+    <view class="box-mid" animation="{{animation_m}}"></view>
+    <view class="box-end" animation="{{animation_e}}"></view>
   </view>
 </view>

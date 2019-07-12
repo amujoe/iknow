@@ -1,24 +1,58 @@
 
 @import 'share';
 
-.motto {
-	@extend %center-flex;
-
-	margin-top: 200px;
+.container{
+	width: 100vw;
+	height: 100vh;
+	position: relative;
+	display: flex;
+	justify-content: center;
 	align-items: center;
+	background: #eeeeee;
+}
+.mov-area{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 5;
+	width: 300vw;
+	height: 200vh;
+	margin: -100vh 0 0 -150vw;
+	.mov-view{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		width: 600rpx;
+		height: 800rpx;
+		margin: -400rpx 0 0 -300rpx;
+		.card{
+			width:	600rpx;
+			height:	800rpx;
+			background:	#ffffff;
+		}
+	}
 }
 
-.face {
-	$r: 24px;
 
-	width: $r;
-	height: $r;
-	border-radius: 50%;
-	margin-right: 10px;
-}
-
-.powered {
-	margin-top: 30px;
-	font-size: 11px;
-	color: gray;
+.card-box{
+	width: 600rpx;
+	height: 800rpx;
+	.box-active, .box-top, .box-mid, .box-end{
+		position: absolute;
+		width: 600rpx;
+		height: 800rpx;
+		background: #ffffff;
+	}
+	.box-active{
+		z-index: 4;
+	}
+	.box-top{
+		z-index: 3;
+	}
+	.box-mid{
+		z-index: 2;
+	}
+	.box-end{
+		z-index: 1;
+	}
 }

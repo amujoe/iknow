@@ -1,6 +1,8 @@
 
 {
+  "navigationBarTitleText": "爱看不看",
+  "disableScroll": true,
+  "navigationStyle": "custom",
   "usingComponents": {
-    "user": "../../components/user/user"
   }
 }
