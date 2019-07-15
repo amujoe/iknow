@@ -1,0 +1,44 @@
+<view class="container">
+  
+  <!-- 头像 -->
+  <view class="user-info">
+    <view class="avatar">
+      <open-data type="userAvatarUrl"></open-data>
+    </view>
+    <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
+  </view>
+
+  <!-- 文案 
+  <view class="txt">
+    <view class="desc">我们听你说:</view>
+  </view>
+  -->
+
+  <!-- 编辑器 -->
+  <view class="edit-box">
+    <editor
+      id="editor"
+      class="ql-container"
+      placeholder="{{placeholder}}"
+      showImgSize
+      showImgToolbar
+      showImgResize
+      read-only="{{readOnly}}"
+      bindready="onEditorReady"
+      bindblur="onInputBlur"
+      bindinput="onInputChange">
+    </editor>
+  </view>
+  <!-- 编辑器 end-->
+
+  <!-- 打卡,标记位置 -->
+  <view>
+  </view>
+  <!-- 打卡,标记位置 -->
+
+  <!-- 提交 -->
+  <view class="foot-button-box">
+    <button type="default" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"> 甭想太多, 喊了再说 </button>
+  </view>
+  <!-- 提交 end-->
+</view>

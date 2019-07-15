@@ -18,10 +18,18 @@
     <!--active-->
     <view class="box-active card" animation="{{animation}}">
       <view>您好 {{item_active.name}} {{item_active_index}}</view>
+
+      <!-- 展示 -->
+      <rich-text nodes="{{ item_active.content }}"></rich-text>
+      <!-- 展示 end -->
     </view>
     <!--next-->
     <view class="box-top card" animation="{{animation_t}}">
       <view>您好 {{item_next.name}} {{item_active_index}}</view>
+
+      <!-- 展示 -->
+      <rich-text nodes="{{ item_next.content }}"></rich-text>
+      <!-- 展示 end -->
     </view>
     <view class="box-mid" animation="{{animation_m}}"></view>
     <view class="box-end" animation="{{animation_e}}"></view>

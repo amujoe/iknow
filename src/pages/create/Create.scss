@@ -1,0 +1,55 @@
+.container{
+  padding-bottom: 200rpx;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 90rpx 30rpx 10rpx 30rpx;
+  .avatar{
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 100rpx;
+    overflow: hidden;
+  }
+  .name{
+    font-size: 50rpx;
+    padding-right: 12rpx;
+    color: #226DDD;
+  }
+}
+
+.txt{
+  padding: 60rpx 30rpx 10rpx 30rpx;
+  .desc{
+    font-size: 36rpx;
+    padding-left: 60rpx;
+  }
+}
+
+.edit-box{
+  margin-top: 40rpx;
+  padding: 40rpx 20rpx;
+  border: 1px solid #eee;
+  editor {
+    min-height: 800rpx;
+  }
+}
+
+.foot-button-box{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
+  border: 1px solid #eee;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.05);
+  .btn{
+    width: 100%;
+    height: 60rpx;
+    background: #226DDD;
+    color: #fff;
+  }
+}

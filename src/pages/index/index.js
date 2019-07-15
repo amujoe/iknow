@@ -1,3 +1,6 @@
+const db = wx.cloud.database()
+const { globalData } = getApp()
+
 Page({
   data: {
     x: 0,
@@ -6,27 +9,16 @@ Page({
 		animation_t: '', // 顶
 		animation_m: '', // 中
 		animation_e: '', // 底
-		item_active: null,
+		item_active: null, // 当前
 		item_active_index: 0, // 当前展示的 item 的下标 index
-		item_next: null,
-		is_fling: false,
-		list: [
-			{
-				name: "左木"
-			},
-			{
-				name: "浩然"
-			},
-			{
-				name: "左木子"
-			},
-			{
-				name: "放学别跑"
-			},
-			{
-				name: "amuojoe"
-			}
-		]
+		item_next: null, // 下一个
+		is_fling: false, // 是否在飞行
+		list: [],
+		pagination: {
+			page: 1,
+			limit: 10,
+			total: 0,
+		}
   },
 	onLoad () {
 		this.setData({
@@ -34,6 +26,7 @@ Page({
 			item_next: this.data.list[1],
 		})
 		this.item_show = this.data.list[0]
+		this.getShoutsList() // 获取列表
 	},
 	onShow(){
 		// 初始化
@@ -169,5 +162,47 @@ Page({
 		}, 700)
 
 			
-	}
+	},
+	/**
+	 * 获取列表
+	 */
+	getShoutsList() {
+		let page = this.data.pagination.page
+		let limit = this.data.pagination.limit
+		let list = this.data.list
+		let index = this.data.item_active_index
+		// 存数据库
+		db.collection("_SHOUT")
+			.where({
+				"_openid": globalData.openid
+			})
+			.skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
+			.limit(limit) // 限制返回数量为 10 条
+			.field({ // 过滤字段
+				_id: true,
+				content: true,
+				create_time: true,
+			})
+			.get()
+			.then(res => {
+				console.log('res', res.data)
+				let data = res.data
+				list.push(res.data)
+				console.log('list', list)
+				if (!index) {
+					this.setData({
+						"list": list,
+						"item_active": data[index],
+						"item_next": data[index + 1]
+					})
+				} else {
+					this.setData({
+						"list": list,
+					})
+				}
+			})
+			.catch(err => {
+				console.log('err', err)
+			})
+  },
 })

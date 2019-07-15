@@ -2,7 +2,8 @@
   "pages":[
     "pages/index/Index",
     "pages/person/Person",
-    "pages/about/About"
+    "pages/about/About",
+    "pages/create/Create"
   ],
   "window":{
     "backgroundTextStyle":"light",

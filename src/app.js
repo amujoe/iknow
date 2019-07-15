@@ -4,19 +4,33 @@ App({
 	globalData: {
 		scene: undefined, // 进入场景
     user: null, // 接口返回来的用户信息
-    code: undefined, // wx.login =》 code 换 token
-    token: undefined, // token，传给后端
+    location: { // 位置信息
+      latitude: '',
+      longitude: ''
+    },
+    openid: '',
+    // code: undefined, // wx.login =》 code 换 token
+    // token: undefined, // token，传给后端
 		system: null, // 当前系统环境
 		windowWidth: 0, // 屏幕宽度
 		windowHeight: 0, // 屏幕高度
-    is_registered: 2, // 是否注册过 (0=未注册，1=已注册, 2= 还没判断)
+    // is_registered: 2, // 是否注册过 (0=未注册，1=已注册, 2= 还没判断)
 	},
 	onLaunch() {
-		this.getSystemInfo()
-		this.systemUpdateFn()
+     // 云开发 初始化
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        traceUser: true,
+      })
+    }
+
+		this.getSystemInfo() // 手机系统信息
+    this.systemUpdateFn() // 版本更新
+    this.login() // 登录
 	},
 	onShow() {
-	
 	},
   // 获取手机系统信息
   getSystemInfo () {
@@ -73,5 +87,32 @@ App({
         }
       })
     }
+  },
+  // 授权地理位置
+  getLocationFn () {
+    wx.getLocation({
+      type: 'wgs84',
+      success (res) {
+        this.setData({
+          "location.latitude": res.latitude,
+          "location.longitude": res.longitude
+        })
+      }
+    })
+  },
+  // 登录
+  login() {
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'login',
+      data: {},
+      success: res => {
+        console.log('openid', res.result.openid)
+        this.globalData.openid = res.result.openid
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err)
+      }
+    })
   },
 });

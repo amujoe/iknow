@@ -1,0 +1,29 @@
+<!-- page start-->
+<view class="container">
+
+  <!-- 个人信息 -->
+  <view class="info">
+    <view class="logo"><image src="../../images/logo.png" /></view>
+    <view class="title">佛系喊话</view>
+
+    <view style="height: 90rpx"></view>
+    <view class="txt">喜欢Ta, 不知如何表白?</view>
+    <view class="txt">压力大, 不知如何释放?</view>
+    <view class="txt">对亲人, 不知如何说爱?</view>
+
+    <view style="height: 60rpx"></view>
+    <view class="txt">来</view>
+    <view class="txt">喊吧</view>
+    <view class="txt">喊出来吧</view>
+    <view class="txt">万一 Ta 听到了呢?</view>
+    <view class="txt">万一喊出来就释然了呢?</view>
+    <view class="txt">万一爱就这么被传递了呢?</view>
+
+    <view style="height: 60rpx"></view>
+    <view class="txt">我是左木子</view>
+    <view class="txt">我为你助力</view>
+    <view style="height: 100rpx"></view>
+  </view>
+
+</view>
+<!-- page end-->

@@ -16,13 +16,6 @@ const isDev = NODE_ENV !== 'production';
 const shouldLint = !!LINT && LINT !== 'false';
 const srcDir = resolve('src');
 
-const copyPatterns = []
-	.concat(pkg.copyWebpack || [])
-	.map(
-		(pattern) =>
-			typeof pattern === 'string' ? { from: pattern, to: pattern } : pattern,
-	);
-
 export default (env = {}) => {
 	const min = env.min;
 	const target = env.target || 'Wechat';
@@ -121,7 +114,17 @@ export default (env = {}) => {
 			new IgnorePlugin(/vertx/),
 			shouldLint && new StylelintPlugin(),
 			min && new MinifyPlugin(),
-			new CopyPlugin(copyPatterns, { context: srcDir }),
+			new CopyPlugin([
+				{
+					from: "cloudfunctions/**/*",
+					to: "../",
+					toType: 'dir',
+				},
+				{
+					from: "src/project.config.json",
+					to: ""
+				}
+			]),
 		].filter(Boolean),
 		devtool: isDev ? 'source-map' : false,
 		resolve: {
