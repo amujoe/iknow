@@ -1,5 +1,5 @@
 const db = wx.cloud.database()
-const { globalData } = getApp()
+const { globalData, login } = getApp()
 
 Page({
   data: {
@@ -20,13 +20,13 @@ Page({
 			total: 0,
 		}
   },
-	onLoad () {
-		this.setData({
-			item_active: this.data.list[0],
-			item_next: this.data.list[1],
-		})
-		this.item_show = this.data.list[0]
-		this.getShoutsList() // 获取列表
+	async onLoad () {
+		
+		await login()
+		setTimeout(() => {
+			this.getShoutsList() // 获取列表
+		}, 500);
+		
 	},
 	onShow(){
 		// 初始化
@@ -166,43 +166,41 @@ Page({
 	/**
 	 * 获取列表
 	 */
-	getShoutsList() {
+	async getShoutsList() {
 		let page = this.data.pagination.page
 		let limit = this.data.pagination.limit
-		let list = this.data.list
 		let index = this.data.item_active_index
-		// 存数据库
-		db.collection("_SHOUT")
-			.where({
-				"_openid": globalData.openid
-			})
-			.skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
-			.limit(limit) // 限制返回数量为 10 条
-			.field({ // 过滤字段
-				_id: true,
-				content: true,
-				create_time: true,
-			})
-			.get()
-			.then(res => {
-				console.log('res', res.data)
-				let data = res.data
-				list.push(res.data)
-				console.log('list', list)
-				if (!index) {
+		let list = this.data.list
+
+		// 调用云函数
+    wx.cloud.callFunction({
+      name: 'shout',
+      data: {
+				action: 'get',
+				page: page,
+				limit: limit
+			},
+      success: res => {
+				console.log('shout', res.result.data)
+
+				if (page === 1) {
 					this.setData({
-						"list": list,
-						"item_active": data[index],
-						"item_next": data[index + 1]
+						list: res.result.data,
+						item_active: res.result.data[index],
+						item_next: res.result.data[index + 1],
 					})
 				} else {
+					let list = this.data.list
+					list.push(res.result.data)
 					this.setData({
-						"list": list,
+						list: list
 					})
 				}
-			})
-			.catch(err => {
-				console.log('err', err)
-			})
+				
+      },
+      fail: err => {
+        console.error('index-getShoutsList', err)
+      }
+    })
   },
 })

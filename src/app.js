@@ -28,10 +28,46 @@ App({
 
 		this.getSystemInfo() // 手机系统信息
     this.systemUpdateFn() // 版本更新
-    this.login() // 登录
+    // this.login() // 登录
 	},
 	onShow() {
-	},
+  },
+  // 弹框
+  showMessage(option) {
+    const {
+      title = '',
+      content = '',
+      isRejectable = false,
+      cancelText = '取消',
+      confirmText = '确定',
+      confirmColor = '#dd1d21',
+      resolve,
+      reject,
+      complete,
+      fail
+    } = option
+    wx.showModal({
+      title: title,
+      content: content,
+      showCancel: isRejectable,
+      cancelText: cancelText,
+      confirmText: confirmText,
+      confirmColor: confirmColor,
+      success(res) {
+        if (res.confirm) {
+          resolve && resolve()
+        } else if (res.cancel) {
+          reject && reject()
+        }
+      },
+      fail() {
+        fail && fail()
+      },
+      complete() {
+        complete && complete()
+      }
+    })
+  },
   // 获取手机系统信息
   getSystemInfo () {
     try {
@@ -101,18 +137,28 @@ App({
     })
   },
   // 登录
-  login() {
+  async login() {
+    let resolve = null
+    let reject = null
+    const promise = new Promise((res, rej) => {
+      resolve = res
+      reject = rej
+    })
+    
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
       data: {},
       success: res => {
-        console.log('openid', res.result.openid)
         this.globalData.openid = res.result.openid
+        resolve()
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)
+        reject()
       }
     })
+
+    return promise
   },
 });

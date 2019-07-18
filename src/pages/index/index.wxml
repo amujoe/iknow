@@ -17,19 +17,33 @@
   <view class="card-box">
     <!--active-->
     <view class="box-active card" animation="{{animation}}">
-      <view>您好 {{item_active.name}} {{item_active_index}}</view>
-
-      <!-- 展示 -->
-      <rich-text nodes="{{ item_active.content }}"></rich-text>
-      <!-- 展示 end -->
+      <!--用户信息-->
+      <view class="user">
+        <view class="avatar">
+          <image src="{{item_active.avatar}}" />
+        </view>
+        <view class="name">{{item_active.nick_name}}</view>
+      </view>
+      <!--内容-->
+      <view class="main">
+        <view class="title">{{item_active.title}}</view>
+        <rich-text class="content" nodes="{{item_active.content}}"></rich-text>
+      </view>
     </view>
     <!--next-->
     <view class="box-top card" animation="{{animation_t}}">
-      <view>您好 {{item_next.name}} {{item_active_index}}</view>
-
-      <!-- 展示 -->
-      <rich-text nodes="{{ item_next.content }}"></rich-text>
-      <!-- 展示 end -->
+      <!--用户信息-->
+      <view class="user">
+        <view class="avatar">
+          <image src="{{item_next.avatar}}" />
+        </view>
+        <view class="name">{{item_next.nick_name}}</view>
+      </view>
+      <!--内容-->
+      <view class="main">
+        <view class="title">{{item_next.title}}</view>
+        <rich-text class="content" nodes="{{item_next.content}}"></rich-text>
+      </view>
     </view>
     <view class="box-mid" animation="{{animation_m}}"></view>
     <view class="box-end" animation="{{animation_e}}"></view>

@@ -122,7 +122,7 @@ export default (env = {}) => {
 				},
 				{
 					from: "src/project.config.json",
-					to: ""
+					to: "../"
 				}
 			]),
 		].filter(Boolean),

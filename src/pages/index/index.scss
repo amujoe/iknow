@@ -56,3 +56,43 @@
 		z-index: 1;
 	}
 }
+
+// box
+.card{
+	box-sizing: border-box;
+	padding: 30rpx;
+	.user{
+		display: flex;
+		align-items: center;
+		padding-bottom: 20rpx;
+		border-bottom: 1px solid #efefefef;
+		.avatar{
+			width: 80rpx;
+			height: 80rpx;
+			border-radius: 80rpx;
+			overflow: hidden;
+			image{
+				width: 80rpx;
+				height: 80rpx;
+			}
+		}
+		.name{
+			margin-left: 20rpx;
+			font-size: 34rpx;
+			color: #888;
+		}
+	}
+	
+	.main{
+		padding: 20rpx 0;
+		.title{
+			font-size: 40rpx;
+			color: #444;
+			padding-bottom: 20rpx
+		}
+		.content{
+			font-size: 36rpx;
+			color: #666;
+		}
+	}
+}

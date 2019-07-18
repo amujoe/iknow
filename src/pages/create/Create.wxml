@@ -8,25 +8,27 @@
     <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
   </view>
 
-  <!-- 文案 
-  <view class="txt">
-    <view class="desc">我们听你说:</view>
+  <!-- 标题 -->
+  <view class="editor-title-box">
+    <input class="editor-title" 
+      maxlength="20" 
+      placeholder="请输入一个标题" 
+      confirm-type="done"
+      bindinput="onTitleInputChange"
+      bindconfirm="onTitleInputConfirm"
+      />
   </view>
-  -->
+  <!-- 标题 end-->
 
   <!-- 编辑器 -->
-  <view class="edit-box">
+  <view class="editor-content-box">
     <editor
-      id="editor"
-      class="ql-container"
-      placeholder="{{placeholder}}"
-      showImgSize
-      showImgToolbar
-      showImgResize
-      read-only="{{readOnly}}"
-      bindready="onEditorReady"
-      bindblur="onInputBlur"
-      bindinput="onInputChange">
+      id="editor-content"
+      class="editor-content"
+      placeholder="请输入更多内容"
+      bindready="onContentEditorReady"
+      bindblur="onContentInputBlur"
+      bindinput="onContentInputChange">
     </editor>
   </view>
   <!-- 编辑器 end-->
@@ -37,8 +39,8 @@
   <!-- 打卡,标记位置 -->
 
   <!-- 提交 -->
-  <view class="foot-button-box">
-    <button type="default" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"> 甭想太多, 喊了再说 </button>
+  <view class="button-box">
+    <button type="default" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo"> 爱喊不喊 </button>
   </view>
   <!-- 提交 end-->
 </view>

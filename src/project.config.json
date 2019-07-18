@@ -1,4 +1,6 @@
 {
+  "miniprogramRoot": "wechat/",
+	"cloudfunctionRoot": "cloudfunctions/",
   "description": "项目配置文件。",
   "setting": {
     "urlCheck": true,
@@ -8,8 +10,8 @@
     "newFeature": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.5.0",
-  "appid": "wx02b6797a9ac61669",
+  "libVersion": "2.7.0",
+  "appid": "wx80bdd6c0ed3b74ad",
   "projectname": "app",
   "condition": {
     "search": {
