@@ -11,6 +11,11 @@
       damping="50"
       friction="5"
       bindchange="cardMove" bindtap="seeDetail">
+        <!--操作-->
+        <view class="operation">
+          <view class="like" bindtap="clickLike"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.likes}}</view>
+          <view class="comment" bindtap="clickComment"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.comments}}</view>
+        </view>
     </movable-view>
   </movable-area>
 
@@ -22,28 +27,38 @@
         <view class="avatar">
           <image src="{{item_active.avatar}}" />
         </view>
-        <view class="name">{{item_active.nick_name}}</view>
+        <view class="name">{{item_active.nick_name}}-{{pagination.page}}-{{item_active_index}}</view>
       </view>
       <!--内容-->
       <view class="main">
         <view class="title">{{item_active.title}}</view>
         <rich-text class="content" nodes="{{item_active.content}}"></rich-text>
       </view>
+      <!--操作-->
+      <view class="operation">
+        <view class="like"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.likes}}</view>
+        <view class="comment"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.comments}}</view>
+      </view>
     </view>
     <!--next-->
-    <view class="box-top card" animation="{{animation_t}}">
-      <!--用户信息-->
-      <view class="user">
-        <view class="avatar">
-          <image src="{{item_next.avatar}}" />
+    <view class="box-top" animation="{{animation_t}}">
+      <!--卡片-->
+      <view class="card" wx:if="{{item_next}}">
+        <!--用户信息-->
+        <view class="user">
+          <view class="avatar">
+            <image src="{{item_next.avatar}}" />
+          </view>
+          <view class="name">{{item_next.nick_name}}</view>
         </view>
-        <view class="name">{{item_next.nick_name}}</view>
+        <!--内容-->
+        <view class="main">
+          <view class="title">{{item_next.title}}</view>
+          <rich-text class="content" nodes="{{item_next.content}}"></rich-text>
+        </view>
       </view>
-      <!--内容-->
-      <view class="main">
-        <view class="title">{{item_next.title}}</view>
-        <rich-text class="content" nodes="{{item_next.content}}"></rich-text>
-      </view>
+      <!--没有更多了-->
+      <view class="default" wx:else>走到世界尽头了</view>
     </view>
     <view class="box-mid" animation="{{animation_m}}"></view>
     <view class="box-end" animation="{{animation_e}}"></view>

@@ -26,7 +26,6 @@
       id="editor-content"
       class="editor-content"
       placeholder="请输入更多内容"
-      bindready="onContentEditorReady"
       bindblur="onContentInputBlur"
       bindinput="onContentInputChange">
     </editor>

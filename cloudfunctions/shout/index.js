@@ -8,6 +8,8 @@ cloud.init()
 
 // 初始化 database
 const db = cloud.database()
+// 获取 openid
+const { OPENID } = cloud.getWXContext()
 
 /**
  * 获取 shout 数据(外部调用)
@@ -16,6 +18,7 @@ const db = cloud.database()
  */
 const queryShouts = async event => {
   let res = await getShouts(event.page, event.limit, event.openid)
+
   // 如果有数据
   if(res.data && res.data.length) {
     // 循环抓取用户信息
@@ -55,7 +58,9 @@ const getShouts = async (page = 1, limit = 10, openid) => {
       openid: true,
       content: true,
       title: true,
-      create_time: true,
+      likes: true, // 助力
+      comments: true, // 评论数
+      update_time: true, // 创建时间(服务端时间)
     })
     .get()
 }
@@ -88,13 +93,15 @@ const queryUserInfo = async (openid) => {
  */
 const addShout = async (item) => {
   try {
-    return await db.collection("_USER")
+    return await db.collection("_SHOUT")
       .add({
         data: {
+          _openid: OPENID,
           title: item.title,
-          content: item.content_html,
+          content: item.content,
           likes: 0, // 助力
           comments: 0, // 评论数
+          update_time: db.serverDate(), // 创建时间(服务端时间)
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
@@ -119,10 +126,10 @@ const updateShout = async (id, item) => {
       .update({
         data: {
           title: item.title,
-          content: item.content_html,
+          content: item.content,
           likes: 0, // 助力
           comments: 0, // 评论数
-          create_time: db.serverDate(), // 创建时间(服务端时间)
+          update_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
         },
@@ -148,6 +155,7 @@ const removeShout = async (id) => {
     console.error(e)
   }
 }
+
 /**
  * return
  */

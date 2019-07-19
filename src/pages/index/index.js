@@ -104,9 +104,18 @@ Page({
 			});
 		}
 
-		// x 轴大于 200
-		if(absX >= 200 && !this.data.is_fling)
+		// x 轴大于 200 并且有数据
+		if(absX >= 200 && !this.data.is_fling && this.data.item_next){
 			this.cardFly(x, y)
+		}
+
+		// x 轴大于 200 无数据 回归
+		if(absX >= 200 && !this.data.is_fling && !this.data.item_next){
+			this.animation.translateX(0).translateY(0).rotate(0).step()
+			this.setData({
+				animation: this.animation.export(),
+			});
+		}
 	},
 	/**
 	 * card 飞出去
@@ -156,12 +165,17 @@ Page({
 			this.animation.translateX(0).translateY(0).rotate(0).opacity(1).step()
 			this.setData({
 				is_fling: false,
-				item_next: this.data.list[index + 1],
+				item_next: this.data.list[index + 1] || null,
 				animation: this.animation.export(),
 			});
 		}, 700)
-
-			
+		// 阅读过半, 加载新的(遇 5 拉新)
+		if(index/ 5 % 2 === 1) {
+			this.setData({
+				"pagination.page": this.data.pagination.page + 1
+			})
+			this.getShoutsList()
+		}
 	},
 	/**
 	 * 获取列表
@@ -170,7 +184,6 @@ Page({
 		let page = this.data.pagination.page
 		let limit = this.data.pagination.limit
 		let index = this.data.item_active_index
-		let list = this.data.list
 
 		// 调用云函数
     wx.cloud.callFunction({
@@ -184,6 +197,11 @@ Page({
 				console.log('shout', res.result.data)
 
 				if (page === 1) {
+					// this.setData({
+					// 	list: [...res.result.data[1]],
+					// 	item_active: res.result.data[1],
+					// 	item_next: null,
+					// })
 					this.setData({
 						list: res.result.data,
 						item_active: res.result.data[index],
@@ -191,12 +209,11 @@ Page({
 					})
 				} else {
 					let list = this.data.list
-					list.push(res.result.data)
+					list = [...list, ...res.result.data]
 					this.setData({
 						list: list
 					})
 				}
-				
       },
       fail: err => {
         console.error('index-getShoutsList', err)

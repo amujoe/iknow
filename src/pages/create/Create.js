@@ -25,9 +25,6 @@ Page({
       "title": value
     })
   },
-  // 内容 - 编辑器准备好了
-  onContentEditorReady() {
-  },
   // content change
   onContentInputChange(e) {
     const { html, text, delta } = e.detail
@@ -41,7 +38,6 @@ Page({
   onContentInputBlur(e) {
     const { html, text, delta } = e.detail
 
-    console.log('html', html)
     this.setData({
       "content_html": html
     })
@@ -126,7 +122,7 @@ Page({
         delete: 0, // 标记删除, 0 未删除 , 1 删除
 			},
       success: res => {
-				console.log('shout', res.result.data)
+				console.log('shout', res)
         wx.showToast({
           title: '添加成功',
           icon: 'success',

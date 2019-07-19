@@ -1,16 +1,11 @@
 // 云函数模板
-// 部署：在 cloud-functions/login 文件夹右击选择 “上传并部署”
-
+// 部署：在 cloud-functions/** 文件夹右击选择 “上传并部署”
 const cloud = require('wx-server-sdk')
 
-// 初始化 cloud
-cloud.init()
+cloud.init()                              // 初始化 cloud
+const db = cloud.database()               // 初始化 database
+const { OPENID } = cloud.getWXContext()   // 获取 openid
 
-// 初始化 database
-const db = cloud.database()
-
-// 获取 openid
-const { OPENID } = cloud.getWXContext()
 
 /**
  * 查询关联的用户信息
@@ -54,7 +49,7 @@ const addUserInfo = async (user) => {
 }
 
 /**
- * 写入 用户信息
+ * 写入 用户信息 (方法)
  * @param {*} user 
  */
 const addUser = async (user) => {
