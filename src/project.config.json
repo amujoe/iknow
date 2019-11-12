@@ -8,11 +8,11 @@
     "postcss": true,
     "minified": true,
     "newFeature": true,
-    "checkSiteMap": false,
+    "checkSiteMap": false
   },
   "compileType": "miniprogram",
   "libVersion": "2.7.0",
-  "appid": "wx80bdd6c0ed3b74ad",
+  "appid": "wxfe8806a6c102f8df",
   "projectname": "app",
   "condition": {
     "search": {
