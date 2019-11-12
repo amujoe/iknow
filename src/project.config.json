@@ -29,19 +29,19 @@
         {
           "id": 1,
           "name": "我",
-          "pathName": "pages/person/Person",
+          "pathName": "pages/person/person",
           "query": ""
         },
         {
           "id": 2,
           "name": "关于我",
-          "pathName": "pages/about/About",
+          "pathName": "pages/about/about",
           "query": ""
         },
         {
           "id": 3,
           "name": "喊",
-          "pathName": "pages/create/Create",
+          "pathName": "pages/create/create",
           "query": ""
         }
       ]

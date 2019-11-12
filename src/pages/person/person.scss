@@ -1,0 +1,51 @@
+
+@import 'share';
+
+.container{
+	padding: 0 50rpx
+}
+
+.info{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+	// align-items: center;
+	padding-top: 250rpx;
+	.txt {
+		.name{
+			font-size: 50rpx
+		}
+		.dex{
+			font-size: 20rpx
+		}
+	}
+	.avatar{
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 120rpx;
+		overflow: hidden;
+	}
+}
+
+// menu
+.menu-box{
+	width: 100%;
+	margin-top: 100rpx;
+	background: #ffffff;
+	border-radius: 16rpx;
+	box-shadow: 0 0 20rpx rgba(0,0,0,0.1);
+	padding: 20rpx 0;
+	.menu{
+		display: flex;
+		align-items: center;
+		padding: 20rpx 0;
+		.icon{
+			font-size: 60rpx;
+			padding: 0 40rpx;
+		}
+		.txt{
+			font-size: 40rpx;
+		}
+	}
+}

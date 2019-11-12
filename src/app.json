@@ -1,9 +1,9 @@
 {
   "pages":[
-    "pages/index/Index",
-    "pages/person/Person",
-    "pages/about/About",
-    "pages/create/Create"
+    "pages/index/index",
+    "pages/person/person",
+    "pages/about/about",
+    "pages/create/create"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -18,13 +18,13 @@
 		"borderStyle": "black",
 		"list": [
 			{
-				"pagePath": "pages/index/Index",
+				"pagePath": "pages/index/index",
 				"text": "世界",
 				"iconPath": "./images/tabbar/world.png",
 				"selectedIconPath": "./images/tabbar/world-active.png"
 			},
 			{
-				"pagePath": "pages/person/Person",
+				"pagePath": "pages/person/person",
 				"text": "我",
 				"iconPath": "./images/tabbar/person.png",
 				"selectedIconPath": "./images/tabbar/person-active.png"
