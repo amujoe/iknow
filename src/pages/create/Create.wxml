@@ -1,19 +1,60 @@
 <view class="container">
   
-  <!-- 头像 -->
-  <view class="user-info">
-    <view class="avatar">
-      <open-data type="userAvatarUrl"></open-data>
-    </view>
-    <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
+  <!-- 头部 -->
+  <view class="top">
+    <view class="t-font">假装爱生活</view>
   </view>
 
-  <!-- 表单 -->
+  <!-- 姓名 -->
   <view class="item">
-    <view class="item-l">姓名</view>
-    <view class="item-r">
-      <input type="" placeholder="姓名"/>
+    <view class="item-t">姓名</view>
+    <view class="item-b">
+      <input type="text" value="{{name}}" placeholder="请输入姓名" />
     </view>   
+  </view>
+
+  <!-- 性别 -->
+  <view class="item">
+    <view class="item-t">性别</view>
+    <view class="item-b">
+      <picker mode="selector" 
+        bindchange="sexChange" 
+        value="{{sex}}" 
+        range="{{sex_arr}}" 
+        placeholder="请选择性别">
+        <view class="picker">
+          {{sex_arr[sex]}}
+        </view>
+      </picker>
+    </view>   
+  </view>
+
+  <!-- 电话 -->
+  <view class="item">
+    <view class="item-t">电话</view>
+    <view class="item-b">
+      <input type="text" value="{{phone}}" maxlength="11" placeholder="请输入手机号"/>
+    </view>   
+  </view>
+
+  <!-- 形象 -->
+  <view class="item">
+    <view class="item-t">形象</view>
+    <view class="item-b">
+      <view class="upload-box">
+        <block wx:for="{{temp_images}}" wx:key="{{index}}">
+          <view class="upload-img">
+            <image src="{{item}}" />
+          </view>
+        </block>
+        <view class="upload-add" wx:if="{{!temp_images.length}}" bindtap="chooseImage"></view>
+      </view>
+    </view>   
+  </view>
+
+  <!-- 提交 -->
+  <view class="footer">
+    <button class="btn" type="default" bindtap="saveInfo">提交</button>
   </view>
   
 

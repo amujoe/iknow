@@ -1,7 +1,8 @@
 
 {
-  "navigationBarTitleText": "喊话",
+  "navigationBarTitleText": "芝麻开门",
   "backgroundColor": "#eeeeee",
   "usingComponents": {
+    "uploader": "../../components/base/uploader/uploader"
   }
 }

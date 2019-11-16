@@ -1,143 +1,130 @@
 // 获取应用实例
-const { globalData, showMessage } = getApp();
 const db = wx.cloud.database()
 
 Page({
 	data: {
-    title: '',
-    content_html: '',
-    content_text: '',
+    name: '左木子', // 名称
+    sex_arr: ['保密','男', '女'], 
+    sex: 0, // 性别 index
+    phone: '13260269699', // 入职日期
+    temp_images: [], // 临时形象地址, 用作展示
+    image: [] // 形象
   },
 	async onLoad() {
   },
   onShow() {},
-  // 标题 - 改变
-  onTitleInputChange(e){
+  // 性别- 改变
+  sexChange(e){
     const { value, cursor, keyCode } = e.detail
+    console.log('value', value)
     this.setData({
-      "title": value
+      "sex": value
     })
   },
-  // 标题 - 完成
-  onTitleInputConfirm(e) {
+  // 入职日期- 完成
+  dateChange(e) {
     const { value, cursor, keyCode } = e.detail
+    console.log('value', value)
     this.setData({
-      "title": value
+      "date": value
     })
   },
-  // content change
-  onContentInputChange(e) {
-    const { html, text, delta } = e.detail
-    this.setData({
-      "content_html": html,
-      "content_text": text
-    })
-    
-  },
-  // blur 失去焦点
-  onContentInputBlur(e) {
-    const { html, text, delta } = e.detail
-
-    this.setData({
-      "content_html": html
-    })
-  },
-  // 拿去授权信息
-  bindGetUserInfo(e){
-    let user = e.detail.userInfo
-    globalData.user =  user
-    console.log('user', user)
-    // 存数据库
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'user',
-      data: {
-        action: 'add',
-				nick_name: user.nickName,
-        avatar: user.avatarUrl, // 助力
-        gender: user.gender, // 性别
-        country: user.country,
-        province: user.province,
-        city: user.city,
-        create_time: db.serverDate(), // 创建时间(服务端时间)
-        delete: 0, // 标记删除, 0 未删除 , 1 删除
-			},
-      success: res => {
-        console.log('shout', res)
-        // this.globalData.openid = res.result.openid
+  // 选择图片
+  chooseImage(){
+    let _this = this
+    wx.chooseImage({
+      count: 1,
+      sourceType: ['album', 'camera'], // 选择图片的来源
+      sizeType: ['original'], // 所选的图片的尺寸 original 原图、 compressed 压缩
+      success(res) {
+        let {tempFilePaths, tempFiles} = res
+        console.log('tempFilePaths', tempFilePaths)
+        console.log('tempFiles', tempFiles)
+        _this.uploadImg(tempFilePaths[0])
+      }, 
+      fail(err) {
+        console.log('err', err)
       },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
+      complete() {
+
       }
     })
-
-    // 创建
-    this.onCreateShout()
   },
-  // 创建
-  onCreateShout() {
-    console.log('this.data.title', this.data.title)
+  // 上传
+  uploadImg(img_path){
+    let _this = this
+    let temp = this.data.temp_images
+    let time = new Date().getTime()
+    wx.cloud.uploadFile({
+      cloudPath: 'images/' + time + '.png', // 上传至云端的路径
+      filePath: img_path, // 小程序临时文件路径
+      success: res => {
+        // 返回文件 ID
+        _this.data.image.push(res.fileID)
+        // 临时记录图片
+        temp.push(img_path)
+        _this.setData({
+          "temp_images": temp
+        })
+      },
+      fail(err) {
+        console.error(err)
+      }
+    })
+  },
+  // 保存
+  saveInfo() {
+    let _this = this
     // 标题
-    if(!this.data.title) {
-      wx.showModal({
-        title: '标题丢了',
-        content: '赶快去输入标题',
-        success (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        },
+    if(!this.data.name) {
+      this.$showModal({
+        title: '姓名不能为空'
       })
       return false
     }
     // 内容
-    if(!this.data.content_text) {
-      wx.showModal({
-        title: '内容丢了',
-        content: '赶快去输入内容',
-        success (res) {
-          if (res.confirm) {
-            console.log('用户点击确定')
-          } else if (res.cancel) {
-            console.log('用户点击取消')
-          }
-        },
+    if(!this.data.image && this.data.image.length) {
+      this.$showModal({
+        title: '形象不能为空'
       })
       return false
     }
 
+    // // 调用云函数
+    // wx.cloud.callFunction({
+    //   name: 'account',
+    //   data: {
+		// 		action: 'queryByName',
+    //     name: this.data.name,
+    //   },
+    //   success: res => {
+    //     console.log('ers', res)
+    //   }
+    // })
+
     // 调用云函数
     wx.cloud.callFunction({
-      name: 'shout',
+      name: 'account',
       data: {
-				action: 'add',
-				openid: globalData.openid,
-        title: this.data.title,
-        content: this.data.content_html,
-        likes: 0, // 助力
-        comments: 0, // 评论数
-        create_time: db.serverDate(), // 创建时间(服务端时间)
-        delete: 0, // 标记删除, 0 未删除 , 1 删除
+				action: 'create',
+        name: this.data.name,
+        gender: this.data.sex,
+        phone: this.data.phone,
+        image: this.data.image,
 			},
-      success: res => {
-				console.log('shout', res)
-        wx.showToast({
+      success: data => {
+        console.log('shout', data)
+        const { errMsg, requestID, result} = data
+        _this.$showToast({
           title: '添加成功',
           icon: 'success',
-          duration: 2000,
-          success() {
-          }
         })
       },
       fail: err => {
-        wx.showToast({
+        console.error('err', err)
+        _this.$showToast({
           title: '添加失败',
           icon: 'fail',
-          duration: 2000,
-          success() {
-          }
         })
       }
     })

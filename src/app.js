@@ -1,20 +1,21 @@
-import { camelCase } from 'lodash';
+import {showLoading, hideLoading, showToast, showModal} from './utils/tips'
+
+import { debounce } from './utils/fnc'
 
 App({
 	globalData: {
-		scene: undefined, // 进入场景
-    user: null, // 接口返回来的用户信息
+    /* ———————————————————————— 公共参数  —————————————————————— */
+    scene: false, // 进入场景
+    openid: '',
+    user: null, // 用户信息
+    system: null, // 手机系统信息
+    isIpx: false, // 是否是iphonex
+    // identity: 3, // 身份状态 0=无身份 1=有身份、并登陆 2=还未做判断
     location: { // 位置信息
       latitude: '',
       longitude: ''
     },
-    openid: '',
-    // code: undefined, // wx.login =》 code 换 token
-    // token: undefined, // token，传给后端
-		system: null, // 当前系统环境
-		windowWidth: 0, // 屏幕宽度
-		windowHeight: 0, // 屏幕高度
-    // is_registered: 2, // 是否注册过 (0=未注册，1=已注册, 2= 还没判断)
+    /* ———————————————————————— 业务参数  —————————————————————— */
 	},
 	onLaunch() {
      // 云开发 初始化
@@ -26,72 +27,18 @@ App({
       })
     }
 
-		this.getSystemInfo() // 手机系统信息
-    this.systemUpdateFn() // 版本更新
+    //  版本更新
+    this.systemUpdateFn()
+    // 运行环境
+    this.getSystemInfo()
+    // 页面增强
+    this.enhancePage()
     // this.login() // 登录
 	},
 	onShow() {
   },
-  // 弹框
-  showMessage(option) {
-    const {
-      title = '',
-      content = '',
-      isRejectable = false,
-      cancelText = '取消',
-      confirmText = '确定',
-      confirmColor = '#dd1d21',
-      resolve,
-      reject,
-      complete,
-      fail
-    } = option
-    wx.showModal({
-      title: title,
-      content: content,
-      showCancel: isRejectable,
-      cancelText: cancelText,
-      confirmText: confirmText,
-      confirmColor: confirmColor,
-      success(res) {
-        if (res.confirm) {
-          resolve && resolve()
-        } else if (res.cancel) {
-          reject && reject()
-        }
-      },
-      fail() {
-        fail && fail()
-      },
-      complete() {
-        complete && complete()
-      }
-    })
-  },
-  // 获取手机系统信息
-  getSystemInfo () {
-    try {
-      const res = wx.getSystemInfoSync()
-      console.log('system', res)
-			this.globalData.system = res
-			this.globalData.windowWidth = res.windowWidth
-			this.globalData.windowHeight = res.windowHeight
-      // // 判断是否支持单页面自定义导航栏
-      // let version = parseInt(res.version.split('.').join(''))
-      // let SDKVersion = parseInt(res.SDKVersion.split('.').join(''))
-      // if (version > 700 && SDKVersion > 243) {
-      //   this.globalData.nav_custom = true
-      //   // 计算导航栏高度
-      //   let titleBarHeight = res.model.indexOf('iPhone') !== -1 ? 44 : 48
-      //   let statusBarHeight = res.statusBarHeight || 20
-      //   this.globalData.nav_height = parseInt(titleBarHeight) + parseInt(statusBarHeight)
-      // }
-    } catch (err) {
-      console.error('app.js-getSystemInfo:', err)
-    }
-  },
   // 版本检测 更新
-  systemUpdateFn () {
+  systemUpdateFn() {
     if (wx.canIUse('getUpdateManager')) {
       const updateManager = wx.getUpdateManager()
 
@@ -124,17 +71,42 @@ App({
       })
     }
   },
-  // 授权地理位置
-  getLocationFn () {
-    wx.getLocation({
-      type: 'wgs84',
-      success (res) {
-        this.setData({
-          "location.latitude": res.latitude,
-          "location.longitude": res.longitude
-        })
+  // 获取系统环境
+  getSystemInfo() {
+    try {
+      const res = wx.getSystemInfoSync();
+      const { model, version, SDKVersion } = res;
+      this.globalData.system = res;
+      // ipx
+      if (model.search("iPhone X") !== -1) {
+        this.globalData.isIpx = true;
+      } else {
+        this.globalData.isIpx = false;
       }
-    })
+      // customerNav
+      let _version = parseInt(version.split(".").join(""));
+      let _SDKVersion = parseInt(SDKVersion.split(".").join(""));
+      if (_version > 700 && _SDKVersion > 243) {
+        this.globalData.canUseCustomerNav = true;
+      }
+    } catch (e) {
+      console.log("app-getSystemInfo", e);
+    }
+  },
+  // 增强Page能力
+  enhancePage() {
+    const tempPage = Page
+    Page = config =>  {
+      console.log('config', config)
+
+      return tempPage(Object.assign(config, {
+        $showToast: showToast,
+        $showModal: showModal,
+        $showLoading: showLoading,
+        $hideLoading: hideLoading,
+        $debounce: debounce // 防多触
+      }))
+    }
   },
   // 登录
   async login() {

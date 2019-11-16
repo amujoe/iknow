@@ -63,7 +63,7 @@ export default (env = {}) => {
 					].filter(Boolean),
 				},
 				{
-					test: /\.(scss|wxss|acss)$/,
+					test: /\.(sass|scss|wxss|acss)$/,
 					include: /src/,
 					use: [
 						relativeFileLoader(isWechat ? 'wxss' : 'acss'),

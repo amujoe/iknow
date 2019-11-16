@@ -1,0 +1,73 @@
+@import "../../styles/vw"
+@import "../../styles/color"
+
+.container
+  padding: 0 vw(30)
+  .top
+    display: flex
+    align-items: center
+    justify-content: center
+    height: vw(140)
+    .t-font
+      color: $txt-black
+      font-size: vw(30)
+      font-weight: 100
+
+  .item
+    padding-top: vw(20)
+    .item-t
+      font-size: vw(14)
+      font-weight: 200
+    .item-b
+      padding-top: vw(10)
+      input,picker
+        height: vw(40)
+        line-height: vw(40)
+        font-size: vw(18)
+        font-weight: 300
+        border-bottom: vw(1) solid $border-gray
+  .upload-box
+    display: flex
+    flex-wrap: wrap
+    .upload-img
+      width: vw(100)
+      height: vw(100)
+      margin-right: vw(10)
+      image
+        width: vw(100)
+        height: vw(100)
+    .upload-add
+      position: relative
+      width: vw(100)
+      height: vw(100)
+      background: #efefef
+      border: vw(1) solid $border-gray
+      &::before
+        position: absolute
+        left: 50%
+        top: 50%
+        content: ""
+        width: vw(41)
+        height: vw(1)
+        margin-left: - vw(20)
+        background: #999
+      &::after
+        position: absolute
+        left: 50%
+        top: 50%
+        content: ""
+        width: vw(1)
+        height: vw(41)
+        margin-top: - vw(20)
+        background: #999
+
+
+
+.footer
+  margin: vw(30) 0 vw(80)
+  // .btn
+  //   width: 100%
+  //   height: vw(60)
+  //   background: #226DDD
+  //   color: #fff
+  
