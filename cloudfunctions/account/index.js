@@ -47,22 +47,22 @@ const queryByName = async (name) => {
 
 /**
  * 新增 用户信息(去重)
- * @param {*} param 用户信息
+ * @param {*} info 用户信息
  */
-const createBefore = async (param) => {
-  let already = false
+const createBefore = async (info) => {
   // 先查询有木有
-  await queryByName(param.name).then(res => {
-    if (res.data && res.data.length) {
-      already = true
+  try {
+    const {errMsg, data} = await queryByName(info.name)
+    console.log("errMsg", errMsg)
+    if (data && data.length) {
+      // 更新
+      return await update(data[0]._id, info)
+    } else {
+      // 写入
+      return await create(info)
     }
-  })
-  if (already) {
-    // 更新
-    return await updateUserInfo(OPENID, user)
-  } else {
-    // 写入
-    return await create(user)
+  } catch (err) {
+    console.error('createBefore-err', err)
   }
 }
 
@@ -75,10 +75,11 @@ const create = async (info) => {
     return await db.collection("_ACCOUNT")
       .add({
         data: {
-          name: info.name,
-          gender: info.gender, // 性别
+          name: info.name, // 姓名
+          gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
           image: info.image, // 形象
+          company_no: info.company_no, // 公司
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
@@ -91,27 +92,25 @@ const create = async (info) => {
 
 /**
  * 更新 用户信息
- * @param {*} openid
- * @param {*} user 用户信息
+ * @param {*} id
+ * @param {*} info 用户信息
  */
-const updateInfo = async (openid, user) => {
+const update = async (id, info) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "_openid": openid
+        "_id_": id
       })
       .update({
         data: {
-          nick_name: user.nickName,
-          avatar: user.avatarUrl, // 助力
-          gender: user.gender, // 性别
-          country: user.country,
-          province: user.province,
-          city: user.city,
+          name: info.name,
+          gender: info.gender, // 性别 0保密, 1男, 2女
+          phone: info.phone, // 电话
+          image: info.image, // 形象
+          company_no: info.company_no, // 公司
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
-          // location: db.Geo.Point(113, 23) // 地理位置
-        },
+        }
       })
   } catch(e) {
     console.error(e)
@@ -119,10 +118,10 @@ const updateInfo = async (openid, user) => {
 }
 
 /**
- * 删除关联的用户信息
+ * 删除用户信息
  * @param {*} id 
  */
-const removeInfo = async (id) => {
+const remove = async (id) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
@@ -150,7 +149,7 @@ exports.main = (event, context) => {
     }
     // 新增
     case 'create': {
-      return create(event)
+      // return create(event)
       return createBefore(event)
     }
     // 更新

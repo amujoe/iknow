@@ -5,7 +5,7 @@ Page({
 	data: {
     name: '左木子', // 名称
     sex_arr: ['保密','男', '女'], 
-    sex: 0, // 性别 index
+    sex: 1, // 性别 index
     phone: '13260269699', // 入职日期
     temp_images: [], // 临时形象地址, 用作展示
     image: [] // 形象
@@ -90,18 +90,6 @@ Page({
       return false
     }
 
-    // // 调用云函数
-    // wx.cloud.callFunction({
-    //   name: 'account',
-    //   data: {
-		// 		action: 'queryByName',
-    //     name: this.data.name,
-    //   },
-    //   success: res => {
-    //     console.log('ers', res)
-    //   }
-    // })
-
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
@@ -111,6 +99,7 @@ Page({
         gender: this.data.sex,
         phone: this.data.phone,
         image: this.data.image,
+        company_no: '000001', // 公司编码
 			},
       success: data => {
         console.log('shout', data)
