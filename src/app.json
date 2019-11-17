@@ -1,9 +1,11 @@
 {
   "pages":[
-    "pages/index/index",
+		"pages/index/index",
+		"pages/enterprise/enterprise",
     "pages/person/person",
     "pages/about/about",
-    "pages/create/create"
+    "pages/create/create",
+    "pages/join/join"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -19,7 +21,13 @@
 		"list": [
 			{
 				"pagePath": "pages/index/index",
-				"text": "世界",
+				"text": "大屏幕",
+				"iconPath": "./images/tabbar/world.png",
+				"selectedIconPath": "./images/tabbar/world-active.png"
+			},
+			{
+				"pagePath": "pages/enterprise/enterprise",
+				"text": "公司",
 				"iconPath": "./images/tabbar/world.png",
 				"selectedIconPath": "./images/tabbar/world-active.png"
 			},

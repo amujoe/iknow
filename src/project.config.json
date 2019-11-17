@@ -11,7 +11,7 @@
     "checkSiteMap": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.7.0",
+  "libVersion": "2.8.0",
   "appid": "wxfe8806a6c102f8df",
   "projectname": "app",
   "condition": {
@@ -27,6 +27,12 @@
       "current": 0,
       "list": [
         {
+          "id": 2,
+          "name": "公司",
+          "pathName": "pages/enterprise/enterprise",
+          "query": ""
+        },
+        {
           "id": 1,
           "name": "我",
           "pathName": "pages/person/person",
@@ -40,8 +46,14 @@
         },
         {
           "id": 3,
-          "name": "喊",
+          "name": "创建",
           "pathName": "pages/create/create",
+          "query": ""
+        },
+        {
+          "id": 3,
+          "name": "加入",
+          "pathName": "pages/join/join",
           "query": ""
         }
       ]

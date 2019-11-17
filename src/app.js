@@ -6,7 +6,8 @@ App({
 	globalData: {
     /* ———————————————————————— 公共参数  —————————————————————— */
     scene: false, // 进入场景
-    openid: '',
+    enterprise_id: "fbe35240-423c-4df4-8d15-27ad2a7d629a", // 企业id
+    openid: '', 
     user: null, // 用户信息
     system: null, // 手机系统信息
     isIpx: false, // 是否是iphonex
@@ -97,8 +98,6 @@ App({
   enhancePage() {
     const tempPage = Page
     Page = config =>  {
-      console.log('config', config)
-
       return tempPage(Object.assign(config, {
         $showToast: showToast,
         $showModal: showModal,

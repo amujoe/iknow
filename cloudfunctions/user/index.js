@@ -11,7 +11,7 @@ const { OPENID } = cloud.getWXContext()   // 获取 openid
  * 查询关联的用户信息
  * @param {*} openid 
  */
-const queryUserInfo = async (openid) => {
+const queryByOpenid = async (openid) => {
   try {
     return await db.collection("_USER")
       .where({
@@ -31,20 +31,19 @@ const queryUserInfo = async (openid) => {
  * 新增 用户信息(去重)
  * @param {*} user 用户信息
  */
-const addUserInfo = async (user) => {
-  let already = false
+const createBefore = async (user) => {
   // 先查询有木有
-  await queryUserInfo(OPENID).then(res => {
-    if (res.data && res.data.length) {
-      already = true
+  try {
+    const {errMsg, data} = await queryByOpenid(OPENID)
+    if (data && data.length) {
+      // 更新
+      return await update(data[0]._id, user)
+    } else {
+      // 写入
+      return await create(user)
     }
-  })
-  if (already) {
-    // 更新
-    return await updateUserInfo(OPENID, user)
-  } else {
-    // 写入
-    return await addUser(user)
+  } catch (err) {
+    console.error('createBefore-err', err)
   }
 }
 
@@ -52,11 +51,12 @@ const addUserInfo = async (user) => {
  * 写入 用户信息 (方法)
  * @param {*} user 
  */
-const addUser = async (user) => {
+const create = async (user) => {
   try {
     return await db.collection("_USER")
       .add({
         data: {
+          _enterprise_id: user.enterprise_id,
           _openid: OPENID,
           nick_name: user.nickName,
           avatar: user.avatarUrl, // 助力
@@ -79,7 +79,7 @@ const addUser = async (user) => {
  * @param {*} openid
  * @param {*} user 用户信息
  */
-const updateUserInfo = async (openid, user) => {
+const update = async (openid, user) => {
   try {
     return await db.collection("_USER")
       .where({
@@ -108,7 +108,7 @@ const updateUserInfo = async (openid, user) => {
  * 删除关联的用户信息
  * @param {*} openid 
  */
-const removeUserInfo = async (openid) => {
+const remove = async (openid) => {
   try {
     return await db.collection("_USER")
       .where({
@@ -128,17 +128,17 @@ const removeUserInfo = async (openid) => {
  */
 exports.main = (event, context) => {
   switch (event.action) {
-    case 'get': {
-      return queryUserInfo(event.openid)
+    case 'queryByOpenid': {
+      return queryByOpenid(event.openid)
     }
-    case 'add': {
-      return addUserInfo(event)
+    case 'create': {
+      return createBefore(event)
     }
     case 'update': {
-      return updateUserInfo(event)
+      return update(event)
     }
     case 'remove': {
-      return removeUserInfo(event.openid)
+      return remove(event.openid)
     }
     default: {
       return

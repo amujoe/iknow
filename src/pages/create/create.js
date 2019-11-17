@@ -1,5 +1,6 @@
 // 获取应用实例
 const db = wx.cloud.database()
+const { globalData } = getApp()
 
 Page({
 	data: {
@@ -99,7 +100,7 @@ Page({
         gender: this.data.sex,
         phone: this.data.phone,
         image: this.data.image,
-        company_no: '000001', // 公司编码
+        enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
         console.log('shout', data)

@@ -1,0 +1,9 @@
+<view class="container">
+  
+  <!-- 头部 -->
+  <view class="top">
+    <view class="t-font">假装在上班</view>
+  </view>
+
+
+</view>

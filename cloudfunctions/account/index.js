@@ -8,17 +8,19 @@ const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
  * 查询关联的用户信息
- * @param {*} id 
  */
-const queryById = async (id) => {
+const queryById = async (params) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "_id_": id
+        "_id": params.id,
       })
       .field({ // 过滤字段
-        name: true,
-        avatar: true,
+        _id: true,
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        phone: true, // 电话
+        image: true // 形象
       })
       .get()
   } catch(e) {
@@ -27,17 +29,42 @@ const queryById = async (id) => {
 }
 
 /**
- * 查询是否有木有用户信息, 返回 _id_
- * @param {*} name 名字
+ * 查询是否有木有用户信息, 返回 _id
  */
-const queryByName = async (name) => {
+const queryByName = async (params) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "name": name
+        "name": params.name,
+        "_enterprise_id": params.enterprise_id
       })
       .field({ // 过滤字段
-        _id_: true,
+        _id: true,
+      })
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+
+/**
+ * 核实身份, 返回 _id
+ */
+const queryByPhone = async (params) => {
+  console.log('params', params)
+  try {
+    return await db.collection("_ACCOUNT")
+      .where({
+        "phone": params.phone,
+        "_enterprise_id": params.enterprise_id
+      })
+      .field({ // 过滤字段
+        _id: true,
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        phone: true, // 电话
+        image: true // 形象
       })
       .get()
   } catch(e) {
@@ -75,11 +102,12 @@ const create = async (info) => {
     return await db.collection("_ACCOUNT")
       .add({
         data: {
+          _openid: '', // 关联的 openid
+          _enterprise_id: info.enterprise_id, // 关联的公司 id
           name: info.name, // 姓名
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
           image: info.image, // 形象
-          company_no: info.company_no, // 公司
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
@@ -99,15 +127,15 @@ const update = async (id, info) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "_id_": id
+        "_id": id
       })
       .update({
         data: {
+          // _enterprise_id: info.enterprise_id, // 关联的企业
           name: info.name,
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
           image: info.image, // 形象
-          company_no: info.company_no, // 公司
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
         }
@@ -125,7 +153,7 @@ const remove = async (id) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "_id_": id
+        "_id": id
       })
       .remove()
   } catch(e) {
@@ -141,11 +169,15 @@ exports.main = (event, context) => {
   switch (event.action) {
     // 根据 id 查信息
     case 'queryById': {
-      return queryById(event.openid)
+      return queryById(event)
     }
     // 根据名字查 id
     case 'queryByName': {
-      return queryByName(event.openid)
+      return queryByName(event)
+    }
+    // 核实手机号
+    case 'queryByPhone': {
+      return queryByPhone(event)
     }
     // 新增
     case 'create': {

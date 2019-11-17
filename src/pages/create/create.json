@@ -1,8 +1,7 @@
 
 {
-  "navigationBarTitleText": "芝麻开门",
+  "navigationBarTitleText": "小本本",
   "backgroundColor": "#eeeeee",
   "usingComponents": {
-    "uploader": "../../components/base/uploader/uploader"
   }
 }
