@@ -4,52 +4,56 @@ const { globalData } = getApp()
 
 Page({
 	data: {
-    list: []
+    list: [], // 列表
+    pagination: {
+			page: 1,
+			limit: 10,
+			total: 0,
+		}
   },
 	async onLoad() {
+    this.getInfoList()
   },
   onShow() {},
+  // 跳转详情
+  goPersonDetail(e) {
+    console.log('e', e.currentTarget.dataset.id)
+    wx.navigateTo({
+      url: '/pages/person/person?id' + e.currentTarget.dataset.id,
+    })
+  },
   // 保存
-  saveInfo() {
-    let _this = this
-    // 标题
-    if(!this.data.name) {
-      this.$showModal({
-        title: '姓名不能为空'
-      })
-      return false
-    }
-    // 内容
-    if(!this.data.image && this.data.image.length) {
-      this.$showModal({
-        title: '形象不能为空'
-      })
-      return false
-    }
-
+  getInfoList() {
+    let page = this.data.pagination.page
+    
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
       data: {
-				action: 'query',
-        name: this.data.name,
-        gender: this.data.sex,
-        phone: this.data.phone,
-        image: this.data.image,
-        enterprise_id: globalData.enterprise_id, // 公司编码
+        action: 'query',
+        enterprise_id: globalData.enterprise_id,
+        page: page,
+        limit: this.data.pagination.limit,
 			},
-      success: data => {
-        console.log('shout', data)
-        const { errMsg, requestID, result} = data
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
+      success: res => {
+        console.log('res', res)
+        const { errMsg, requestID, result} = res
+        if(result.data && result.data.length) {
+          if (page === 1) {
+            this.setData({
+              list: result.data
+            })
+          } else {
+            this.setData({
+              list: [...this.data.list, ...result.data]
+            })
+          }
+        }
       },
       fail: err => {
-        console.error('err', err)
-        _this.$showToast({
-          title: '添加失败',
+        console.error('getInfoList-err', err)
+        this.$showToast({
+          title: '获取信息失败',
           icon: 'fail',
         })
       }

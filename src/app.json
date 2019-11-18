@@ -2,6 +2,7 @@
   "pages":[
 		"pages/index/index",
 		"pages/enterprise/enterprise",
+    "pages/my/my",
     "pages/person/person",
     "pages/about/about",
     "pages/create/create",
@@ -32,7 +33,7 @@
 				"selectedIconPath": "./images/tabbar/world-active.png"
 			},
 			{
-				"pagePath": "pages/person/person",
+				"pagePath": "pages/my/my",
 				"text": "我",
 				"iconPath": "./images/tabbar/person.png",
 				"selectedIconPath": "./images/tabbar/person-active.png"

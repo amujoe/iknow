@@ -14,6 +14,12 @@ Page({
 	async onLoad() {
   },
   onShow() {},
+  nameChange(e) {
+    this.data.name = e.detail.value
+    // this.setData({
+    //   "name": e.detail.value
+    // })
+  },
   // 性别- 改变
   sexChange(e){
     const { value, cursor, keyCode } = e.detail
@@ -21,6 +27,13 @@ Page({
     this.setData({
       "sex": value
     })
+  },
+  // 电话
+  phoneChange(e) {
+    this.data.phone = e.detail.value
+    // this.setData({
+    //   "name": e.detail.value
+    // })
   },
   // 入职日期- 完成
   dateChange(e) {
@@ -71,6 +84,13 @@ Page({
       fail(err) {
         console.error(err)
       }
+    })
+  },
+  // 删除照片
+  deleteImg() {
+    this.data.image = []
+    this.setData({
+      "temp_images": []
     })
   },
   // 保存

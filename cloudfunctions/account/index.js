@@ -9,6 +9,32 @@ const { OPENID } = cloud.getWXContext()   // 获取 openid
 /**
  * 查询关联的用户信息
  */
+const query = async (params) => {
+  let page = params.page || 1
+  let limit = params.limit || 10
+  try {
+    return await db.collection("_ACCOUNT")
+      .where({
+        "_enterprise_id": params.enterprise_id
+      })
+      .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
+      .limit(limit) // 限制返回数量为 10 条
+      .field({ // 过滤字段
+        _id: true,
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        phone: true, // 电话
+        image: true // 形象
+      })
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+/**
+ * 查询关联的用户信息
+ */
 const queryById = async (params) => {
   try {
     return await db.collection("_ACCOUNT")
@@ -47,12 +73,10 @@ const queryByName = async (params) => {
   }
 }
 
-
 /**
  * 核实身份, 返回 _id
  */
 const queryByPhone = async (params) => {
-  console.log('params', params)
   try {
     return await db.collection("_ACCOUNT")
       .where({
@@ -79,8 +103,7 @@ const queryByPhone = async (params) => {
 const createBefore = async (info) => {
   // 先查询有木有
   try {
-    const {errMsg, data} = await queryByName(info.name)
-    console.log("errMsg", errMsg)
+    const {errMsg, data} = await queryByName(info)
     if (data && data.length) {
       // 更新
       return await update(data[0]._id, info)
@@ -167,6 +190,10 @@ const remove = async (id) => {
  */
 exports.main = (event, context) => {
   switch (event.action) {
+    // 查询
+    case 'query': {
+      return query(event)
+    }
     // 根据 id 查信息
     case 'queryById': {
       return queryById(event)

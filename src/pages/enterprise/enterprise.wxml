@@ -5,5 +5,15 @@
     <view class="t-font">假装在上班</view>
   </view>
 
+  <view class="box">
+    <block wx:for="{{list}}" wx:key="{{index}}">
+      <view class="item" data-id="{{item._id}}" bindtap="goPersonDetail">
+        <view class="i-img">
+          <image src="{{item.image}}" />
+        </view>
+        <view class="i-name">{{item.name}}</view>
+      </view>
+    </block>
+  </view>
 
 </view>

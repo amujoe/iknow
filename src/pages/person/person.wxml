@@ -1,40 +1,19 @@
-<!-- page start-->
 <view class="container">
-  <!-- 通知 -->
-  <view>
-    <view></view>
+  
+  <!-- 头部 -->
+  <view class="top">
+    <view class="t-font">是你认识的 Ta 嘛</view>
   </view>
 
-  <!-- 个人信息 -->
-  <view class="info">
-    <view class="txt">
-      <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
-      <view class="des">获得 0 称赞</view>
-    </view>
-    <view class="avatar">
-      <open-data type="userAvatarUrl"></open-data>
-    </view>
-  </view>
-
-  <!-- menu -->
-  <view class="menu-box">
-    <view class="menu">
-      <text class="icon iconfont iconRectangleCopy21"></text>
-      <text class="txt">我的喊话</text>
-    </view>
-    <view class="menu">
-      <text class="icon iconfont iconRectangleCopy12"></text>
-      <text class="txt">喜欢的喊话</text>
-    </view>
-    <view class="menu">
-      <text class="icon iconfont iconRectangleCopy20"></text>
-      <text class="txt">意见反馈</text>
-    </view>
-    <view class="menu">
-      <text class="icon iconfont iconRectangleCopy6"></text>
-      <text class="txt">关于我们</text>
-    </view>
+  <view class="box">
+    <block wx:for="{{list}}" wx:key="{{index}}">
+      <view class="item">
+        <view class="i-img">
+          <image src="{{item.image}}" />
+        </view>
+        <view class="i-name">{{item.name}}</view>
+      </view>
+    </block>
   </view>
 
 </view>
-<!-- page end-->

@@ -1,8 +1,7 @@
 
 {
-  "navigationBarTitleText": "我",
+  "navigationBarTitleText": "你的Ta",
   "backgroundColor": "#eeeeee",
-  "navigationStyle": "custom",
   "usingComponents": {
   }
 }

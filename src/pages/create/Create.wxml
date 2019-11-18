@@ -9,7 +9,10 @@
   <view class="item">
     <view class="item-t">姓名</view>
     <view class="item-b">
-      <input type="text" value="{{name}}" placeholder="请输入姓名" />
+      <input type="text" 
+        value="{{name}}" 
+        bindinput="nameChange" 
+        placeholder="请输入姓名" />
     </view>   
   </view>
 
@@ -33,7 +36,11 @@
   <view class="item">
     <view class="item-t">电话</view>
     <view class="item-b">
-      <input type="text" value="{{phone}}" maxlength="11" placeholder="请输入手机号"/>
+      <input type="text" 
+        value="{{phone}}" 
+        bindinput="phoneChange"
+        maxlength="11" 
+        placeholder="请输入手机号"/>
     </view>   
   </view>
 
@@ -45,6 +52,9 @@
         <block wx:for="{{temp_images}}" wx:key="{{index}}">
           <view class="upload-img">
             <image src="{{item}}" />
+            <view>
+              <i class="iconfont iconRectangleCopy18" bindtap="deleteImg"></i>
+            </view>
           </view>
         </block>
         <view class="upload-add" wx:if="{{!temp_images.length}}" bindtap="chooseImage"></view>
