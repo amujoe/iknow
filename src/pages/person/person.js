@@ -7,46 +7,39 @@ Page({
 		info: null, // 信息
     list: [], // 列表
   },
-	async onLoad(option) {
+	onLoad(option) {
 		let id = option.id
+		// console.log(option)
     this.getDetail(id)
   },
   onShow() {},
   /**
 	 * 获取详情
-	 * @param {*} id 
+	 * @param {*} id 账号id
 	 */
   getDetail(id) {
-    let page = this.data.pagination.page
     
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
       data: {
-        action: 'query',
+				action: 'queryById',
+				id: id,
         enterprise_id: globalData.enterprise_id,
-        page: page,
-        limit: this.data.pagination.limit,
 			},
       success: res => {
         console.log('res', res)
         const { errMsg, requestID, result} = res
-        if(result.data && result.data.length) {
-          if (page === 1) {
-            this.setData({
-              list: result.data
-            })
-          } else {
-            this.setData({
-              list: [...this.data.list, ...result.data]
-            })
-          }
+        if(result && result.data && result.data.length) {
+					this.setData({
+						info: result.data[0]
+					})
         }
       },
       fail: err => {
-        console.error('getInfoList-err', err)
+        console.error('getDetail-err', err)
         this.$showToast({
-          title: '获取信息失败',
+          title: '获取详情失败',
           icon: 'fail',
         })
       }

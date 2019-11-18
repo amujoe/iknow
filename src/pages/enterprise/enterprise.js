@@ -19,7 +19,7 @@ Page({
   goPersonDetail(e) {
     console.log('e', e.currentTarget.dataset.id)
     wx.navigateTo({
-      url: '/pages/person/person?id' + e.currentTarget.dataset.id,
+      url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
     })
   },
   // 保存

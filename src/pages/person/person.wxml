@@ -5,6 +5,30 @@
     <view class="t-font">是你认识的 Ta 嘛</view>
   </view>
 
+  <!-- 信息 -->
+  <view class="info">
+    <view class="in-img">
+      <image src="{{info.image[0]}}" />
+    </view>
+    <view class="in-name">{{info.name}}</view>
+  </view>
+
+  <!-- title -->
+  <view class="title">
+    <i class="iconfont"></i>加标签
+  </view>
+  <!-- tags -->
+  <view class="tags">
+    <text>帅哥(12)</text>
+    <text>中年油腻(234)</text>
+    <text>帅哥(234)</text>
+  </view>
+
+  <!-- title -->
+  <view class="title">
+    <i class="iconfont"></i>爆黑料
+  </view>
+  <!-- 形象 -->
   <view class="box">
     <block wx:for="{{list}}" wx:key="{{index}}">
       <view class="item">
@@ -16,4 +40,8 @@
     </block>
   </view>
 
+  <!-- footer -->
+  <view class="footer">
+    
+  </view>
 </view>
