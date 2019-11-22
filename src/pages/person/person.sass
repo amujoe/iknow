@@ -16,18 +16,33 @@
     display: flex
     flex-direction: column
     align-items: flex-end
-		.in-img, .in-img image
-			width: vw(120)
-			height: vw(160)
-			border-radius: vw(4)
-		.in-img
-			padding: vw(4)
-			border: vw(1) solid #eee
-		.in-name
+    margin-bottom: vw(30)
+    .in-img, .in-img image
+      width: vw(120)
+      height: vw(160)
+      border-radius: vw(4)
+    .in-img
+      padding: vw(4)
+      border: vw(1) solid #eee
+    .in-name
       color: $txt-black
       font-size: vw(20)
       margin-top: vw(5)
       font-weight: 100
+  .title
+    text-align: right
+    font-size: vw(14)
+    font-weight: 100
+    color: #4876FF
+  .tags
+    display: flex
+    justify-content: flex-end
+    margin-bottom: vw(30)
+    text
+      margin: vw(5) 0 0 vw(10)
+      font-size: vw(16)
+      font-weight: 100
+  
   .box
     display: flex
     flex-wrap: wrap
@@ -46,3 +61,32 @@
         line-height: vw(35)
         font-size: vw(14)
         color: $txt-black
+.tag-create
+  display: flex
+  box-sizing: border-box
+  -webkit-transition: all 0.2s ease
+  transition: all 0.2s ease
+  input
+    flex-grow: 1
+    height: vw(50)
+    line-height: vw(50)
+    border: none
+    box-sizing: border-box
+    padding-left: vw(10)
+    font-size: vw(14)
+    font-weight: 100
+    background: #fff
+  .tag-create-btn
+    width: vw(50)
+    text-align: center
+    line-height: vw(50)
+    background: #ddd
+    color: #444
+    font-weight: 300
+.tag-show
+  padding: vw(20)
+  margin: vw(15) 0
+  background: #efefef
+  border-top: vw(1) solid #ddd
+  border-bottom: vw(1) solid #ddd
+  box-shadow: inset 0 0 vw(10) rgba(0,0,0,0.2)

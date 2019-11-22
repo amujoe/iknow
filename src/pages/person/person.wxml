@@ -14,9 +14,17 @@
   </view>
 
   <!-- title -->
-  <view class="title">
-    <i class="iconfont"></i>加标签
+  <view class="title" bindtap="todoTag">
+    加标签
   </view>
+</view>
+  <!-- 新增 -->
+  <view class="tag-create {{show_create_tag === true ? 'tag-show' : ''}}">
+    <input wx:if="{{show_create_tag}}" type="text" bindinput="tagChange" maxlength="10" placeholder="请输入 Ta 在你心中的印象"/>
+    <view wx:if="{{show_create_tag}}" class="tag-create-btn" bindtap="toCreateTag">提交</view>
+  </view>
+
+<view class="container">
   <!-- tags -->
   <view class="tags">
     <text>帅哥(12)</text>
@@ -25,7 +33,7 @@
   </view>
 
   <!-- title -->
-  <view class="title">
+  <view class="title" bindtap="outputImage">
     <i class="iconfont"></i>爆黑料
   </view>
   <!-- 形象 -->
@@ -42,6 +50,7 @@
 
   <!-- footer -->
   <view class="footer">
-    
+    <button type="default" 
+      bindtap="defaultTap">Button</button>
   </view>
 </view>

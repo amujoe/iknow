@@ -8,7 +8,13 @@ App({
     scene: false, // 进入场景
     enterprise_id: "fbe35240-423c-4df4-8d15-27ad2a7d629a", // 企业id
     openid: '', 
-    user: null, // 用户信息
+    // user: null, // 用户信息
+    user: {
+      _id: "05a1947c5dd00dad00da6a0e653427b6",
+      name: "左木子",
+      phone: "13260269699",
+      image: ['']
+    },
     system: null, // 手机系统信息
     isIpx: false, // 是否是iphonex
     // identity: 3, // 身份状态 0=无身份 1=有身份、并登陆 2=还未做判断
