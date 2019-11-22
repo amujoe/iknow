@@ -22,7 +22,7 @@ Page({
       url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
     })
   },
-  // 保存
+  // 获取详情
   getInfoList() {
     let page = this.data.pagination.page
     

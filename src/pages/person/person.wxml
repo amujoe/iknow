@@ -27,9 +27,10 @@
 <view class="container">
   <!-- tags -->
   <view class="tags">
-    <text>帅哥(12)</text>
-    <text>中年油腻(234)</text>
-    <text>帅哥(234)</text>
+    <block wx:if="{{tag_list.length}}" wx:for="{{tag_list}}" wx:key="{{index}}">
+      <text>{{item.tag}}</text>
+    </block>
+    <view class="tag-null" wx:if="{{!tag_list.length}}">还没有人给 Ta 贴标签哦</view>
   </view>
 
   <!-- title -->
@@ -37,8 +38,8 @@
     <i class="iconfont"></i>爆黑料
   </view>
   <!-- 形象 -->
-  <view class="box">
-    <block wx:for="{{list}}" wx:key="{{index}}">
+  <view class="image-box">
+    <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
         <view class="i-img">
           <image src="{{item.image}}" />
@@ -46,11 +47,7 @@
         <view class="i-name">{{item.name}}</view>
       </view>
     </block>
+    <view class="image-null" wx:if="{{!image_list.length}}">还没有人给 Ta 贴标签哦</view>
   </view>
 
-  <!-- footer -->
-  <view class="footer">
-    <button type="default" 
-      bindtap="defaultTap">Button</button>
-  </view>
 </view>

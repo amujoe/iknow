@@ -4,30 +4,42 @@ const { globalData } = getApp()
 
 Page({
 	data: {
+    id: '', // 当事人 id
 		info: null, // 信息
-    list: [], // 列表
     input_tag: '', // tag 内容
     show_create_tag: false, // 展示增加 tag 模块
+    tag_list: [], // tag list
+    image_list: [], // 形象 list
+    pagination: { // 形象的分页
+			page: 1,
+			limit: 10,
+			total: 0,
+		}
   },
 	onLoad(option) {
-		let id = option.id
-		// console.log(option)
-    this.getDetail(id)
-
-    console.log('globalData.user._id', globalData.user._id)
+		this.data.id = option.id
+    // console.log(option)
+    if(option.id) {
+      this.getDetail()
+      this.getImageDetail()
+      this.getTagsDetail()
+    } else {
+      console.error('没有传入参数')
+    }
   },
   onShow() {},
   /**
 	 * 获取详情
-	 * @param {*} id 账号id
 	 */
-  getDetail(id) {
+  getDetail() {
+    let _this = this
+    this.$showLoading({title:"加载中"})
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
       data: {
 				action: 'queryById',
-				id: id,
+				id: this.data.id,
         enterprise_id: globalData.enterprise_id,
 			},
       success: res => {
@@ -45,37 +57,81 @@ Page({
           title: '获取详情失败',
           icon: 'fail',
         })
+      },
+      complete(){
+        _this.$hideLoading()
+      }
+    })
+  },
+  /**
+	 * 获取 tag
+	 */
+  getTagsDetail() {
+    let _this = this
+    let page = this.data.pagination.page
+    this.$showLoading({title:"加载中"})
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'tag',
+      data: {
+				action: 'queryByParty',
+        party: this.data.id, // 当事人
+        page: page,
+        limit: this.data.pagination.limit,
+			},
+      success: res => {
+        const { errMsg, requestID, result} = res
+        if(errMsg === "cloud.callFunction:ok") {
+					this.setData({
+						tag_list: result.data || []
+					})
+        }
+      },
+      fail: err => {
+        console.error('getDetail-err', err)
+        this.$showToast({
+          title: '获取形象失败',
+          icon: 'fail',
+        })
+      },
+      complete(){
+        _this.$hideLoading()
       }
     })
   },
    /**
 	 * 获取形象
-	 * @param {*} id 账号id
 	 */
   getImageDetail() {
+    let _this = this
+    let page = this.data.pagination.page
+    this.$showLoading({title:"加载中"})
     // 调用云函数
     wx.cloud.callFunction({
-      name: 'account',
+      name: 'image',
       data: {
-				action: 'queryById',
-				id: id,
-        enterprise_id: globalData.enterprise_id,
+				action: 'queryByParty',
+        party: this.data.id, // 当事人
+        page: page,
+        limit: this.data.pagination.limit,
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
-        if(result && result.data && result.data.length) {
+        if(errMsg === "cloud.callFunction:ok") {
 					this.setData({
-						info: result.data[0]
+						image_list: result.data || []
 					})
         }
       },
       fail: err => {
         console.error('getDetail-err', err)
         this.$showToast({
-          title: '获取详情失败',
+          title: '获取形象失败',
           icon: 'fail',
         })
+      },
+      complete(){
+        _this.$hideLoading()
       }
     })
   },
@@ -114,18 +170,23 @@ Page({
         enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
-        console.log('pers', data)
+        _this.getTagsDetail()
         _this.$showToast({
           title: '添加成功',
           icon: 'success',
         })
       },
       fail: err => {
-        console.error('err', err)
         _this.$showToast({
           title: '添加失败',
           icon: 'fail',
         })
+      },
+      complete: () => {
+        console.log('chengg')
+        // 关闭输入
+        _this.data.input_tag = ''
+        _this.todoTag()
       }
     })
   },
@@ -194,6 +255,7 @@ Page({
 			},
       success: data => {
         console.log('pers', data)
+        _this.getImageDetail()
         _this.$showToast({
           title: '添加成功',
           icon: 'success',

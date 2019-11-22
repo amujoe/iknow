@@ -7,7 +7,7 @@ const db = cloud.database()               // 初始化 database
 const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
- * 查询关联的用户信息
+ * 查询企业下的
  */
 const query = async (params) => {
   let page = params.page || 1
@@ -15,15 +15,14 @@ const query = async (params) => {
   try {
     return await db.collection("_IMAGE")
       .where({
-        "_id": params.id,
-        "originator": params.originator,
-        "party": params.party,
+        "_enterprise_id": params.enterprise_id
       })
       .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
       .limit(limit) // 限制返回数量为 10 条
       .field({ // 过滤字段
         _id: true,
         image: true, // 图像
+        originator: true // 发起人
       })
       .get()
   } catch(e) {
@@ -33,15 +32,41 @@ const query = async (params) => {
 
 /**
  * 查询
- * 根据发起人、当事人的id
+ * 根据当事人的id
  */
-const queryById = async (params) => {
+const queryByParty = async (params) => {
+  let page = params.page || 1
+  let limit = params.limit || 10
   try {
     return await db.collection("_IMAGE")
       .where({
-        "_id": params.id,
+        "party": params.party, // 当事人
+      })
+      .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
+      .limit(limit) // 限制返回数量为 10 条
+      .field({ // 过滤字段
+        _id: true,
+        image: true, // 图像
+        originator: true, // 发起人
+      })
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+
+/**
+ * 查询
+ * 根据发起人的id
+ */
+const queryByOriginator = async (params) => {
+  let page = params.page || 1
+  let limit = params.limit || 10
+  try {
+    return await db.collection("_IMAGE")
+      .where({
         "originator": params.originator,
-        "party": params.party,
       })
       .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
       .limit(limit) // 限制返回数量为 10 条
@@ -54,8 +79,6 @@ const queryById = async (params) => {
     console.error(e)
   }
 }
-
-
 
 /**
  * 写入 用户信息 (方法)
@@ -108,9 +131,13 @@ exports.main = (event, context) => {
     case 'query': {
       return query(event)
     }
-    // 根据图像 id 查信息
-    case 'queryById': {
-      return queryById(event)
+    // 查当事人的形象
+    case 'queryByParty': {
+      return queryByParty(event)
+    }
+    // 查自己爆料的形象
+    case 'queryByOriginator': {
+      return queryByOriginator(event)
     }
     // 新增
     case 'create': {

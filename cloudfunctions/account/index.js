@@ -33,7 +33,7 @@ const query = async (params) => {
 }
 
 /**
- * 查询关联的用户信息
+ * 查询用户详情
  */
 const queryById = async (params) => {
   try {
@@ -72,6 +72,7 @@ const queryByName = async (params) => {
     console.error(e)
   }
 }
+
 
 /**
  * 核实身份, 返回 _id

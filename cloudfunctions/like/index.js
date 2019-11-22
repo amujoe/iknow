@@ -8,18 +8,13 @@ const db = cloud.database()               // 初始化 database
 const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
- * 查询点赞个数
- * 有 openid =》   某人对某条数据点赞次数
- * 没有 openid =》 某条‘喊话’被点赞总次数
- * @param {*} shoutid
- * @param {*} openid  user'openid
+ * 查询点赞数
  */
-const queryLike = async (shoutid, openid) => {
+const query = async (shoutid, openid) => {
   try {
     return await db.collection("_LIKE")
       .where({
-        "_shoutid": shoutid,
-        "_openid": openid || ''
+        _relation_id: params.relation_id, // 关联的id = tag_id or image_id
       })
       .count()
   } catch(e) {
@@ -28,39 +23,35 @@ const queryLike = async (shoutid, openid) => {
 }
 
 /**
- * 新增 点赞数据
- * @param {*} shoutid  喊话 shout'id
+ * 查询是否点过赞
  */
-const like = async (shoutid) => {
-  let already = false
-  // 先查询有木有
-  await queryLike(shoutid, OPENID).then(res => {
-    if (res.data && res.data.total) {
-      already = true
-    }
-  })
-  // 是否点过赞
-  if (already) {
-    // 删除
-    return await removeLike(shoutid, openid)
-  } else {
-    // 写入
-    return await addLink(shoutid)
+const isLiked = async (shoutid, openid) => {
+  try {
+    return await db.collection("_LIKE")
+      .where({
+        _relation_id: params.relation_id, // 关联的id = tag_id or image_id
+        _originator_id: params.originator_id, // 点赞人的id
+      })
+      .count()
+  } catch(e) {
+    console.error(e)
   }
 }
 
 /**
- * 新增 点赞数据
- * @param {*} shoutid
+ * 记录点赞
+ * @param {*} params
  */
-const addLink = async (shoutid) => {
+const create = async (params) => {
   try {
     return await db.collection("_LIKE")
       .add({
         data: {
           _openid: OPENID,
-          _shoutid: shoutid,
-          update_time: db.serverDate(), // 创建时间(服务端时间)
+          _relation_id: params.relation_id, // 关联的id = tag_id or image_id
+          _originator_id: params.originator_id, // 点赞人的id
+          type: params.type, // tag or image
+          create_time: db.serverDate(), // 创建时间(服务端时间)
         },
       })
   } catch(e) {
@@ -69,32 +60,15 @@ const addLink = async (shoutid) => {
 }
 
 /**
- * 更新 用户信息
- * @param {*} id 喊话 shout'id
+ * 删除点赞
+ * @param {*} params 
  */
-const removeLike = async (id) => {
+const remove = async (params) => {
   try {
     return await db.collection("_LIKE")
       .where({
-        "_shoutid": id,
-        "_openid": openid
-      })
-      .remove()
-  } catch(e) {
-    console.error(e)
-  }
-}
-
-
-/**
- * 删除关联的用户信息
- * @param {*} openid 
- */
-const removeUserInfo = async (openid) => {
-  try {
-    return await db.collection("_LIKE")
-      .where({
-        "_openid": openid
+        _relation_id: params.relation_id, // 关联的id = tag_id or image_id
+        _originator_id: params.originator_id, // 点赞人的id
       })
       .remove()
   } catch(e) {
@@ -110,11 +84,21 @@ const removeUserInfo = async (openid) => {
  */
 exports.main = (event, context) => {
   switch (event.action) {
-    case 'get': {
-      return queryUserInfo(event.shoutid, event.openid)
+    // 查询点赞数
+    case 'query': {
+      return query(event)
     }
-    case 'like': {
-      return like(event.shoutid)
+    // 查询是否点过赞
+    case 'isLiked': {
+      return isLiked(event)
+    }
+    // 记录点赞
+    case 'create': {
+      return create(event)
+    }
+    // 删除点赞
+    case 'remove': {
+      return remove(event)
     }
     default: {
       return
