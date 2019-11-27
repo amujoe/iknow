@@ -88,7 +88,7 @@ Page({
         }
       },
       fail: err => {
-        console.error('getDetail-err', err)
+        console.error('getTagsDetail-err', err)
         this.$showToast({
           title: '获取形象失败',
           icon: 'fail',
@@ -124,7 +124,7 @@ Page({
         }
       },
       fail: err => {
-        console.error('getDetail-err', err)
+        console.error('getImageDetail-err', err)
         this.$showToast({
           title: '获取形象失败',
           icon: 'fail',
@@ -262,7 +262,7 @@ Page({
         })
       },
       fail: err => {
-        console.error('err', err)
+        console.error('saveImg-err', err)
         _this.$showToast({
           title: '添加失败',
           icon: 'fail',

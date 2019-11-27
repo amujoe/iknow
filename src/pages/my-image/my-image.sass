@@ -1,0 +1,107 @@
+@import "../../styles/vw"
+@import "../../styles/color"
+
+.container
+  padding: 0 vw(20)
+  .top
+    display: flex
+    align-items: center
+    justify-content: center
+    height: vw(140)
+    .t-font
+      color: $txt-black
+      font-size: vw(30)
+      font-weight: 100
+  .info
+    display: flex
+    flex-direction: column
+    align-items: flex-end
+    margin-bottom: vw(30)
+    .in-img, .in-img image
+      width: vw(120)
+      height: vw(160)
+      border-radius: vw(4)
+    .in-img
+      padding: vw(4)
+      border: vw(1) solid #eee
+    .in-name
+      color: $txt-black
+      font-size: vw(20)
+      margin-top: vw(5)
+      font-weight: 100
+  .title
+    text-align: right
+    font-size: vw(14)
+    font-weight: 100
+    color: #4876FF
+ 
+.tags
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-end
+  margin-bottom: vw(30)
+  text
+    margin: vw(5) 0 0 vw(10)
+    font-size: vw(16)
+    font-weight: 100
+  .tag-null
+    font-size: vw(16)
+    font-weight: 100
+    color: #bbb
+
+.tag-create
+  display: flex
+  box-sizing: border-box
+  -webkit-transition: all 0.2s ease
+  transition: all 0.2s ease
+  input
+    flex-grow: 1
+    height: vw(50)
+    line-height: vw(50)
+    border: none
+    box-sizing: border-box
+    padding-left: vw(10)
+    font-size: vw(14)
+    font-weight: 100
+    background: #fff
+  .tag-create-btn
+    width: vw(50)
+    text-align: center
+    line-height: vw(50)
+    background: #ddd
+    color: #444
+    font-weight: 300
+
+.tag-show
+  padding: vw(20)
+  margin: vw(15) 0
+  background: #efefef
+  border-top: vw(1) solid #ddd
+  border-bottom: vw(1) solid #ddd
+  box-shadow: inset 0 0 vw(10) rgba(0,0,0,0.2)
+ 
+.image-box
+  display: flex
+  flex-wrap: wrap
+  margin-bottom: vw(100)
+  .item
+    width: 46%
+    box-sizing: border-box
+    padding: vw(5)
+    margin: vw(10) 0 0 vw(10)
+    // border: vw(1) solid #eeeeee
+    background: $bac-white
+    box-shadow: vw(4) vw(4) vw(10) rgba(0,0,0,.08)
+    .i-img,.i-img image
+      width: 100%
+    .i-name
+      text-align: center
+      line-height: vw(35)
+      font-size: vw(14)
+      color: $txt-black
+  .image-null
+    width: 100%
+    text-align: right
+    font-size: vw(16)
+    font-weight: 100
+    color: #bbb

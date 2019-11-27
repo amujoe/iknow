@@ -1,0 +1,16 @@
+<view class="container">
+
+  <!-- 形象 -->
+  <view class="image-box">
+    <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
+      <view class="item">
+        <view class="i-img">
+          <image src="{{item.image}}"></image>
+        </view>
+        <view class="i-name">{{item.name}}</view>
+      </view>
+    </block>
+    <view class="image-null" wx:if="{{!image_list.length}}">还没有人给你贴标签哦</view>
+  </view>
+
+</view>

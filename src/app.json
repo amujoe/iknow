@@ -6,7 +6,9 @@
     "pages/person/person",
     "pages/about/about",
     "pages/create/create",
-    "pages/join/join"
+    "pages/join/join",
+    "pages/my-image/my-image",
+    "pages/my-upload/my-upload"
   ],
   "window":{
     "backgroundTextStyle":"light",

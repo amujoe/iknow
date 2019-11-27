@@ -16,53 +16,18 @@ Page({
 			total: 0,
 		}
   },
-	onLoad(option) {
-		this.data.id = option.id
+	onLoad() {
+		this.data.id = globalData.user._id
     // console.log(option)
-    if(option.id) {
-      this.getDetail()
+    if(this.data.id) {
+      // this.getDetail()
       this.getImageDetail()
-      this.getTagsDetail()
+      // this.getTagsDetail()
     } else {
       console.error('没有传入参数')
     }
   },
   onShow() {},
-  /**
-	 * 获取详情
-	 */
-  getDetail() {
-    let _this = this
-    this.$showLoading({title:"加载中"})
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'account',
-      data: {
-				action: 'queryById',
-				id: this.data.id,
-        enterprise_id: globalData.enterprise_id,
-			},
-      success: res => {
-        console.log('res', res)
-        const { errMsg, requestID, result} = res
-        if(result && result.data && result.data.length) {
-					this.setData({
-						info: result.data[0]
-					})
-        }
-      },
-      fail: err => {
-        console.error('getDetail-err', err)
-        this.$showToast({
-          title: '获取详情失败',
-          icon: 'fail',
-        })
-      },
-      complete(){
-        _this.$hideLoading()
-      }
-    })
-  },
   /**
 	 * 获取 tag
 	 */
@@ -110,8 +75,8 @@ Page({
     wx.cloud.callFunction({
       name: 'image',
       data: {
-				action: 'queryByParty',
-        party: this.data.id, // 当事人
+				action: 'queryByOriginator',
+        originator: this.data.id, // 发起人
         page: page,
         limit: this.data.pagination.limit,
 			},

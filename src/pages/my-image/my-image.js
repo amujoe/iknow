@@ -16,10 +16,10 @@ Page({
 			total: 0,
 		}
   },
-	onLoad(option) {
-		this.data.id = option.id
+	onLoad() {
+		this.data.id = globalData.user._id
     // console.log(option)
-    if(option.id) {
+    if(this.data.id) {
       this.getDetail()
       this.getImageDetail()
       this.getTagsDetail()

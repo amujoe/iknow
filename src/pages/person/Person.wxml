@@ -1,9 +1,9 @@
 <view class="container">
   
-  <!-- 头部 -->
+  <!-- 头部 
   <view class="top">
     <view class="t-font">是你认识的 Ta 嘛</view>
-  </view>
+  </view>-->
 
   <!-- 信息 -->
   <view class="info">

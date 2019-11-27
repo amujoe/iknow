@@ -1,0 +1,40 @@
+<view class="container">
+
+  <!-- 信息 -->
+  <view class="info">
+    <view class="in-img">
+      <image src="{{info.image[0]}}" />
+    </view>
+    <view class="in-name">{{info.name}}</view>
+  </view>
+
+  <!-- title -->
+  <view class="title">
+    我的标签
+  </view>
+  <!-- tags -->
+  <view class="tags">
+    <block wx:if="{{tag_list.length}}" wx:for="{{tag_list}}" wx:key="{{index}}">
+      <text>{{item.tag}}</text>
+    </block>
+    <view class="tag-null" wx:if="{{!tag_list.length}}">还没有人给你贴标签哦</view>
+  </view>
+
+  <!-- title -->
+  <view class="title">
+    <i class="iconfont"></i>我的黑料
+  </view>
+  <!-- 形象 -->
+  <view class="image-box">
+    <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
+      <view class="item">
+        <view class="i-img">
+          <image src="{{item.image}}"></image>
+        </view>
+        <view class="i-name">{{item.name}}</view>
+      </view>
+    </block>
+    <view class="image-null" wx:if="{{!image_list.length}}">还没有人给你贴标签哦</view>
+  </view>
+
+</view>

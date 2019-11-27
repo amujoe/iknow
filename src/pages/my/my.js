@@ -11,5 +11,11 @@ Page({
 		]
 	},
 	async onLoad() {
+	},
+	// 关于我们
+	goAbout() {
+		wx.navigateTo({
+			url: '/pages/about/about',
+		})
 	}
 });

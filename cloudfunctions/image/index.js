@@ -95,6 +95,7 @@ const create = async (info) => {
           originator: info.originator, // 发起人 id
           party: info.party, // 当事人 id
           likes: 0, // 点赞
+          likes_list: [], // 点赞人列表
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
@@ -106,7 +107,7 @@ const create = async (info) => {
 }
 
 /**
- * 删除用户信息
+ * 删除形象
  * @param {*} id 
  */
 const remove = async (id) => {
@@ -118,6 +119,36 @@ const remove = async (id) => {
       .remove()
   } catch(e) {
     console.error(e)
+  }
+}
+
+/**
+ * 点赞
+ * @param {*} params 
+ */
+const clickLike = async(params) => {
+  let img_id = params._id
+  let originator = params.originator_id
+  
+  console.log('img_id', img_id)
+  console.log('originator', originator)
+  try{
+    const {errMsg, data} = await db.collection("_IMAGE")
+      .where({
+        "_id": params.originator,
+      })
+      .field({ // 过滤字段
+        _id: true,
+        likes: true, // 点赞数
+        likes_list: true, // 点赞人列表
+      })
+      .get()
+    if(errMsg === "") {
+      
+    }
+    
+  } catch(err){
+    console.error(err)
   }
 }
 
@@ -146,6 +177,10 @@ exports.main = (event, context) => {
     // 删除
     case 'remove': {
       return remove(event.id)
+    }
+    // 点赞
+    case 'clickLike': {
+      return clickLike(event)
     }
     default: {
       return

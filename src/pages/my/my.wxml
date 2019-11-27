@@ -1,9 +1,5 @@
 <!-- page start-->
 <view class="container">
-  <!-- 通知 -->
-  <view>
-    <view></view>
-  </view>
 
   <!-- 个人信息 -->
   <view class="info">
@@ -20,17 +16,17 @@
   <view class="menu-box">
     <view class="menu">
       <text class="icon iconfont iconRectangleCopy21"></text>
-      <text class="txt">我的喊话</text>
+      <text class="txt">我的形象</text>
     </view>
     <view class="menu">
       <text class="icon iconfont iconRectangleCopy12"></text>
-      <text class="txt">喜欢的喊话</text>
+      <text class="txt">我的爆料</text>
     </view>
-    <view class="menu">
+    <button class="menu"  open-type="contact">
       <text class="icon iconfont iconRectangleCopy20"></text>
       <text class="txt">意见反馈</text>
-    </view>
-    <view class="menu">
+    </button>
+    <view class="menu" bindtap="goAbout">
       <text class="icon iconfont iconRectangleCopy6"></text>
       <text class="txt">关于我们</text>
     </view>

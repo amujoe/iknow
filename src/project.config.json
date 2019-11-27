@@ -55,6 +55,12 @@
           "name": "加入",
           "pathName": "pages/join/join",
           "query": ""
+        },
+        {
+          "id": 3,
+          "name": "upload",
+          "pathName": "pages/my-upload/my-upload",
+          "query": ""
         }
       ]
     }
