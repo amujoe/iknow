@@ -119,8 +119,11 @@ Page({
         const { errMsg, requestID, result} = res
         if(errMsg === "cloud.callFunction:ok") {
 					this.setData({
-						image_list: result.data || []
-					})
+						image_list: result.data.map(item => {
+              item.is_liked = item.likes_list.indexOf(globalData.user._id) !== -1
+              return item
+            })
+          })
         }
       },
       fail: err => {
@@ -270,4 +273,26 @@ Page({
       }
     })
   },
+  /**
+   * 点赞
+   * */ 
+  todoLiked(e) {
+    let _this = this
+    let id = e.currentTarget.dataset.id
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'image',
+      data: {
+        action: 'clickLike',
+        _id: id, // image id
+        originator: globalData.user._id, // 发起人 id
+			},
+      success: data => {
+        _this.getImageDetail()
+      },
+      fail: err => {
+        console.error('saveImg-err', err)
+      }
+    })
+  }
 });

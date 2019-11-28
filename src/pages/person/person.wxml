@@ -44,7 +44,8 @@
         <view class="i-img">
           <image src="{{item.image}}" />
         </view>
-        <view class="i-name">{{item.name}}</view>
+        <view class="i-like">
+          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}{{}}</view>
       </view>
     </block>
     <view class="image-null" wx:if="{{!image_list.length}}">还没有人给 Ta 贴标签哦</view>

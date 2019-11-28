@@ -38,18 +38,21 @@ const queryByParty = async (params) => {
   let page = params.page || 1
   let limit = params.limit || 10
   try {
-    return await db.collection("_IMAGE")
-      .where({
-        "party": params.party, // 当事人
-      })
-      .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
-      .limit(limit) // 限制返回数量为 10 条
-      .field({ // 过滤字段
-        _id: true,
-        image: true, // 图像
-        originator: true, // 发起人
-      })
-      .get()
+    return await 
+      db.collection("_IMAGE")
+        .where({
+          "party": params.party, // 当事人
+        })
+        .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
+        .limit(limit) // 限制返回数量为 10 条
+        .field({ // 过滤字段
+          _id: true,
+          image: true, // 图像
+          originator: true, // 发起人
+          likes: true, // 点赞数
+          likes_list: true, // 点赞人
+        })
+        .get()
   } catch(e) {
     console.error(e)
   }
@@ -73,6 +76,8 @@ const queryByOriginator = async (params) => {
       .field({ // 过滤字段
         _id: true,
         image: true, // 图像
+        likes: true, // 点赞数
+        likes_list: true, // 点赞人
       })
       .get()
   } catch(e) {
@@ -91,7 +96,7 @@ const create = async (info) => {
         data: {
           _openid: OPENID, // 操作人 openid
           _enterprise_id: info.enterprise_id, // 公司 id
-          image: info.image, // 姓名
+          image: info.image, // 形象
           originator: info.originator, // 发起人 id
           party: info.party, // 当事人 id
           likes: 0, // 点赞
@@ -99,6 +104,28 @@ const create = async (info) => {
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除
           // location: db.Geo.Point(113, 23) // 地理位置
+        }
+      })
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+/**
+ * 写入 用户信息 (方法)
+ * @param {*} info 
+ */
+const update = async (info) => {
+  try {
+    return await db.collection("_IMAGE")
+      .where({
+        "_id": info._id
+      })
+      .update({
+        data: {
+          likes: info.likes, // 点赞
+          likes_list: info.likes_list, // 点赞人列表
+          create_time: db.serverDate(), // 创建时间(服务端时间)
         }
       })
   } catch(e) {
@@ -127,15 +154,11 @@ const remove = async (id) => {
  * @param {*} params 
  */
 const clickLike = async(params) => {
-  let img_id = params._id
-  let originator = params.originator_id
-  
-  console.log('img_id', img_id)
-  console.log('originator', originator)
+  let originator = params.originator
   try{
     const {errMsg, data} = await db.collection("_IMAGE")
       .where({
-        "_id": params.originator,
+        "_id": params._id,
       })
       .field({ // 过滤字段
         _id: true,
@@ -143,10 +166,34 @@ const clickLike = async(params) => {
         likes_list: true, // 点赞人列表
       })
       .get()
-    if(errMsg === "") {
-      
+    if(errMsg === "collection.get:ok") {
+      let num = parseInt(data[0].likes)
+      let list = data[0].likes_list || []
+
+      let isLiked = list.indexOf(originator) !== -1
+      console.log('isLiked', isLiked)
+      let object;
+      if(isLiked) {
+        object = {
+          _id: params._id,
+          likes: num - 1,
+          likes_list: list.filter(item => {
+            return item !== originator
+          })
+        }
+      } else {
+        list.push(originator)
+        object = {
+          _id: params._id,
+          likes: num + 1,
+          likes_list: list
+        }
+      }
+      console.log('object', object)
+      return update(object)
+    } else {
+      return {errMsg, data}
     }
-    
   } catch(err){
     console.error(err)
   }
