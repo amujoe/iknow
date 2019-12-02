@@ -31,6 +31,31 @@ const query = async (params) => {
 }
 
 /**
+ * 查询随机
+ */
+const queryByRandom = async (params) => {
+  let limit = params.limit || 10
+  try {
+    return await db.collection("_IMAGE").aggregate()
+      .match({
+        "_enterprise_id": params.enterprise_id
+      })
+      .sample({
+        size: limit
+      }) // 随机
+      .project({
+        _id: true,
+        image: true,
+        party_name: true,
+        likes: true,
+      })
+      .end()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+/**
  * 查询
  * 根据当事人的id
  */
@@ -208,6 +233,10 @@ exports.main = (event, context) => {
     // 查询
     case 'query': {
       return query(event)
+    }
+    // 随机获取形象
+    case 'queryByRandom': {
+      return queryByRandom(event)
     }
     // 查当事人的形象
     case 'queryByParty': {

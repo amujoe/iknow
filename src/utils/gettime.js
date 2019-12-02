@@ -1,4 +1,14 @@
-/*获取当前阳历日期*/
+/*获取当前阳历日期 天*/
+function getCurrentDate () {
+  var d = new Date();
+  var date = d.getDate();
+  if (date > 9)
+    return date;
+  else
+    return "0" + date;
+}
+
+/*获取当前阳历日期 年月日*/
 function getCurrentDateTime () {
   var d = new Date();
   var year = d.getFullYear();
@@ -39,8 +49,8 @@ function getCurrentDateTime () {
 }
 
 /*获取当前是星期几*/
-function showWeek () {
-  var show_week = new Array('星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日');
+function getWeek () {
+  var show_week = new Array('周一', '周二', '周三', '周四', '周五', '周六', '周日');
   var time = new Date();
   var day = time.getDay();
   var now_week = show_week[day - 1] + ' ';
@@ -48,7 +58,7 @@ function showWeek () {
 }
 
 /*获取当前农历日期*/
-function showCal () {
+function getCal () {
   var D = new Date();
   var yy = D.getFullYear();
   var mm = D.getMonth() + 1;
@@ -157,4 +167,4 @@ function GetLunarDay (solarYear, solarMonth, solarDay) {
   }
 }
 
-export { getCurrentDateTime, showWeek, showCal }
+export { getCurrentDate, getCurrentDateTime, getWeek, getCal }

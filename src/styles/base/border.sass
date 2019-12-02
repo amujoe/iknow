@@ -1,94 +1,25 @@
-@import '../color'
+@import '../theme/color'
 
-// 页面顶部的边框线(两种方法，各自选择)
-.pseudo-border-top
-  &::after
-    position: fixed
-    z-index: 2
-    top: 0
-    left: 0
-    width: 100%
-    height: vw(2)
-    background: $border-gray
-    content: ''
-    -webkit-transform: scaleY(0.5)
-    -webkit-transform-origin: 0 0
-@mixin Pseudo-border-top($color: $border-gray)
-  position: fixed
-  z-index: 2
-  top: 0
-  left: 0
-  width: 100%
-  height: vw(2)
-  background: $color
-  content: ''
-  -webkit-transform: scaleY(0.5)
-  -webkit-transform-origin: 0 0
-// 上边框线
-@mixin Pseudo-border-before($color: $border-gray)
-  position: absolute
-  z-index: 2
-  top: 0
-  left: 0
-  width: 100%
-  height: vw(1)
-  background: $color
-  content: ''
-  -webkit-transform: scaleY(0.5)
-  -webkit-transform-origin: 0 0
-// 下边框线
-@mixin Pseudo-border-after($color: $border-gray)
-  position: absolute
-  z-index: 2
-  bottom: 0
-  left: 0
-  width: 100%
-  height: vw(1)
-  background: $color
-  content: ''
-  -webkit-transform: scaleY(0.5)
-  -webkit-transform-origin: 0 0
-// 左边框线
-@mixin Pseudo-border-left($color: $border-gray)
-  position: absolute
-  z-index: 2
-  top: 0
-  left: 0
-  width: vw(1)
-  height: 100%
-  background: $color
-  content: ''
-  -webkit-transform: scaleX(0.5)
-  -webkit-transform-origin: 0 0
-// 右边框线
-@mixin Pseudo-border-right($color: $border-gray)
-  position: absolute
-  z-index: 2
-  top: 0
-  right: 0
-  width: vw(1)
-  height: 100%
-  background: $color
-  content: ''
-  -webkit-transform: scaleX(0.5)
-  -webkit-transform-origin: 0 0
+// 实线
+.border
+  border: vw(1) solid $border-color
+.border-top
+  border-top: vw(1) solid $border-color
+.border-right
+  border-right: vw(1) solid $border-color
+.border-bottom
+  border-bottom: vw(1) solid $border-color
+.border-left
+  border-left: vw(1) solid $border-color
 
-// 一般用于按钮border，但也能用于边框线
-@mixin Pseudo-btnBorder-after($border-width: vw(1) vw(1) vw(1) vw(1),$border-color: $border-gray,$border-style: solid,$radius: 0)
-  position: absolute
-  z-index: 2
-  top: 0
-  right: 0
-  bottom: 0
-  left: 0
-  width: 200%
-  height: 200%
-  border-width: $border-width
-  border-style: $border-style
-  border-color: $border-color
-  border-radius: $radius
-  content: ""
-  -webkit-transform: scale(0.5)
-  -webkit-transform-origin: 0 0
-  pointer-events: none
-
+// 虚线
+.border-dashed
+  border: vw(1) dashed $border-color
+.border-top-dashed
+  border-top: vw(1) dashed $border-color
+.border-right-dashed
+  border-right: vw(1) dashed $border-color
+.border-bottom-dashed
+  border-bottom: vw(1) dashed $border-color
+.border-left-dashed
+  border-left: vw(1) dashed $border-color

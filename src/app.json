@@ -24,15 +24,15 @@
 		"list": [
 			{
 				"pagePath": "pages/index/index",
-				"text": "大屏幕",
+				"text": "屏幕",
 				"iconPath": "./images/tabbar/world.png",
 				"selectedIconPath": "./images/tabbar/world-active.png"
 			},
 			{
 				"pagePath": "pages/enterprise/enterprise",
 				"text": "公司",
-				"iconPath": "./images/tabbar/world.png",
-				"selectedIconPath": "./images/tabbar/world-active.png"
+				"iconPath": "./images/tabbar/work.png",
+				"selectedIconPath": "./images/tabbar/work-active.png"
 			},
 			{
 				"pagePath": "pages/my/my",

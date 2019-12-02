@@ -1,5 +1,5 @@
-@import "../../styles/vw"
-@import "../../styles/color"
+@import "~@/styles/base/vw"
+@import "~@/styles/theme/color"
 
 .container
   padding: 0 vw(30)
@@ -9,7 +9,7 @@
     justify-content: center
     height: vw(140)
     .t-font
-      color: $txt-black
+      color: $text-default
       font-size: vw(30)
       font-weight: 100
   .item
@@ -24,7 +24,7 @@
         line-height: vw(40)
         font-size: vw(18)
         font-weight: 300
-        border-bottom: vw(1) solid $border-gray
+        border-bottom: vw(1) solid $border-color
   .upload-box
     display: flex
     flex-wrap: wrap
@@ -40,7 +40,7 @@
       width: vw(100)
       height: vw(100)
       background: #efefef
-      border: vw(1) solid $border-gray
+      border: vw(1) solid $border-color
       &::before
         position: absolute
         left: 50%

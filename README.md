@@ -1,6 +1,3 @@
-# wxapp-boilerplate
-
-使用 `webpack`, `babel`, `scss` 开发的微信／支付宝小程序项目脚手架
 
 ## 功能
 
@@ -16,8 +13,6 @@
 * 支持在 `production` 环境下压缩代码
 
 ## 开始使用
-
-确保安装了 [Node.js](https://nodejs.org/) (>= `v4.2`) 和 [yarn](https://yarnpkg.com) 或 [npm](https://www.npmjs.com/package/npm)
 
 1.  `git clone` 此项目
 2.  通过命令行工具 `cd` 到这个目录，执行 `yarn` 安装依赖模块
@@ -55,18 +50,3 @@
 ```
 
 通过执行 `yarn start` 或 `yarn build`，`src/images` 和 `src/icons` 目录会自动复制到 `dist/wechat/images` 和 `dist/wechat/icons` 目录（支付宝小程序同理）。
-
-## 更新日志
-
-[Changelog](/CHANGELOG.md)
-
-## 相关项目
-
-* [create-wxapp-page](https://github.com/cantonjs/create-wxapp-page)
-* [react-lib-boilerplate](https://github.com/cantonjs/react-lib-boilerplate)
-* [front-end-lib-boilerplate](https://github.com/cantonjs/front-end-lib-boilerplate)
-* [node-cli-boilerplate](https://github.com/cantonjs/node-cli-boilerplate)
-
-## License
-
-MIT

@@ -1,138 +1,65 @@
 
-@import '../../styles/vw'
+@import '~@/styles/base/vw'
+@import '~@/styles/theme/color'
 
 .container
-	width: 100vw
+	display: flex
+	flex-direction: column
+	justify-content: center
 	height: 100vh
-	position: relative
+	padding-top: vw(50)
+	background: #efefef
+.top
 	display: flex
-	justify-content: center
-	align-items: center
-	background: #eeeeee
-.mov-area
-	position: absolute
-	left: 50%
-	top: 50%
-	z-index: 5
-	width: 300vw
-	height: 200vh
-	margin: -100vh 0 0 -150vw
-	.mov-view
-		position: absolute
-		left: 50%
-		top: 50%
-		width: 600rpx
-		height: 800rpx
-		margin: -400rpx 0 0 -300rpx
-		.card
-			width:	600rpx
-			height:	800rpx
-			background:	#ffffff
-.card-box
-	width: 600rpx
-	height: 800rpx
-	.box-active, .box-top, .box-mid, .box-end
-		position: absolute
-		width: 600rpx
-		height: 800rpx
-		background: #ffffff
-	.box-active
-		z-index: 4
-	.box-top
-		z-index: 3
-	.box-mid
-		z-index: 2
-	.box-end
-		z-index: 1
-	
-// box
-.card
-	box-sizing: border-box
-	padding: 0 30rpx
-	.user
+	justify-content: space-between
+	.date
 		display: flex
+		.d-right
+			display: flex
+			flex-direction: column
+			justify-content: space-around
+	.refresh
+		display: flex
+		flex-direction: column
+.swiper
+	height: vw(480)
+	.swiper-item
+		display: flex
+		justify-content: center
 		align-items: center
-		height: 130rpx
-		// padding-bottom: 20rpx
-		border-bottom: 1px solid #efefefef
-		.avatar
-			width: 80rpx
-			height: 80rpx
-			border-radius: 80rpx
+		width: vw(280)
+		height: vw(420)
+		.item-box
+			position: relative
+			width: vw(300)
+			height: vw(420)
+			padding: vw(10) vw(10) 0 vw(10)
+			border-radius: vw(4)
+			background: $color-white
+			color: $text-default
 			overflow: hidden
-			image
-				width: 80rpx
-				height: 80rpx
-			
-		
-		.name
-			margin-left: 20rpx
-			font-size: 34rpx
-			color: #888
-		
-	
-	
-	.main
-		height: 568rpx
-		box-sizing: border-box
-		padding: 20rpx 0
-		.title
-			font-size: 40rpx
-			color: #444
-			padding-bottom: 20rpx
-		
-		.content
-			font-size: 36rpx
-			color: #666
-		
-	
-
-	.operation
-		display: flex
-		justify-content: flex-end
-		align-items: center
-		height: 100rpx
-		font-size: 32rpx
-		color: #666
-		.icon 
-			font-size: 46rpx
-			margin-right: 6rpx
-		
-		.like
-			margin-right: 20rpx
-		
-	
-
-
-.mov-view 
-	display: flex
-	align-items: flex-end
-	box-sizing: border-box
-	padding: 0 30rpx
-	.operation
-		width: 100%
-		display: flex
-		justify-content: flex-end
-		align-items: center
-		height: 100rpx
-		font-size: 32rpx
-		color: #666
-		.icon 
-			font-size: 46rpx
-			margin-right: 6rpx
-		
-		.like
-			margin-right: 20rpx
-		
-	
-
-
-.default
-	display: flex
-	justify-content: center
-	align-items: center
-	width: 600rpx
-	height: 800rpx
-	font-size: 40rpx
-	color: #ccc
-
+			box-shadow: 0 0 vw(40) rgba(0, 0, 0, .03), 0 0 vw(10) rgba(0, 0, 0, .05)
+			.i-img, .i-img image
+				width: vw(280)
+				height: vw(400)
+			.i-btn
+				position: absolute
+				left: 0
+				bottom: 0
+				display: flex
+				align-items: center
+				justify-content: space-between
+				width: vw(300)
+				height: vw(50)
+				background: $color-white
+				color: $text-deputy
+				box-shadow: 0 -50rpx vw(80) rgba(255, 255, 255, 1), 0 -50rpx vw(20) rgba(255, 255, 255, 1)
+			.i-b-know
+				width: vw(50)
+				height: vw(30)
+				border-radius: vw(30)
+				line-height: vw(30)
+				text-align: center
+				background: $color-primary
+				color: $color-white
+				

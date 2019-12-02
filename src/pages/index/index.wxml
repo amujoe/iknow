@@ -1,66 +1,37 @@
-<!--index.wxml-->
-
 <view class="container">
-  <!--浮层-->
-  <movable-area class="mov-area">
-    <movable-view class="mov-view" 
-      x="{{x}}" y="{{y}}" 
-      direction="all"
-      inertia="true"
-      out-of-bounds="true"
-      damping="50"
-      friction="5"
-      bindchange="cardMove" bindtap="seeDetail">
-        <!--操作-->
-        <view class="operation">
-          <view class="like" bindtap="clickLike"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.likes}}</view>
-          <view class="comment" bindtap="clickComment"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.comments}}</view>
-        </view>
-    </movable-view>
-  </movable-area>
 
-  <view class="card-box">
-    <!--active-->
-    <view class="box-active card" animation="{{animation}}">
-      <!--用户信息-->
-      <view class="user">
-        <view class="avatar">
-          <image src="{{item_active.avatar}}" />
-        </view>
-        <view class="name">{{item_active.nick_name}}-{{pagination.page}}-{{item_active_index}}</view>
-      </view>
-      <!--内容-->
-      <view class="main">
-        <view class="title">{{item_active.title}}</view>
-        <rich-text class="content" nodes="{{item_active.content}}"></rich-text>
-      </view>
-      <!--操作-->
-      <view class="operation">
-        <view class="like"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.likes}}</view>
-        <view class="comment"><text class="icon iconfont iconRectangleCopy12"></text>{{item_active.comments}}</view>
+  <view class="top">
+    <!-- day -->
+    <view class="date m-l-30">
+      <view class="day font-40 f-w-100">{{date.day}}</view>
+      <view class="d-right p-l-5">
+        <view class="week font-14 f-w-200">{{date.week}}</view>
+        <view class="cal font-12 f-w-200">{{date.cal}}</view>
       </view>
     </view>
-    <!--next-->
-    <view class="box-top" animation="{{animation_t}}">
-      <!--卡片-->
-      <view class="card" wx:if="{{item_next}}">
-        <!--用户信息-->
-        <view class="user">
-          <view class="avatar">
-            <image src="{{item_next.avatar}}" />
-          </view>
-          <view class="name">{{item_next.nick_name}}</view>
-        </view>
-        <!--内容-->
-        <view class="main">
-          <view class="title">{{item_next.title}}</view>
-          <rich-text class="content" nodes="{{item_next.content}}"></rich-text>
-        </view>
-      </view>
-      <!--没有更多了-->
-      <view class="default" wx:else>走到世界尽头了</view>
+    <!-- refresh -->
+    <view class="refresh m-r-20">
+      <text class="iconfont iconRectangleCopy7 font-30 f-w-100"></text>
+      <text class="font-10 f-w-200">换一批</text>
     </view>
-    <view class="box-mid" animation="{{animation_m}}"></view>
-    <view class="box-end" animation="{{animation_e}}"></view>
   </view>
+  <!-- swiper -->
+  <swiper class="swiper m-t-20" circular="true" previous-margin="30px" next-margin="30px">
+    <block wx:for="{{list}}" wx:key="index">
+      <swiper-item class="swiper-item">
+        <view class="item-box">
+          <view class="i-img">
+            <image src="{{item.image}}" lazy-load="true" modal="aspectFit"></image>
+          </view>
+          <view class="i-btn font-12 p-l-10 p-r-10">
+            <view>
+              <text>13 认识</text>
+              <text class="m-l-10" bindtap="todoLikes">24 点赞</text>
+            </view>
+            <view class="i-b-know">认识</view>
+          </view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
 </view>

@@ -1,17 +1,79 @@
-@import '../vw'
+@import './vw'
+@import '../theme/color'
 
-// 常用字号
-$font-h1: vw(14)
-$font-h2: vw(14)
-$font-h3: vw(14)
-$font-h4: vw(14)
-$font-h5: vw(14)
-$font-h6: vw(14)
+@mixin font-size($size)
+  font-size: vw($size) !important
+  line-height: vw($size)
 
-$font-extra-small: vw(12)      // 辅助文字
-$font-small: vw(13)            // 正文(小)
-$font-base: vw(14)             // 正常字号
-$font-medium: vw(16)           // 小标题
-$font-large: vw(18)            // 标题 
-$font-extra-large: vw(20)      // 大标题
+// 写一些常用的
+.text-title
+  color: $text-primary !important
+  @include font-size(16)
+.text-default
+  color: $text-default !important
+  @include font-size(14)
+.text-deputy
+  color: $text-deputy !important
+  @include font-size(12)
+.text-secondary
+  color: $text-secondary !important
+  @include font-size(12)
+.text-placeholder
+  color: $text-placeholder !important
+  @include font-size(12)
 
+// 段落的行高
+.text-section
+  color: $text-default
+  font-size: vw(14)
+  line-height: 1.5 !important
+
+
+// 通用字号
+.font-10
+  @include font-size(10)
+.font-12
+  @include font-size(12)
+.font-14
+  @include font-size(14)
+.font-16
+  @include font-size(16)
+.font-18
+  @include font-size(18)
+.font-20
+  @include font-size(20)
+.font-22
+  @include font-size(22)
+.font-24
+  @include font-size(24)
+.font-26
+  @include font-size(26)
+.font-28
+  @include font-size(28)
+.font-30
+  @include font-size(30)
+.font-32
+  @include font-size(32)
+.font-34
+  @include font-size(34)
+.font-36
+  @include font-size(36)
+.font-38
+  @include font-size(38)
+.font-40
+  @include font-size(40)
+
+.f-w-100
+  font-weight: 100 !important
+.f-w-200
+  font-weight: 200 !important
+.f-w-300
+  font-weight: 300 !important
+.f-w-400
+  font-weight: 400 !important
+.f-w-500
+  font-weight: 500 !important
+.f-w-600
+  font-weight: 600 !important
+.f-w-b
+  font-weight: blod !important
