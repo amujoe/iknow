@@ -1,48 +1,121 @@
 
+@import '~@/styles/theme/color'
 @import '~@/styles/base/vw'
 
-.container
-	padding: 0 50rpx
+.top-box
+	position: relative
+	display: flex
+	justify-content: center
+	align-items: center
+	height: vw(200)
+	background: $color-white
+	overflow: hidden
+	&:before, &:after
+		position: absolute;
+		content: "";
+		left: 50%;
+		min-width: 400vw;
+		min-height: 400vw;
+		background-color: $color-primary
+		animation-name: rotate;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	&:before
+		bottom: vw(80);
+		border-radius: 46%;
+		animation-duration: 10s;
+	&:after
+		bottom: vw(70);
+		opacity: .3;
+		border-radius: 44%;
+		animation-duration: 10s;
+@keyframes rotate
+	0%
+		transform: translate(-50%, 0) rotateZ(0deg)
+	50%
+		transform: translate(-50%, -2%) rotateZ(180deg)
+	100%
+		transform: translate(-50%, 0%) rotateZ(360deg)
 
 .info
-	width: 100%
+	position: absolute;
+	z-index: 1
+	left: 0
+	top: 0
+	width: 100vw
+	height: vw(250)
 	display: flex
-	justify-content: space-between
-	box-sizing: border-box
-	// align-items: center
-	padding-top: 250rpx
-	.txt 
-		.name
-			font-size: 50rpx
-		.dex
-			font-size: 20rpx
+	flex-direction: column
+	align-items: center
+	justify-content: center
 	.avatar
-		width: 120rpx
-		height: 120rpx
-		border-radius: 120rpx
+		width: vw(80)
+		height: vw(80)
+		border: vw(5) solid rgba(255, 255, 255, 0.3)
+		border-radius: vw(80)
 		overflow: hidden
+	.name
+		color: $text-primary
+
+.midden-box
+	width: 80%
+	margin: 0 auto
+	display: flex
+	justify-content: space-around
+	.m-item
+		display: flex
+		flex-direction: column
+		text
+			&:nth-child(1)
+				font-size: vw(18)
+				font-weight: 400
+			&:nth-child(2)
+				margin-top: vw(5)
+				font-size: vw(12)
+				font-weight: 200
+	.m-bor
+		width: vw(1)
+		height: vw(50)
+		background: $border-color
+		
+// .info
+// 	width: 100%
+// 	display: flex
+// 	justify-content: space-between
+// 	box-sizing: border-box
+// 	// align-items: center
+// 	padding-top: 250rpx
+// 	.txt 
+// 		.name
+// 			font-size: 50rpx
+// 		.dex
+// 			font-size: 20rpx
+// 	.avatar
+// 		width: 120rpx
+// 		height: 120rpx
+// 		border-radius: 120rpx
+// 		overflow: hidden
 
 // menu
 .menu-box
 	width: 100%
-	margin-top: 100rpx
-	background: #ffffff
-	border-radius: 16rpx
-	box-shadow: 0 0 20rpx rgba(0,0,0,0.1)
-	padding: 20rpx 0
+	margin-top: vw(50)
+	padding-left: vw(20)
+	border-top: vw(10) solid $border-color
 	.menu
 		display: flex
 		align-items: center
-		padding: 20rpx 0
-		border: none
-		background: #fff
+		height: vw(60)
+		border-bottom: vw(1) solid $border-color
 		.icon
-			font-size: 60rpx
+			font-size: 40rpx
 			padding: 0 40rpx
 		.txt
-			font-size: 40rpx
+			font-size: 30rpx
+			font-weight: 300
 	button
 		padding: 0
+		background: #fff
 		line-height: 1
 		color: #333
 		&:after

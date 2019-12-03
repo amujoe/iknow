@@ -2,7 +2,6 @@
 @import "~@/styles/theme/color"
 
 .container
-  padding: 0 vw(20)
   .top
     display: flex
     align-items: center
@@ -12,22 +11,21 @@
       color: $text-default
       font-size: vw(30)
       font-weight: 100
-  .box
-    display: flex
-    flex-wrap: wrap
+  .list-box
+    padding-left: vw(20)
     .item
-      width: 46%
-      box-sizing: border-box
-      padding: vw(5)
-      margin: vw(10) 0 0 vw(10)
-      // border: vw(1) solid #eeeeee
-      background: $bac-white
-      box-shadow: vw(4) vw(4) vw(10) rgba(0,0,0,.08)
+      display: flex
+      align-items: center
+      height: vw(60)
+      border-bottom: vw(1) solid $border-color
       .i-img,.i-img image
-        width: 100%
-      .i-name
-        text-align: center
-        line-height: vw(35)
-        font-size: vw(14)
-        color: $text-default
+        width: vw(46)
+        height: vw(46)
+        border-radius: vw(46)
+      .i-img
+        display: flex
+        align-items: center
+        justify-content: center
+        background: #efefef
+      
   

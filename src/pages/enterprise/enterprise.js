@@ -9,7 +9,10 @@ Page({
 			page: 1,
 			limit: 10,
 			total: 0,
-		}
+    },
+    color0: '#333',
+    color1: '#444',
+    color2: '#555',
   },
 	async onLoad() {
     this.getInfoList()
@@ -24,8 +27,8 @@ Page({
   },
   // 获取详情
   getInfoList() {
+    this.$showLoading({title:"加载中"})
     let page = this.data.pagination.page
-    
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
@@ -56,8 +59,10 @@ Page({
           title: '获取信息失败',
           icon: 'fail',
         })
+      },
+      complete(){
+        _this.$hideLoading()
       }
     })
-    
   }
 });

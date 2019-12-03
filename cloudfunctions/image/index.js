@@ -40,14 +40,22 @@ const queryByRandom = async (params) => {
       .match({
         "_enterprise_id": params.enterprise_id
       })
-      .sample({
+      .sample({ // 随机
         size: limit
-      }) // 随机
-      .project({
+      }) 
+      .lookup({ // 链表
+        from: '_ACCOUNT', // 关联表
+        localField: 'party', // 本表 要匹配字段
+        foreignField: '_id', // 关联表 要匹配字段
+        as: 'party_info',
+      })
+      .project({ // 过滤
         _id: true,
         image: true,
+        party: true,
         party_name: true,
-        likes: true,
+        like_list: true,
+        party_info: true,
       })
       .end()
   } catch(e) {
@@ -74,8 +82,7 @@ const queryByParty = async (params) => {
           _id: true,
           image: true, // 图像
           originator: true, // 发起人
-          likes: true, // 点赞数
-          likes_list: true, // 点赞人
+          like_list: true, // 点赞人
         })
         .get()
   } catch(e) {
@@ -101,8 +108,7 @@ const queryByOriginator = async (params) => {
       .field({ // 过滤字段
         _id: true,
         image: true, // 图像
-        likes: true, // 点赞数
-        likes_list: true, // 点赞人
+        like_list: true, // 点赞人
       })
       .get()
   } catch(e) {
@@ -111,7 +117,7 @@ const queryByOriginator = async (params) => {
 }
 
 /**
- * 写入 用户信息 (方法)
+ * 写入 形象信息
  * @param {*} info 
  */
 const create = async (info) => {
@@ -124,32 +130,9 @@ const create = async (info) => {
           image: info.image, // 形象
           originator: info.originator, // 发起人 id
           party: info.party, // 当事人 id
-          likes: 0, // 点赞
-          likes_list: [], // 点赞人列表
-          create_time: db.serverDate(), // 创建时间(服务端时间)
-          delete: 0, // 标记删除, 0 未删除 , 1 删除
-          // location: db.Geo.Point(113, 23) // 地理位置
-        }
-      })
-  } catch(e) {
-    console.error(e)
-  }
-}
-
-/**
- * 写入 用户信息 (方法)
- * @param {*} info 
- */
-const update = async (info) => {
-  try {
-    return await db.collection("_IMAGE")
-      .where({
-        "_id": info._id
-      })
-      .update({
-        data: {
-          likes: info.likes, // 点赞
-          likes_list: info.likes_list, // 点赞人列表
+          like_list: [], // 点赞人列表
+          i_know: [], // 我认识的人
+          know_me: [], // 认识我的人
           create_time: db.serverDate(), // 创建时间(服务端时间)
         }
       })
@@ -179,46 +162,27 @@ const remove = async (id) => {
  * @param {*} params 
  */
 const clickLike = async(params) => {
-  let originator = params.originator
   try{
-    const {errMsg, data} = await db.collection("_IMAGE")
+    // 1 删除之前点赞数据, 防止出现多条点赞数据
+    await db.collection("_ACCOUNT")
       .where({
-        "_id": params._id,
+        "_id": params._id
       })
-      .field({ // 过滤字段
-        _id: true,
-        likes: true, // 点赞数
-        likes_list: true, // 点赞人列表
+      .update({
+        data: {
+          like_list: db.command.pull(params.originator),
+        }
       })
-      .get()
-    if(errMsg === "collection.get:ok") {
-      let num = parseInt(data[0].likes)
-      let list = data[0].likes_list || []
-
-      let isLiked = list.indexOf(originator) !== -1
-      console.log('isLiked', isLiked)
-      let object;
-      if(isLiked) {
-        object = {
-          _id: params._id,
-          likes: num - 1,
-          likes_list: list.filter(item => {
-            return item !== originator
-          })
+    // 2 新增数据
+    return await db.collection("_ACCOUNT")
+      .where({
+        "_id": params._id
+      })
+      .update({
+        data: {
+          like_list: db.command.push(params.originator)
         }
-      } else {
-        list.push(originator)
-        object = {
-          _id: params._id,
-          likes: num + 1,
-          likes_list: list
-        }
-      }
-      console.log('object', object)
-      return update(object)
-    } else {
-      return {errMsg, data}
-    }
+      })
   } catch(err){
     console.error(err)
   }

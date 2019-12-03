@@ -120,7 +120,13 @@ Page({
         if(errMsg === "cloud.callFunction:ok") {
 					this.setData({
 						image_list: result.data.map(item => {
-              item.is_liked = item.likes_list.indexOf(globalData.user._id) !== -1
+              if(item.like_list){
+                item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
+                item.likes = item.like_list.length
+              } else {
+                item.is_liked = false
+                item.likes = 0
+              }
               return item
             })
           })

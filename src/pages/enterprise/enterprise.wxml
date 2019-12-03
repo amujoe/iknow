@@ -1,3 +1,5 @@
+<wxs src="~@/wxs/fristname.wxs" module="tools" />
+
 <view class="container">
   
   <!-- 头部 
@@ -5,13 +7,14 @@
     <view class="t-font">你要的</view>
   </view>-->
 
-  <view class="box">
+  <view class="list-box">
     <block wx:for="{{list}}" wx:key="{{index}}">
       <view class="item" data-id="{{item._id}}" bindtap="goPersonDetail">
         <view class="i-img">
-          <image src="{{item.image}}" />
+          <image wx:if="{{item.avatar}}" src="{{item.avatar}}" />
+          <text wx:else class="font-16">{{tools.fristname(item.name)}}</text>
         </view>
-        <view class="i-name">{{item.name}}</view>
+        <view class="i-name font-14 m-l-10">{{item.name}}</view>
       </view>
     </block>
   </view>

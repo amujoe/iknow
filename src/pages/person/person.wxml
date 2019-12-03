@@ -1,23 +1,18 @@
-<view class="container">
-  
-  <!-- 头部 
-  <view class="top">
-    <view class="t-font">是你认识的 Ta 嘛</view>
-  </view>-->
-
+  <wxs src="~@/wxs/fristname.wxs" module="tools" />
   <!-- 信息 -->
   <view class="info">
     <view class="in-img">
-      <image src="{{info.image[0]}}" />
+      <image wx:if="{{info.avatar}}" src="{{info.avatar}}" />
+      <text wx:else class="font-22">{{tools.fristname(info.name)}}</text>
     </view>
     <view class="in-name">{{info.name}}</view>
   </view>
 
   <!-- title -->
-  <view class="title" bindtap="todoTag">
+  <view class="title m-t-30 p-r-20" bindtap="todoTag">
     加标签
   </view>
-</view>
+
   <!-- 新增 -->
   <view class="tag-create {{show_create_tag === true ? 'tag-show' : ''}}">
     <input wx:if="{{show_create_tag}}" type="text" bindinput="tagChange" maxlength="10" placeholder="请输入 Ta 在你心中的印象"/>
@@ -30,7 +25,7 @@
     <block wx:if="{{tag_list.length}}" wx:for="{{tag_list}}" wx:key="{{index}}">
       <text>{{item.tag}}</text>
     </block>
-    <view class="tag-null" wx:if="{{!tag_list.length}}">还没有人给 Ta 贴标签哦</view>
+    <view class="tag-null m-t-10" wx:if="{{!tag_list.length}}">还没有人给 Ta 贴标签哦</view>
   </view>
 
   <!-- title -->
@@ -38,14 +33,14 @@
     <i class="iconfont"></i>爆黑料
   </view>
   <!-- 形象 -->
-  <view class="image-box">
+  <view class="image-box m-t-10">
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
         <view class="i-img">
           <image src="{{item.image}}" />
         </view>
         <view class="i-like">
-          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}{{}}</view>
+          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}</view>
       </view>
     </block>
     <view class="image-null" wx:if="{{!image_list.length}}">还没有人给 Ta 贴标签哦</view>

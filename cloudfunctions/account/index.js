@@ -7,7 +7,8 @@ const db = cloud.database()               // 初始化 database
 const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
- * 查询关联的用户信息
+ * 查询 企业下的 用户信息, 
+ * 列表用
  */
 const query = async (params) => {
   let page = params.page || 1
@@ -24,7 +25,7 @@ const query = async (params) => {
         name: true, // 姓名
         gender: true, // 性别 0保密, 1男, 2女
         phone: true, // 电话
-        image: true // 形象
+        avatar: true, // 头像
       })
       .get()
   } catch(e) {
@@ -34,6 +35,7 @@ const query = async (params) => {
 
 /**
  * 查询用户详情
+ * 详情用
  */
 const queryById = async (params) => {
   try {
@@ -46,9 +48,41 @@ const queryById = async (params) => {
         name: true, // 姓名
         gender: true, // 性别 0保密, 1男, 2女
         phone: true, // 电话
-        image: true // 形象
+        avatar: true, // 头像
       })
       .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+
+/**
+ * 查询用户详情
+ * 详情用
+ */
+const queryForMy = async (params) => {
+  try {
+    return await db.collection("_ACCOUNT").aggregate()
+      .match({
+        "_id": params.id,
+      })
+      .lookup({ // 链表
+        from: '_IMAGE', // 关联表
+        localField: '_id', // 本表 要匹配字段
+        foreignField: 'party', // 关联表 要匹配字段
+        as: 'image_list',
+      })
+      .project({ // 过滤字段
+        _id: true,
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        avatar: true, // 头像
+        image_list: true, // 标签
+        i_know: true, // 标签
+        know_me: true // 标签
+      })
+      .end()
   } catch(e) {
     console.error(e)
   }
@@ -73,9 +107,9 @@ const queryByName = async (params) => {
   }
 }
 
-
 /**
  * 核实身份, 返回 _id
+ * 注册时候用
  */
 const queryByPhone = async (params) => {
   try {
@@ -89,7 +123,7 @@ const queryByPhone = async (params) => {
         name: true, // 姓名
         gender: true, // 性别 0保密, 1男, 2女
         phone: true, // 电话
-        image: true // 形象
+        avatar: true // 形象
       })
       .get()
   } catch(e) {
@@ -131,10 +165,10 @@ const create = async (info) => {
           name: info.name, // 姓名
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
-          image: info.image, // 形象
+          avatar: info.image, // 形象
+          i_know: [], // 我认识的
+          know_me: [], // 认识我的
           create_time: db.serverDate(), // 创建时间(服务端时间)
-          delete: 0, // 标记删除, 0 未删除 , 1 删除
-          // location: db.Geo.Point(113, 23) // 地理位置
         }
       })
   } catch(e) {
@@ -155,19 +189,69 @@ const update = async (id, info) => {
       })
       .update({
         data: {
-          // _enterprise_id: info.enterprise_id, // 关联的企业
           name: info.name,
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
-          image: info.image, // 形象
-          create_time: db.serverDate(), // 创建时间(服务端时间)
-          delete: 0, // 标记删除, 0 未删除 , 1 删除
+          avatar: info.image, // 形象
         }
       })
   } catch(e) {
     console.error(e)
   }
 }
+
+/**
+ * 更新 用户关系
+ * @param {*} params 用户信息
+ */
+const updateKnow = async (params) => {
+  try {
+    // 1.1 更新当事人的, 认识 ta 的人
+    await db.collection("_ACCOUNT")
+      .where({
+        "_id": params.party // 当事人
+      })
+      .update({
+        data: {
+          know_me: db.command.pull(params.originator),
+        }
+      })
+    // 1.2 更新当事人的, 认识 ta 的人
+    await db.collection("_ACCOUNT")
+      .where({
+        "_id": params.party // 当事人
+      })
+      .update({
+        data: {
+          know_me: db.command.push(params.originator)
+        }
+      })
+    // 2.1 更新发起人的 ta 认识的人
+    await db.collection("_ACCOUNT")
+      .where({
+        "_id": params.originator // 发起人
+      })
+      .update({
+        data: {
+          i_know: db.command.pull(params.party)
+        }
+      })
+    // 2.2 更新发起人的 ta 认识的人
+    return await db.collection("_ACCOUNT")
+      .where({
+        "_id": params.originator // 发起人
+      })
+      .update({
+        data: {
+          i_know: db.command.push(params.party)
+        }
+      })
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+
 
 /**
  * 删除用户信息
@@ -207,6 +291,10 @@ exports.main = (event, context) => {
     case 'queryByPhone': {
       return queryByPhone(event)
     }
+    // 个人中心
+    case 'queryForMy': {
+      return queryForMy(event)
+    }
     // 新增
     case 'create': {
       // return create(event)
@@ -215,6 +303,10 @@ exports.main = (event, context) => {
     // 更新
     case 'update': {
       return update(event)
+    }
+    // 更新 关系
+    case 'updateKnow': {
+      return updateKnow(event)
     }
     // 删除
     case 'remove': {

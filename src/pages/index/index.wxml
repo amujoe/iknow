@@ -10,25 +10,32 @@
       </view>
     </view>
     <!-- refresh -->
-    <view class="refresh m-r-20">
+    <view class="refresh m-r-20" bindtap="changeOther">
       <text class="iconfont iconRectangleCopy7 font-30 f-w-100"></text>
       <text class="font-10 f-w-200">换一批</text>
     </view>
   </view>
   <!-- swiper -->
-  <swiper class="swiper m-t-20" circular="true" previous-margin="30px" next-margin="30px">
+  <swiper class="swiper m-t-20" circular="true" previous-margin="30px" next-margin="30px" bindchange="swiperChange">
     <block wx:for="{{list}}" wx:key="index">
       <swiper-item class="swiper-item">
         <view class="item-box">
           <view class="i-img">
             <image src="{{item.image}}" lazy-load="true" modal="aspectFit"></image>
           </view>
-          <view class="i-btn font-12 p-l-10 p-r-10">
+          <view class="i-btn-box font-12 p-l-10 p-r-10">
             <view>
-              <text>13 认识</text>
-              <text class="m-l-10" bindtap="todoLikes">24 点赞</text>
+              <text>{{item.knows}} 认识</text>
+              <text class="m-l-10" data-id="{{item._id}}" bindtap="todoLike">{{item.likes}} 点赞</text>
             </view>
-            <view class="i-b-know">认识</view>
+            <view class="i-btn" wx:if="{{!item.input_show}}"
+             data-id="{{item._id}}" 
+             data-party="{{item.party}}" 
+             data-name="{{item.party_name}}"
+             bindtap="todoShowInput">我认识 Ta</view>
+            <view class="i-input" wx:if="{{item.input_show}}">
+              <input type="text" bindinput="inputChange" confirm-type="done" bindconfirm="inputDone" placeholder="输入 ta 的名字" />
+            </view>
           </view>
         </view>
       </swiper-item>

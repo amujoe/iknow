@@ -2,6 +2,7 @@
 {
   "navigationBarTitleText": "我",
   "backgroundColor": "#eeeeee",
+  "disableScroll": true,
   "navigationStyle": "custom",
   "usingComponents": {
   }

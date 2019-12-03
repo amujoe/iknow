@@ -1,0 +1,11 @@
+
+// 过滤第一个名字
+const filter = (value) => {
+  return value.slice(0, 1)
+}
+
+// 导出对外暴露的属性
+module.exports = {
+	fristname: filter
+}
+

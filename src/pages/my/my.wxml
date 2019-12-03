@@ -1,7 +1,33 @@
 <!-- page start-->
 <view class="container">
 
-  <!-- 个人信息 -->
+  <view class="top-box">
+    <view class="info">
+      <view class="avatar">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>  
+      <view class="name font-22 m-t-20">{{user.name}}</view>
+    </view>
+  </view>
+
+  <view class="midden-box m-t-30">
+    <view class="m-item">
+      <text>{{user.knows}}</text>
+      <text>认识</text>
+    </view>
+    <view class="m-bor"></view>
+    <view class="m-item">
+      <text>{{user.focus}}</text>
+      <text>焦点</text>
+    </view>
+    <view class="m-bor"></view>
+    <view class="m-item">
+      <text>{{user.likes}}</text>
+      <text>点赞</text>
+    </view>
+  </view>
+
+  <!-- 个人信息 
   <view class="info">
     <view class="txt">
       <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
@@ -10,7 +36,7 @@
     <view class="avatar">
       <open-data type="userAvatarUrl"></open-data>
     </view>
-  </view>
+  </view>-->
 
   <!-- menu -->
   <view class="menu-box">
@@ -30,7 +56,7 @@
       <text class="icon iconfont iconRectangleCopy6"></text>
       <text class="txt">关于我们</text>
     </view>
-  </view>
+  </view> 
 
 </view>
 <!-- page end-->
