@@ -9,19 +9,16 @@ const { OPENID } = cloud.getWXContext()   // 获取 openid
 /**
  * 查询企业下的
  */
-const query = async (params) => {
-  let page = params.page || 1
-  let limit = params.limit || 10
+const queryByName = async (params) => {
   try {
     return await db.collection("_TAG")
       .where({
+        "party": params.party,
+        "tag": params.tag,
         "_enterprise_id": params.enterprise_id
       })
-      .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
-      .limit(limit) // 限制返回数量为 10 条
       .field({ // 过滤字段
         _id: true,
-        tag: true, // 图像
       })
       .get()
   } catch(e) {
@@ -53,7 +50,6 @@ const queryByParty = async (params) => {
     console.error(e)
   }
 }
-
 
 /**
  * 查询
@@ -106,6 +102,26 @@ const create = async (info) => {
 }
 
 /**
+ * 新增 用户信息(去重)
+ * @param {*} info 用户信息
+ */
+const createBefore = async (info) => {
+  // 先查询有木有
+  try {
+    const {errMsg, data} = await queryByName(info)
+    if (data && data.length) {
+      // 更新
+      return {errMsg, data}
+    } else {
+      // 写入
+      return await create(info)
+    }
+  } catch (err) {
+    console.error('createBefore-err', err)
+  }
+}
+
+/**
  * 删除用户信息
  * @param {*} id 
  */
@@ -127,21 +143,17 @@ const remove = async (id) => {
  */
 exports.main = (event, context) => {
   switch (event.action) {
-    // 查询
-    case 'query': {
-      return query(event)
-    }
-    // 查当事人的形象
+    // 查当事人的tag
     case 'queryByParty': {
       return queryByParty(event)
     }
-    // 查自己爆料的形象
+    // 查自己爆料的tag
     case 'queryByOriginator': {
       return queryByOriginator(event)
     }
     // 新增
-    case 'create': {
-      return create(event)
+    case 'createBefore': {
+      return createBefore(event)
     }
     // 删除
     case 'remove': {

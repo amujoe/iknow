@@ -17,6 +17,7 @@
         <view class="i-name font-14 m-l-10">{{item.name}}</view>
       </view>
     </block>
+    <view wx:if="{{no_more}}" class="no-more font-12 m-t-10">没有更多了</view>
   </view>
 
 </view>

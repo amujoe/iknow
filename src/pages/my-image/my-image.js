@@ -16,10 +16,10 @@ Page({
 			total: 0,
 		}
   },
-	onLoad() {
+	onLoad(option) {
 		this.data.id = globalData.user._id
     // console.log(option)
-    if(this.data.id) {
+    if(globalData.user._id) {
       this.getDetail()
       this.getImageDetail()
       this.getTagsDetail()
@@ -119,8 +119,17 @@ Page({
         const { errMsg, requestID, result} = res
         if(errMsg === "cloud.callFunction:ok") {
 					this.setData({
-						image_list: result.data || []
-					})
+						image_list: result.data.map(item => {
+              if(item.like_list){
+                item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
+                item.likes = item.like_list.length
+              } else {
+                item.is_liked = false
+                item.likes = 0
+              }
+              return item
+            })
+          })
         }
       },
       fail: err => {
@@ -136,138 +145,31 @@ Page({
     })
   },
   /**
-   * 打标签
-   */
-  todoTag() {
-    this.setData({
-      'show_create_tag': !this.data.show_create_tag
-    })
-  },
-  // 输入框改变
-  tagChange(e) {
-    this.data.input_tag = e.detail.value
-  },
-  /**
-   * 打标签
-   */
-  toCreateTag() {
+   * 点赞
+   * */ 
+  todoLiked(e) {
     let _this = this
-    if(!this.data.input_tag) {
-      this.$showToast({
-        title: '标签不能为空'
-      })
-      return
-    }
-    
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'tag',
-      data: {
-				action: 'create',
-        tag: this.data.input_tag,
-        originator: globalData.user._id, // 发起人 id
-        party: this.data.info._id, // 当事人 id
-        enterprise_id: globalData.enterprise_id, // 公司编码
-			},
-      success: data => {
-        _this.getTagsDetail()
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
-      },
-      fail: err => {
-        _this.$showToast({
-          title: '添加失败',
-          icon: 'fail',
-        })
-      },
-      complete: () => {
-        console.log('chengg')
-        // 关闭输入
-        _this.data.input_tag = ''
-        _this.todoTag()
-      }
+    let id = e.currentTarget.dataset.id
+    this.$showLoading({
+      title: '点赞进行中',
     })
-  },
-  /**
-   * 爆黑料 
-   * 1. 选图片
-   */
-  outputImage() {
-    let _this = this
-    wx.chooseImage({
-      count: 1,
-      sourceType: ['album', 'camera'], // 选择图片的来源
-      sizeType: ['original'], // 所选的图片的尺寸 original 原图、 compressed 压缩
-      success(res) {
-        let {tempFilePaths, tempFiles} = res
-        console.log('tempFilePaths', tempFilePaths)
-        console.log('tempFiles', tempFiles)
-        _this.uploadImg(tempFilePaths[0])
-      }, 
-      fail(err) {
-        console.log('err', err)
-      },
-      complete() {
-
-      }
-    })
-  },
-  /**
-   * 爆黑料 
-   * 2. 上传图片
-   * img_path 选中的图片临时地址
-   */
-  uploadImg(img_path){
-    let _this = this
-    this.$showLoading({title:"上传中"})
-    let time = new Date().getTime()
-    wx.cloud.uploadFile({
-      cloudPath: 'images/' + time + '.png', // 上传至云端的路径
-      filePath: img_path, // 小程序临时文件路径
-      success: res => {
-        console.log('上传成功', res)
-        // 保存关联关系
-        _this.saveImg(res.fileID)
-      },
-      fail(err) {
-        console.error(err)
-      }
-    })
-  },
-  /**
-   * 爆黑料 
-   * 3. 上传完图片, 保存关系
-   * img_url 图片id
-   */
-  saveImg(img_url){
-    let _this = this
     // 调用云函数
     wx.cloud.callFunction({
       name: 'image',
       data: {
-				action: 'create',
-        image: img_url,
+        action: 'clickLike',
+        _id: id, // image id
         originator: globalData.user._id, // 发起人 id
-        party: this.data.info._id, // 当事人 id
-        enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
-        console.log('pers', data)
         _this.getImageDetail()
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
       },
       fail: err => {
         console.error('saveImg-err', err)
-        _this.$showToast({
-          title: '添加失败',
-          icon: 'fail',
-        })
+      },
+      complete: () => {
+        this.$hideLoading()
       }
     })
-  },
+  }
 });

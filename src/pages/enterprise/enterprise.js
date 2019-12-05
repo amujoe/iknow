@@ -7,12 +7,9 @@ Page({
     list: [], // 列表
     pagination: {
 			page: 1,
-			limit: 10,
-			total: 0,
+			limit: 10
     },
-    color0: '#333',
-    color1: '#444',
-    color2: '#555',
+    no_more: false, // 没有更多
   },
 	async onLoad() {
     this.getInfoList()
@@ -24,6 +21,13 @@ Page({
     wx.navigateTo({
       url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
     })
+  },
+  // 到底部
+  onReachBottom() {
+    if(!this.data.no_more) {
+      this.data.pagination.page += 1
+      this.getInfoList()
+    }
   },
   // 获取详情
   getInfoList() {
@@ -51,17 +55,20 @@ Page({
               list: [...this.data.list, ...result.data]
             })
           }
+        } else {
+          this.setData({
+            no_more: true
+          })
         }
       },
       fail: err => {
         console.error('getInfoList-err', err)
         this.$showToast({
           title: '获取信息失败',
-          icon: 'fail',
         })
       },
-      complete(){
-        _this.$hideLoading()
+      complete: res => {
+        this.$hideLoading()
       }
     })
   }

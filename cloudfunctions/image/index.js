@@ -130,9 +130,8 @@ const create = async (info) => {
           image: info.image, // 形象
           originator: info.originator, // 发起人 id
           party: info.party, // 当事人 id
+          party_name: info.party_name, // 当事人 id
           like_list: [], // 点赞人列表
-          i_know: [], // 我认识的人
-          know_me: [], // 认识我的人
           create_time: db.serverDate(), // 创建时间(服务端时间)
         }
       })
@@ -162,31 +161,66 @@ const remove = async (id) => {
  * @param {*} params 
  */
 const clickLike = async(params) => {
+  let originator = params.originator
   try{
-    // 1 删除之前点赞数据, 防止出现多条点赞数据
-    await db.collection("_ACCOUNT")
+    const {errMsg, data} = await db.collection("_IMAGE")
       .where({
-        "_id": params._id
+        "_id": params._id,
       })
-      .update({
-        data: {
-          like_list: db.command.pull(params.originator),
+      .field({ // 过滤字段
+        _id: true,
+        like_list: true, // 点赞人列表
+      })
+      .get()
+    if(errMsg === "collection.get:ok") {
+      let list = data[0].like_list || []
+
+      let isLiked = list.indexOf(originator) !== -1
+      console.log('isLiked', isLiked)
+      let object;
+      if(isLiked) {
+        object = {
+          _id: params._id,
+          like_list: list.filter(item => {
+            return item !== originator
+          })
         }
-      })
-    // 2 新增数据
-    return await db.collection("_ACCOUNT")
-      .where({
-        "_id": params._id
-      })
-      .update({
-        data: {
-          like_list: db.command.push(params.originator)
+      } else {
+        list.push(originator)
+        object = {
+          _id: params._id,
+          like_list: list
         }
-      })
+      }
+      return update(object)
+    } else {
+      return {errMsg, data}
+    }
   } catch(err){
     console.error(err)
   }
 }
+
+/**
+ * 写入 用户信息 (方法)
+ * @param {*} info 
+ */
+const update = async (info) => {
+  try {
+    return await db.collection("_IMAGE")
+      .where({
+        "_id": info._id
+      })
+      .update({
+        data: {
+          like_list: info.like_list, // 点赞人列表
+        }
+      })
+  } catch(e) {
+    console.error(e)
+  }
+}
+
 
 /**
  * 这个示例将经自动鉴权过的小程序用户 openid 返回给小程序端

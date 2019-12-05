@@ -1,11 +1,13 @@
 <!-- page start-->
+ <wxs src="~@/wxs/fristname.wxs" module="tools" />
 <view class="container">
 
   <view class="top-box">
     <view class="info">
       <view class="avatar">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>  
+        <image wx:if="{{user.avatar}}" src="{{user.avatar}}" />
+        <text wx:else class="font-22">{{tools.fristname(user.name)}}</text>
+    </view>
       <view class="name font-22 m-t-20">{{user.name}}</view>
     </view>
   </view>
@@ -40,15 +42,15 @@
 
   <!-- menu -->
   <view class="menu-box">
-    <view class="menu">
+    <view class="menu" bindtap="goMyImage">
       <text class="icon iconfont iconRectangleCopy21"></text>
       <text class="txt">我的形象</text>
     </view>
-    <view class="menu">
+    <view class="menu" bindtap="goMyUpload">
       <text class="icon iconfont iconRectangleCopy12"></text>
       <text class="txt">我的爆料</text>
     </view>
-    <button class="menu"  open-type="contact">
+    <button class="menu" open-type="contact">
       <text class="icon iconfont iconRectangleCopy20"></text>
       <text class="txt">意见反馈</text>
     </button>

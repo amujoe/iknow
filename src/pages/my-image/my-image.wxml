@@ -1,23 +1,25 @@
-<view class="container">
-
+  <wxs src="~@/wxs/fristname.wxs" module="tools" />
   <!-- 信息 -->
   <view class="info">
     <view class="in-img">
-      <image src="{{info.image[0]}}" />
+      <image wx:if="{{info.avatar}}" src="{{info.avatar}}" />
+      <text wx:else class="font-22">{{tools.fristname(info.name)}}</text>
     </view>
     <view class="in-name">{{info.name}}</view>
   </view>
 
   <!-- title -->
-  <view class="title">
+  <view class="title m-t-30 p-r-20">
     我的标签
   </view>
+
+<view class="container">
   <!-- tags -->
   <view class="tags">
     <block wx:if="{{tag_list.length}}" wx:for="{{tag_list}}" wx:key="{{index}}">
       <text>{{item.tag}}</text>
     </block>
-    <view class="tag-null" wx:if="{{!tag_list.length}}">还没有人给你贴标签哦</view>
+    <view class="tag-null m-t-10" wx:if="{{!tag_list.length}}">还没有人给我贴标签</view>
   </view>
 
   <!-- title -->
@@ -25,16 +27,17 @@
     <i class="iconfont"></i>我的黑料
   </view>
   <!-- 形象 -->
-  <view class="image-box">
+  <view class="image-box m-t-10">
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
         <view class="i-img">
-          <image src="{{item.image}}"></image>
+          <image src="{{item.image}}" mode="aspectFill" />
         </view>
-        <view class="i-name">{{item.name}}</view>
+        <view class="i-like">
+          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}</view>
       </view>
     </block>
-    <view class="image-null" wx:if="{{!image_list.length}}">还没有人给你贴标签哦</view>
+    <view class="image-null" wx:if="{{!image_list.length}}">还没有人爆出我的黑料</view>
   </view>
 
 </view>

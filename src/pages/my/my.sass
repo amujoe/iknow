@@ -13,6 +13,7 @@
 	&:before, &:after
 		position: absolute;
 		content: "";
+		z-index: 1
 		left: 50%;
 		min-width: 400vw;
 		min-height: 400vw;
@@ -23,12 +24,12 @@
 	&:before
 		bottom: vw(80);
 		border-radius: 46%;
-		animation-duration: 10s;
+		animation-duration: 20s;
 	&:after
 		bottom: vw(70);
 		opacity: .3;
 		border-radius: 44%;
-		animation-duration: 10s;
+		animation-duration: 20s;
 @keyframes rotate
 	0%
 		transform: translate(-50%, 0) rotateZ(0deg)
@@ -39,7 +40,7 @@
 
 .info
 	position: absolute;
-	z-index: 1
+	z-index: 2
 	left: 0
 	top: 0
 	width: 100vw

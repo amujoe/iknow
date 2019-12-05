@@ -20,24 +20,27 @@ Page({
 			},
       success: res => {
         const { errMsg, requestID, result} = res
-				
-				let info;
-				info = result.list[0]
-				// 点赞
-				info.likes = 0
-				if(info.image_list && info.image_list.length) {
-					info.image_list.forEach(item => {
-						info.likes += item.like_list.length || 0
+				if(result.list && result.list.length) {
+
+					let info;
+					info = result.list[0]
+					// 点赞
+					info.likes = 0
+					if(info.image_list && info.image_list.length) {
+						info.image_list.forEach(item => {
+							info.likes += item.like_list.length || 0
+						})
+					}
+					// 认识
+					info.knows = info.i_know.length || 0
+					// 焦点
+					info.focus = info.know_me.length || 0
+					this.setData({
+						user: info
 					})
+					console.log('res', this.data.user)
 				}
-				// 认识
-				info.knows = info.i_know.length || 0
-				// 焦点
-				info.focus = info.know_me.length || 0
-				this.setData({
-					user: info
-				})
-				console.log('res', this.data.user)
+
       },
       fail: err => {
         console.error('getImageDetail-err', err)
@@ -50,7 +53,19 @@ Page({
         _this.$hideLoading()
       }
     })
-  },
+	},
+	// 我的形象
+	goMyImage() {
+		wx.navigateTo({
+			url: '/pages/my-image/my-image',
+		})
+	},
+	// 我的爆料
+	goMyUpload() {
+		wx.navigateTo({
+			url: '/pages/my-upload/my-upload',
+		})
+	},
 	// 关于我们
 	goAbout() {
 		wx.navigateTo({

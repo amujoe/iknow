@@ -37,7 +37,7 @@
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
         <view class="i-img">
-          <image src="{{item.image}}" />
+          <image src="{{item.image}}" mode="aspectFill" />
         </view>
         <view class="i-like">
           <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}</view>

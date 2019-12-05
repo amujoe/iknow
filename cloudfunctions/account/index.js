@@ -27,6 +27,7 @@ const query = async (params) => {
         phone: true, // 电话
         avatar: true, // 头像
       })
+      .orderBy('name', 'asc')
       .get()
   } catch(e) {
     console.error(e)
@@ -160,12 +161,11 @@ const create = async (info) => {
     return await db.collection("_ACCOUNT")
       .add({
         data: {
-          _openid: '', // 关联的 openid
           _enterprise_id: info.enterprise_id, // 关联的公司 id
           name: info.name, // 姓名
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话
-          avatar: info.image, // 形象
+          avatar: info.image || "", // 形象
           i_know: [], // 我认识的
           know_me: [], // 认识我的
           create_time: db.serverDate(), // 创建时间(服务端时间)

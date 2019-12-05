@@ -167,23 +167,29 @@ Page({
       })
       return
     }
-    
+    this.$showLoading({title:"上传中"})
     // 调用云函数
     wx.cloud.callFunction({
       name: 'tag',
       data: {
-				action: 'create',
+				action: 'createBefore',
         tag: this.data.input_tag,
         originator: globalData.user._id, // 发起人 id
         party: this.data.info._id, // 当事人 id
         enterprise_id: globalData.enterprise_id, // 公司编码
 			},
-      success: data => {
-        _this.getTagsDetail()
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
+      success: res => {
+        if(res.result.errMsg === "collection.add:ok") {
+          _this.getTagsDetail()
+          _this.$showToast({
+            icon: 'success',
+          })
+        }
+        if(res.result.errMsg = "collection.get:ok") {
+          _this.$showToast({
+            title: '已被占用',
+          })
+        }
       },
       fail: err => {
         _this.$showToast({
@@ -192,7 +198,7 @@ Page({
         })
       },
       complete: () => {
-        console.log('chengg')
+        this.$hideLoading()
         // 关闭输入
         _this.data.input_tag = ''
         _this.todoTag()
@@ -260,6 +266,7 @@ Page({
         image: img_url,
         originator: globalData.user._id, // 发起人 id
         party: this.data.info._id, // 当事人 id
+        party_name: this.data.info.name, // 当事人姓名
         enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
@@ -285,6 +292,9 @@ Page({
   todoLiked(e) {
     let _this = this
     let id = e.currentTarget.dataset.id
+    this.$showLoading({
+      title: '点赞进行中',
+    })
     // 调用云函数
     wx.cloud.callFunction({
       name: 'image',
@@ -298,6 +308,9 @@ Page({
       },
       fail: err => {
         console.error('saveImg-err', err)
+      },
+      complete: () => {
+        this.$hideLoading()
       }
     })
   }

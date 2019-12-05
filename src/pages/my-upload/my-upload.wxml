@@ -1,16 +1,20 @@
-<view class="container">
-
+<view class="container p-t-20">
+  <!-- title -->
+  <view class="title">
+    <i class="iconfont"></i>我的爆料
+  </view>
   <!-- 形象 -->
-  <view class="image-box">
+  <view class="image-box m-t-10">
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
         <view class="i-img">
-          <image src="{{item.image}}"></image>
+          <image src="{{item.image}}" mode="aspectFill" />
         </view>
-        <view class="i-name">{{item.name}}</view>
+        <view class="i-like">
+          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}</view>
       </view>
     </block>
-    <view class="image-null" wx:if="{{!image_list.length}}">还没有人给你贴标签哦</view>
+    <view class="image-null" wx:if="{{!image_list.length}}">你还没有爆出任何人的黑料</view>
   </view>
 
 </view>

@@ -46,7 +46,7 @@
 
   <!-- 形象 -->
   <view class="item">
-    <view class="item-t">形象</view>
+    <view class="item-t">头像</view>
     <view class="item-b">
       <view class="upload-box">
         <block wx:for="{{temp_images}}" wx:key="{{index}}">

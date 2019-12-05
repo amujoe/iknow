@@ -1,12 +1,12 @@
 {
   "pages":[
+    "pages/join/join",
 		"pages/index/index",
 		"pages/enterprise/enterprise",
     "pages/my/my",
     "pages/person/person",
     "pages/about/about",
     "pages/create/create",
-    "pages/join/join",
     "pages/my-image/my-image",
     "pages/my-upload/my-upload"
   ],

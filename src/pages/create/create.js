@@ -103,13 +103,13 @@ Page({
       })
       return false
     }
-    // 内容
-    if(!this.data.image && this.data.image.length) {
-      this.$showModal({
-        title: '形象不能为空'
-      })
-      return false
-    }
+    // // 内容
+    // if(!this.data.image && !this.data.image.length) {
+    //   this.$showModal({
+    //     title: '形象不能为空'
+    //   })
+    //   return false
+    // }
 
     // 调用云函数
     wx.cloud.callFunction({
@@ -119,7 +119,7 @@ Page({
         name: this.data.name,
         gender: this.data.sex,
         phone: this.data.phone,
-        image: this.data.image,
+        image: this.data.image ? this.data.image[0] : '',
         enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
