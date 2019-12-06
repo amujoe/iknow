@@ -6,10 +6,18 @@
     "pages/my/my",
     "pages/person/person",
     "pages/about/about",
-    "pages/create/create",
     "pages/my-image/my-image",
-    "pages/my-upload/my-upload"
-  ],
+		"pages/my-upload/my-upload"
+	],
+	"subPackages": [
+		{
+			"root": "pages/create/",
+			"pages": [
+				"create-enterprise/create-enterprise",
+				"create-person/create-person"
+			]
+		}
+	],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#fff",

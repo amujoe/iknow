@@ -2,51 +2,23 @@
   
   <!-- 头部 -->
   <view class="top">
-    <view class="t-font">假装爱生活</view>
+    <view class="t-font">创建企业</view>
   </view>
 
   <!-- 姓名 -->
   <view class="item">
-    <view class="item-t">姓名</view>
+    <view class="item-t">名称</view>
     <view class="item-b">
       <input type="text" 
         value="{{name}}" 
         bindinput="nameChange" 
-        placeholder="请输入姓名" />
-    </view>   
+        placeholder="请输入企业名称" />
+    </view>
   </view>
 
-  <!-- 性别 -->
+  <!-- logo -->
   <view class="item">
-    <view class="item-t">性别</view>
-    <view class="item-b">
-      <picker mode="selector" 
-        bindchange="sexChange" 
-        value="{{sex}}" 
-        range="{{sex_arr}}" 
-        placeholder="请选择性别">
-        <view class="picker">
-          {{sex_arr[sex]}}
-        </view>
-      </picker>
-    </view>   
-  </view>
-
-  <!-- 电话 -->
-  <view class="item">
-    <view class="item-t">电话</view>
-    <view class="item-b">
-      <input type="text" 
-        value="{{phone}}" 
-        bindinput="phoneChange"
-        maxlength="11" 
-        placeholder="请输入手机号"/>
-    </view>   
-  </view>
-
-  <!-- 形象 -->
-  <view class="item">
-    <view class="item-t">头像</view>
+    <view class="item-t">logo</view>
     <view class="item-b">
       <view class="upload-box">
         <block wx:for="{{temp_images}}" wx:key="{{index}}">

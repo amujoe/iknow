@@ -4,46 +4,17 @@ const { globalData } = getApp()
 
 Page({
 	data: {
-    name: '左木子', // 名称
-    sex_arr: ['保密','男', '女'], 
-    sex: 1, // 性别 index
-    phone: '13260269699', // 入职日期
-    temp_images: [], // 临时形象地址, 用作展示
+    name: '畅展科技有限公司', // 名称
     image: [] // 形象
   },
 	async onLoad() {
   },
   onShow() {},
+  // 名字变化
   nameChange(e) {
     this.data.name = e.detail.value
-    // this.setData({
-    //   "name": e.detail.value
-    // })
   },
-  // 性别- 改变
-  sexChange(e){
-    const { value, cursor, keyCode } = e.detail
-    console.log('value', value)
-    this.setData({
-      "sex": value
-    })
-  },
-  // 电话
-  phoneChange(e) {
-    this.data.phone = e.detail.value
-    // this.setData({
-    //   "name": e.detail.value
-    // })
-  },
-  // 入职日期- 完成
-  dateChange(e) {
-    const { value, cursor, keyCode } = e.detail
-    console.log('value', value)
-    this.setData({
-      "date": value
-    })
-  },
-  // 选择图片
+  // 上传: 1. 选择图片
   chooseImage(){
     let _this = this
     wx.chooseImage({
@@ -64,7 +35,7 @@ Page({
       }
     })
   },
-  // 上传
+  // 上传: 2. 上传图片
   uploadImg(img_path){
     let _this = this
     let temp = this.data.temp_images
@@ -99,17 +70,10 @@ Page({
     // 标题
     if(!this.data.name) {
       this.$showModal({
-        title: '姓名不能为空'
+        title: '名称不能为空'
       })
       return false
     }
-    // // 内容
-    // if(!this.data.image && !this.data.image.length) {
-    //   this.$showModal({
-    //     title: '形象不能为空'
-    //   })
-    //   return false
-    // }
 
     // 调用云函数
     wx.cloud.callFunction({

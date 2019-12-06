@@ -30,7 +30,8 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.cloud.init({
-        traceUser: true,
+        env: "test-cy001", //后续 API 调用的默认环境配置
+        traceUser: true, //是否在将用户访问记录到用户管理中
       })
     }
 

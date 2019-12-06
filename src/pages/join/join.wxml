@@ -1,57 +1,14 @@
 <view class="container">
-  
-  <!-- 头部 -->
-  <view class="top">
-    <view class="t-font">客官</view>
-    <view class="t-font">你来啦</view>
-    <view class="t-font">楼上有座</view>
-  </view>
-
-  <!-- 授权 -->
-  <view class="footer">
-    <button class="btn" type="default" open-type="getUserInfo" bindgetuserinfo="getUserInfo">获取用户信息</button>
-  </view>
 
 
-  <view class="top">
-    <view class="t-font">换取</view>
-    <view class="t-font">在新世界的身份</view>
-    <view class="t-font"></view>
+  <view class="top-text">
+    <view>手机号</view>
+    <view>是你在这个圈子的身份标示</view>
   </view>
-  <!-- 电话 -->
-  <view class="item">
-    <view class="item-t">电话</view>
-    <view class="item-b">
-      <input type="text" value="{{phone}}" maxlength="11" placeholder="请输入手机号"/>
-    </view>   
-  </view>
+
   <!-- 提交 -->
-  <view class="footer">
-    <button class="btn" type="default" bindtap="verifyPhone">授权手机号</button>
-  </view>
-  <!-- 提交 
-  <button class="btn" type="default" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
-  -->
-
-  <!-- 文案 -->
-  <view class="top">
-    <view class="t-font">亲爱的</view>
-    <view class="t-font">下面这个</view>
-    <view class="t-font">很有特征的果果</view>
-    <view class="t-font">是不是</view>
-    <view class="t-font">传说中的你</view>
-    <view class="t-font"></view>
+  <view class="p-l-20 p-r-20">
+    <button class="btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
   </view>
 
-  <!-- 用户 -->
-  <view class="account" wx:if="{{account}}">
-    <view class="avatar">
-      <image src="{{account.image}}"></image>
-    </view>
-    <view class="name">{{account.name}}</view>
-  </view>
-  <!-- 提交 -->
-  <view class="footer">
-    <button class="btn" type="default" bindtap="enterTheNewWorld">进入新世界</button>
-  </view>
 </view>

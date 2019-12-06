@@ -41,8 +41,28 @@ Page({
   },
   // 获取手机号
   getPhoneNumber(e) {
-    console.log(e.detail.iv)
-    console.log(e.detail.encryptedData)
+    
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'common',
+      data: {
+        action: 'getPhone',
+        weRunData: wx.cloud.CloudID(e.detail.cloudID), // cloudID
+			},
+      success: res => {
+        if(res.errMsg === "cloud.callFunction:ok") {
+          this.data.phone = res.result.weRunData.data.purePhoneNumber
+          this.verifyPhone() // 验证手机号
+        } else {
+          this.$showModal({
+            title: "获取手机号失败"
+          })
+        }
+      },
+      fail: err => {
+        console.error('saveImg-err', err)
+      }
+    })
   },
   // 验证手机号
   verifyPhone() {
@@ -54,31 +74,39 @@ Page({
       })
       return false
     }
-
+    this.$showLoading({
+      title: "获取身份"
+    })
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
       data: {
 				action: 'queryByPhone',
         phone: this.data.phone,
-        enterprise_id: globalData.enterprise_id,
 			},
       success: data => {
         console.log('shout', data)
         const { errMsg, requestID, result} = data
         console.log('result', result)
         if(result.data && result.data.length) {
-          _this.setData({
+          this.setData({
             account: result.data[0]
+          })
+        } else {
+          this.$showModal({
+            title: "对不起, 你还不是圈内人"
           })
         }
       },
       fail: err => {
         console.error('err', err)
-        _this.$showToast({
+        this.$showToast({
           title: '查询失败失败',
           icon: 'fail',
         })
+      },
+      complete() {
+        this.$hideLoading()
       }
     })
     

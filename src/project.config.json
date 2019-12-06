@@ -12,7 +12,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.8.0",
-  "appid": "wxfe8806a6c102f8df",
+  "appid": "wxb9983eeccfb01e8a",
   "projectname": "app",
   "condition": {
     "search": {
@@ -46,8 +46,14 @@
         },
         {
           "id": 3,
-          "name": "创建",
-          "pathName": "pages/create/create",
+          "name": "创建人",
+          "pathName": "pages/create/create-person/create-person",
+          "query": ""
+        },
+        {
+          "id": 3,
+          "name": "创建企业",
+          "pathName": "pages/create/create-enterprise/create-enterprise",
           "query": ""
         },
         {
