@@ -40,5 +40,8 @@
         </view>
       </swiper-item>
     </block>
+    <swiper-item wx:if="{{!list.length}}" class="swiper-null font-14 f-w-200">
+      还没有人爆出黑料哦
+    </swiper-item>
   </swiper>
 </view>

@@ -11,4 +11,20 @@
     <button class="btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
   </view>
 
+  <!-- logo -->
+  <view class="enterprise m-t-30" 
+    wx:if="{{enterprise_list && enterprise_list.length}}">
+    <view class="font-12 m-t-10 m-b-10">为您找到 {{enterprise_list.length}} 个企业, 请选择进入的企业:</view>
+    <block wx:for="{{enterprise_list}}" wx:key="index">
+      <view class="item" data-item="{{item}}" bindtap="chooseEnterprise">
+        <view class="logo">
+          <image src="{{item.enterprise.logo}}" />
+        </view>
+        <view class="m-l-10 font-14">
+          {{item.enterprise.name}}
+        </view>
+      </view>
+    </block>
+  </view>
+
 </view>

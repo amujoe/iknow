@@ -1,11 +1,6 @@
 <wxs src="~@/wxs/fristname.wxs" module="tools" />
 
 <view class="container">
-  
-  <!-- 头部 
-  <view class="top">
-    <view class="t-font">你要的</view>
-  </view>-->
 
   <view class="list-box">
     <block wx:for="{{list}}" wx:key="{{index}}">

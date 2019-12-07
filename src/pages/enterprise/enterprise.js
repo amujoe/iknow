@@ -38,14 +38,14 @@ Page({
       name: 'account',
       data: {
         action: 'query',
-        enterprise_id: globalData.enterprise_id,
+        enterprise_id: globalData.enterprise._id,
         page: page,
         limit: this.data.pagination.limit,
 			},
       success: res => {
         console.log('res', res)
         const { errMsg, requestID, result} = res
-        if(result.data && result.data.length) {
+        if(result && result.data && result.data.length) {
           if (page === 1) {
             this.setData({
               list: result.data

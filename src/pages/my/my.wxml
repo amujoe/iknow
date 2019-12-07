@@ -6,7 +6,7 @@
     <view class="info">
       <view class="avatar">
         <image wx:if="{{user.avatar}}" src="{{user.avatar}}" />
-        <text wx:else class="font-22">{{tools.fristname(user.name)}}</text>
+        <text wx:else class="font-26 f-w-200">{{tools.fristname(user.name)}}</text>
     </view>
       <view class="name font-22 m-t-20">{{user.name}}</view>
     </view>

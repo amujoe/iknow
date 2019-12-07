@@ -187,7 +187,7 @@ Page({
         }
         if(res.result.errMsg = "collection.get:ok") {
           _this.$showToast({
-            title: '已被占用',
+            title: '别的小伙伴和你想法一样',
           })
         }
       },

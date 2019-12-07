@@ -1,11 +1,11 @@
 {
   "pages":[
-    "pages/join/join",
 		"pages/index/index",
 		"pages/enterprise/enterprise",
     "pages/my/my",
     "pages/person/person",
     "pages/about/about",
+    "pages/join/join",
     "pages/my-image/my-image",
 		"pages/my-upload/my-upload"
 	],
@@ -38,9 +38,9 @@
 			},
 			{
 				"pagePath": "pages/enterprise/enterprise",
-				"text": "公司",
-				"iconPath": "./images/tabbar/work.png",
-				"selectedIconPath": "./images/tabbar/work-active.png"
+				"text": "圈子",
+				"iconPath": "./images/tabbar/quan.png",
+				"selectedIconPath": "./images/tabbar/quan-active.png"
 			},
 			{
 				"pagePath": "pages/my/my",

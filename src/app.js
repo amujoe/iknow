@@ -6,22 +6,11 @@ App({
 	globalData: {
     /* ———————————————————————— 公共参数  —————————————————————— */
     scene: false, // 进入场景
-    enterprise_id: "b040a67a5deb3e6001105c2116c2ecd8", // 企业id
-    openid: '', 
-    // user: null, // 用户信息
-    user: {
-      _id: "05a1947c5dd00dad00da6a0e653427b6",
-      name: "左木子",
-      phone: "13260269699",
-      image: ['']
-    },
+    enterprise: null, // 企业
+    user: null, // 用户信息
     system: null, // 手机系统信息
     isIpx: false, // 是否是iphonex
     // identity: 3, // 身份状态 0=无身份 1=有身份、并登陆 2=还未做判断
-    location: { // 位置信息
-      latitude: '',
-      longitude: ''
-    },
     /* ———————————————————————— 业务参数  —————————————————————— */
 	},
 	onLaunch() {
@@ -34,6 +23,8 @@ App({
         traceUser: true, //是否在将用户访问记录到用户管理中
       })
     }
+    // 登录
+    this.login()
 
     //  版本更新
     this.systemUpdateFn()
@@ -41,7 +32,7 @@ App({
     this.getSystemInfo()
     // 页面增强
     this.enhancePage()
-    // this.login() // 登录
+    
 	},
 	onShow() {
   },
@@ -116,27 +107,21 @@ App({
   },
   // 登录
   async login() {
-    let resolve = null
-    let reject = null
-    const promise = new Promise((res, rej) => {
-      resolve = res
-      reject = rej
-    })
-    
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
-      success: res => {
-        this.globalData.openid = res.result.openid
-        resolve()
+    let _this = this
+    wx.getStorage({
+      key: 'USER',
+      success: function(res){
+        // success
+        _this.globalData.user = res.data
+        _this.globalData.enterprise = res.data.enterprise
       },
-      fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        reject()
+      fail: function(err) {
+        // fail
+        console.log('err', err)
+      },
+      complete: function() {
+        // complete
       }
     })
-
-    return promise
   },
 });

@@ -16,7 +16,9 @@ const query = async (params) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
-        "_enterprise_id": params.enterprise_id
+        "enterprise": {
+          "_id": params.enterprise_id
+        } 
       })
       .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
       .limit(limit) // 限制返回数量为 10 条
@@ -90,29 +92,34 @@ const queryForMy = async (params) => {
 }
 
 /**
- * 查询是否有木有用户信息, 返回 _id
- */
-// const queryByName = async (params) => {
-//   try {
-//     return await db.collection("_ACCOUNT")
-//       .where({
-//         "name": params.name,
-//         "_enterprise_id": params.enterprise_id
-//       })
-//       .field({ // 过滤字段
-//         _id: true,
-//       })
-//       .get()
-//   } catch(e) {
-//     console.error(e)
-//   }
-// }
-
-/**
  * 核实身份, 返回 _id
  * 注册时候用
  */
 const queryByPhone = async (params) => {
+  try {
+    return await db.collection("_ACCOUNT")
+      .where({
+        "phone": params.phone,
+      })
+      .field({ // 过滤字段
+        _id: true,
+        enterprise: true, // 企业
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        phone: true, // 电话
+        avatar: true // 头像
+      })
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+/**
+ * 核实身份, 返回 _id
+ * 新增时候用
+ */
+const checkByPhone = async (params) => {
   try {
     return await db.collection("_ACCOUNT")
       .where({
@@ -141,7 +148,7 @@ const queryByPhone = async (params) => {
 const createBefore = async (info) => {
   // 先查询有木有
   try {
-    const {errMsg, data} = await queryByPhone(info)
+    const {errMsg, data} = await checkByPhone(info)
     if (data && data.length) {
       // 更新
       return await update(data[0]._id, info)

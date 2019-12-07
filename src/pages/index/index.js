@@ -49,36 +49,38 @@ Page({
 				limit: limit
 			},
       success: res => {
-				this.setData({
-					list: res.result.list.map(item => {
-            // 认识
-            if(item.party_info && item.party_info.length) {
-              item.knows = item.party_info[0].know_me.length
-            } else {
-              item.knows = 0
-            }
-
-            // 点赞
-            if(item.like_list){
-              item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
-              item.likes = item.like_list.length
-            } else {
-              item.is_liked = false
-              item.likes = 0
-            }
-            
-            return {
-              ...item,
-              input_show: false
-            }
+        if(res.result.list && res.result.list.length) {
+          this.setData({
+            list: res.result.list.map(item => {
+              // 认识
+              if(item.party_info && item.party_info.length) {
+                item.knows = item.party_info[0].know_me.length
+              } else {
+                item.knows = 0
+              }
+  
+              // 点赞
+              if(item.like_list){
+                item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
+                item.likes = item.like_list.length
+              } else {
+                item.is_liked = false
+                item.likes = 0
+              }
+              
+              return {
+                ...item,
+                input_show: false
+              }
+            })
           })
-				})
+        }
       },
       fail: err => {
         console.error('index-getImageList', err)
       },
       complete: res => {
-        _this.$hideLoading()
+        this.$hideLoading()
       }
     })
   },
