@@ -4,6 +4,8 @@ const { globalData } = getApp()
 
 Page({
 	data: {
+    enterprise: 0,
+    enterprise_arr: [], // 企业数据
     name: '左木子', // 名称
     sex_arr: ['保密','男', '女'], 
     sex: 1, // 性别 index
@@ -12,13 +14,50 @@ Page({
     image: [] // 形象
   },
 	async onLoad() {
+    this.getEnterprise()
   },
   onShow() {},
+  // 获取企业
+  getEnterprise() {
+    let _this = this
+    this.$showLoading({title:"加载中"})
+    // 调用云函数
+    wx.cloud.callFunction({
+      name: 'enterprise',
+      data: {
+				action: 'query',
+			},
+      success: res => {
+        console.log('res', res)
+        const { errMsg, requestID, result} = res
+        if(result && result.data && result.data.length) {
+					this.setData({
+						enterprise_arr: result.data
+					})
+        }
+      },
+      fail: err => {
+        console.error('getDetail-err', err)
+        this.$showToast({
+          title: '获取详情失败',
+          icon: 'fail',
+        })
+      },
+      complete(){
+        _this.$hideLoading()
+      }
+    })
+  },
+  // 名字 - 改变
   nameChange(e) {
     this.data.name = e.detail.value
-    // this.setData({
-    //   "name": e.detail.value
-    // })
+  },
+  // 企业- 改变
+  enterpriseChange(e){
+    const { value, cursor, keyCode } = e.detail
+    this.setData({
+      "enterprise": value
+    })
   },
   // 性别- 改变
   sexChange(e){
@@ -103,13 +142,10 @@ Page({
       })
       return false
     }
-    // // 内容
-    // if(!this.data.image && !this.data.image.length) {
-    //   this.$showModal({
-    //     title: '形象不能为空'
-    //   })
-    //   return false
-    // }
+    
+    this.$showLoading({
+      title: "提交中"
+    })
 
     // 调用云函数
     wx.cloud.callFunction({
@@ -120,22 +156,32 @@ Page({
         gender: this.data.sex,
         phone: this.data.phone,
         image: this.data.image ? this.data.image[0] : '',
-        enterprise_id: globalData.enterprise_id, // 公司编码
+        enterprise: this.data.enterprise_arr[this.data.enterprise], // 公司id
 			},
       success: data => {
         console.log('shout', data)
         const { errMsg, requestID, result} = data
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
+        if(result.errMsg === "collection.add:ok") {
+          this.$showToast({
+            title: '添加成功',
+            icon: 'success',
+          })
+        }
+        if(result.errMsg === "collection.update:ok") {
+          this.$showToast({
+            title: '更新成功',
+            icon: 'success',
+          })
+        }
       },
       fail: err => {
         console.error('err', err)
         _this.$showToast({
           title: '添加失败',
-          icon: 'fail',
         })
+      },
+      complete() {
+        _this.$hideLoading()
       }
     })
     

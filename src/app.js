@@ -6,7 +6,7 @@ App({
 	globalData: {
     /* ———————————————————————— 公共参数  —————————————————————— */
     scene: false, // 进入场景
-    enterprise_id: "fbe35240-423c-4df4-8d15-27ad2a7d629a", // 企业id
+    enterprise_id: "b040a67a5deb3e6001105c2116c2ecd8", // 企业id
     openid: '', 
     // user: null, // 用户信息
     user: {

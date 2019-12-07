@@ -2,7 +2,24 @@
   
   <!-- 头部 -->
   <view class="top">
-    <view class="t-font">假装爱生活</view>
+    <view class="t-font">添加员工</view>
+  </view>
+
+  <!-- 姓名 -->
+  <view class="item">
+    <view class="item-t">企业</view>
+    <view class="item-b">
+      <picker mode="selector" 
+        bindchange="enterpriseChange" 
+        value="{{enterprise}}" 
+        range="{{enterprise_arr}}"
+        range-key="name"
+        placeholder="请选择企业">
+        <view class="picker">
+          {{enterprise_arr[enterprise].name}}
+        </view>
+      </picker>
+    </view>   
   </view>
 
   <!-- 姓名 -->

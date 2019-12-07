@@ -92,21 +92,21 @@ const queryForMy = async (params) => {
 /**
  * 查询是否有木有用户信息, 返回 _id
  */
-const queryByName = async (params) => {
-  try {
-    return await db.collection("_ACCOUNT")
-      .where({
-        "name": params.name,
-        "_enterprise_id": params.enterprise_id
-      })
-      .field({ // 过滤字段
-        _id: true,
-      })
-      .get()
-  } catch(e) {
-    console.error(e)
-  }
-}
+// const queryByName = async (params) => {
+//   try {
+//     return await db.collection("_ACCOUNT")
+//       .where({
+//         "name": params.name,
+//         "_enterprise_id": params.enterprise_id
+//       })
+//       .field({ // 过滤字段
+//         _id: true,
+//       })
+//       .get()
+//   } catch(e) {
+//     console.error(e)
+//   }
+// }
 
 /**
  * 核实身份, 返回 _id
@@ -117,7 +117,9 @@ const queryByPhone = async (params) => {
     return await db.collection("_ACCOUNT")
       .where({
         "phone": params.phone,
-        "_enterprise_id": params.enterprise_id
+        "enterprise": {
+          "_id": params.enterprise._id
+        }
       })
       .field({ // 过滤字段
         _id: true,
@@ -139,7 +141,7 @@ const queryByPhone = async (params) => {
 const createBefore = async (info) => {
   // 先查询有木有
   try {
-    const {errMsg, data} = await queryByName(info)
+    const {errMsg, data} = await queryByPhone(info)
     if (data && data.length) {
       // 更新
       return await update(data[0]._id, info)
@@ -161,7 +163,7 @@ const create = async (info) => {
     return await db.collection("_ACCOUNT")
       .add({
         data: {
-          _enterprise_id: info.enterprise_id, // 关联的公司 id
+          enterprise: info.enterprise, // 关联的公司 id
           name: info.name, // 姓名
           gender: info.gender, // 性别 0保密, 1男, 2女
           phone: info.phone, // 电话

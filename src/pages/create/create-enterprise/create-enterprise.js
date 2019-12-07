@@ -5,6 +5,7 @@ const { globalData } = getApp()
 Page({
 	data: {
     name: '畅展科技有限公司', // 名称
+    temp_images: [], // 临时形象地址, 用作展示
     image: [] // 形象
   },
 	async onLoad() {
@@ -23,8 +24,6 @@ Page({
       sizeType: ['original'], // 所选的图片的尺寸 original 原图、 compressed 压缩
       success(res) {
         let {tempFilePaths, tempFiles} = res
-        console.log('tempFilePaths', tempFilePaths)
-        console.log('tempFiles', tempFiles)
         _this.uploadImg(tempFilePaths[0])
       }, 
       fail(err) {
@@ -40,6 +39,9 @@ Page({
     let _this = this
     let temp = this.data.temp_images
     let time = new Date().getTime()
+    this.$showLoading({
+      title: "上传中"
+    })
     wx.cloud.uploadFile({
       cloudPath: 'images/' + time + '.png', // 上传至云端的路径
       filePath: img_path, // 小程序临时文件路径
@@ -54,6 +56,9 @@ Page({
       },
       fail(err) {
         console.error(err)
+      },
+      complete() {
+        _this.$hideLoading()
       }
     })
   },
@@ -70,36 +75,52 @@ Page({
     // 标题
     if(!this.data.name) {
       this.$showModal({
-        title: '名称不能为空'
+        title: '企业名称不能为空'
       })
       return false
     }
-
+    // logo
+    if(!this.data.image || !this.data.image.length) {
+      this.$showModal({
+        title: 'logo 不能为空'
+      })
+      return false
+    }
+    
+    this.$showLoading({
+      title: "提交中"
+    })
     // 调用云函数
     wx.cloud.callFunction({
-      name: 'account',
+      name: 'enterprise',
       data: {
 				action: 'create',
         name: this.data.name,
-        gender: this.data.sex,
-        phone: this.data.phone,
         image: this.data.image ? this.data.image[0] : '',
-        enterprise_id: globalData.enterprise_id, // 公司编码
 			},
       success: data => {
-        console.log('shout', data)
         const { errMsg, requestID, result} = data
-        _this.$showToast({
-          title: '添加成功',
-          icon: 'success',
-        })
+        if(result.errMsg === "collection.add:ok") {
+          this.$showToast({
+            title: '添加成功',
+            icon: 'success',
+          })
+        }
+        if(result.errMsg === "collection.update:ok") {
+          this.$showToast({
+            title: '更新成功',
+            icon: 'success',
+          })
+        }
       },
       fail: err => {
         console.error('err', err)
         _this.$showToast({
           title: '添加失败',
-          icon: 'fail',
         })
+      },
+      complete() {
+        _this.$hideLoading()
       }
     })
     
