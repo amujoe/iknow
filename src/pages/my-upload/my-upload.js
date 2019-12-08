@@ -77,9 +77,7 @@ Page({
    * */ 
   todoLiked(e) {
     let _this = this
-    this.$showLoading({
-      title: '点赞进行中',
-    })
+    this.$showLoading({})
     let id = e.currentTarget.dataset.id
     // 调用云函数
     wx.cloud.callFunction({

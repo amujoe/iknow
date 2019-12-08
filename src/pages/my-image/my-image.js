@@ -40,7 +40,6 @@ Page({
       data: {
 				action: 'queryById',
 				id: this.data.id,
-        enterprise_id: globalData.enterprise_id,
 			},
       success: res => {
         console.log('res', res)

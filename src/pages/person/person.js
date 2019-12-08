@@ -1,6 +1,6 @@
 // 获取应用实例
 const db = wx.cloud.database()
-const { globalData } = getApp()
+const { globalData, loginFn } = getApp()
 
 Page({
 	data: {
@@ -16,18 +16,32 @@ Page({
 			total: 0,
 		}
   },
-	onLoad(option) {
-		this.data.id = option.id
-    // console.log(option)
-    if(option.id) {
+	async onLoad(option) {
+    this.data.id = option.id
+    // 判断是否登陆
+    if(!globalData.user) {
+      const isLogged = await loginFn()
+      // 已经登陆
+      if(isLogged) {
+        this.getDetail()
+        this.getImageDetail()
+        this.getTagsDetail()
+      }
+    } else {
       this.getDetail()
       this.getImageDetail()
       this.getTagsDetail()
-    } else {
-      console.error('没有传入参数')
+    }
+    console.log("isme", globalData.user._id === option.id)
+    // 设置标题
+    if(globalData.user._id === option.id){
+      wx.setNavigationBarTitle({
+        title: "这是传说"
+      })
     }
   },
-  onShow() {},
+  onShow() {
+  },
   /**
 	 * 获取详情
 	 */
@@ -40,7 +54,7 @@ Page({
       data: {
 				action: 'queryById',
 				id: this.data.id,
-        enterprise_id: globalData.enterprise_id,
+        enterprise_id: globalData.enterprise._id,
 			},
       success: res => {
         console.log('res', res)
@@ -176,7 +190,7 @@ Page({
         tag: this.data.input_tag,
         originator: globalData.user._id, // 发起人 id
         party: this.data.info._id, // 当事人 id
-        enterprise_id: globalData.enterprise_id, // 公司编码
+        enterprise_id: globalData.enterprise._id, // 公司编码
 			},
       success: res => {
         if(res.result.errMsg === "collection.add:ok") {
@@ -267,7 +281,7 @@ Page({
         originator: globalData.user._id, // 发起人 id
         party: this.data.info._id, // 当事人 id
         party_name: this.data.info.name, // 当事人姓名
-        enterprise_id: globalData.enterprise_id, // 公司编码
+        enterprise_id: globalData.enterprise._id, // 公司编码
 			},
       success: data => {
         console.log('pers', data)
@@ -313,5 +327,13 @@ Page({
         this.$hideLoading()
       }
     })
+  },
+  // 分享
+  onShareAppMessage() {
+    return {
+      title: "哇咔咔, 有人爆了你的黑料哦, 赶快去一探究竟吧!",
+      path: "/pages/person/person?id=" + this.data.id,
+      imageUrl: ""
+    }
   }
 });

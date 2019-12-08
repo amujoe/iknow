@@ -5,31 +5,7 @@ Page({
     user: null, // 用户授权信息
     phone: "13260269699", // 电话
     account: null, // 账户信息
-    enterprise_list: [
-      {
-        "_id": "b040a67a5deb4bad01142d3a3db1b0b0",
-        "avatar": "",
-        "enterprise": {
-          "_id": "b040a67a5deb3e6001105c2116c2ecd8",
-          "logo": "cloud://test-cy001.7465-test-cy001-1300855043/images/1575698847969.png",
-          "name": "畅展科技有限公司"
-        },
-        "gender": 1,
-        "name": "杨乔",
-        "phone": "13260269699"
-      },
-      {
-        "_id": "7799745c5deb4c1b0113c9ec2a84d466",
-        "avatar": "",
-        "enterprise": {
-          "_id": "7799745c5deb49220112f67e4e390cfa",
-          "name": "畅移(上海)科技有限公司"
-        },
-        "gender": 1,
-        "name": "左木子",
-        "phone": "13260269699"
-      }
-    ] // 企业
+    enterprise_list: [] // 企业
   },
 	async onLoad() {
   },
@@ -44,7 +20,7 @@ Page({
         name: 'user',
         data: {
           action: 'create',
-          enterprise_id: globalData.enterprise_id,
+          enterprise_id: globalData.enterprise._id,
           ...e.detail.userInfo
         },
         success: data => {

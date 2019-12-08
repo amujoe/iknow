@@ -1,7 +1,5 @@
 import {showLoading, hideLoading, showToast, showModal} from './utils/tips'
 
-import { debounce } from './utils/fnc'
-
 App({
 	globalData: {
     /* ———————————————————————— 公共参数  —————————————————————— */
@@ -23,8 +21,6 @@ App({
         traceUser: true, //是否在将用户访问记录到用户管理中
       })
     }
-    // 登录
-    this.login()
 
     //  版本更新
     this.systemUpdateFn()
@@ -32,7 +28,6 @@ App({
     this.getSystemInfo()
     // 页面增强
     this.enhancePage()
-    
 	},
 	onShow() {
   },
@@ -101,27 +96,37 @@ App({
         $showModal: showModal,
         $showLoading: showLoading,
         $hideLoading: hideLoading,
-        $debounce: debounce // 防多触
       }))
     }
   },
   // 登录
-  async login() {
+  async loginFn() {
     let _this = this
+    let resolve = null
+    let reject = null
+    const promise = new Promise((res, rej) => {
+      resolve = res
+      reject = rej
+    })
     wx.getStorage({
       key: 'USER',
       success: function(res){
         // success
         _this.globalData.user = res.data
         _this.globalData.enterprise = res.data.enterprise
+        resolve(true)
       },
       fail: function(err) {
         // fail
-        console.log('err', err)
+        wx.redirectTo({
+          url: '/pages/join/join',
+        })
+        reject(false)
       },
       complete: function() {
         // complete
       }
     })
+    return promise
   },
 });
