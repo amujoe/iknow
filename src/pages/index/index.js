@@ -48,8 +48,6 @@ Page({
       mask: true
     })
     let limit = this.data.limit
-    console.log('3', globalData)
-    console.log('3', globalData.enterprise)
     try{
       // 调用云函数
       wx.cloud.callFunction({
@@ -91,7 +89,6 @@ Page({
           console.error('index-getImageList', err)
         },
         complete: res => {
-          console.log('res', res)
           this.$hideLoading()
         }
       })
@@ -135,7 +132,6 @@ Page({
   },
   // 认识01. 显示input
   todoShowInput(e){
-    console.log('e', e)
     let id = e.currentTarget.dataset.id
     this.data.temp_id = e.currentTarget.dataset.party
     this.data.temp_name = e.currentTarget.dataset.name
@@ -157,7 +153,6 @@ Page({
   },
   // 认识03.  input 完成
   inputDone: throttle(function(e) {
-    console.log('12')
     let name = e.detail.value
     if(name === this.data.temp_name) {
       this.$showToast({
@@ -166,7 +161,7 @@ Page({
       this.sendInfo()
     } else {
       this.$showToast({
-        title: '我信你个鬼'
+        title: '我想你还需要再深入认识一下ta'
       })
     }
   }, 3000),
@@ -190,7 +185,6 @@ Page({
   },
   // swiperChange
   swiperChange(e) {
-    console.log('e', e)
     let list = this.data.list.map(item => {
       item.input_show = false
       return item
@@ -200,4 +194,19 @@ Page({
       list: list
     })
   },
+  // 查看大图
+  previewImage(e) {
+    let url = e.currentTarget.dataset.image
+    let arr = []
+    this.data.list.forEach(item => {
+      arr.push(item.image)
+    })
+    if(url) {
+      wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: arr, // 需要预览的图片http链接列表
+      })
+    }
+   
+  }
 })

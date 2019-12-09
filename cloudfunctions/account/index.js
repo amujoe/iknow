@@ -36,6 +36,34 @@ const query = async (params) => {
   }
 }
 
+
+/**
+ * 查询 企业下的 用户信息, 
+ * 列表用
+ */
+const queryByKey = async (params) => {
+  try {
+    return await db.collection("_ACCOUNT")
+      .where({
+        "enterprise": {
+          "_id": params.enterprise_id
+        },
+        "name": params.keyword
+      })
+      .field({ // 过滤字段
+        _id: true,
+        name: true, // 姓名
+        gender: true, // 性别 0保密, 1男, 2女
+        phone: true, // 电话
+        avatar: true, // 头像
+      })
+      .orderBy('name', 'asc')
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
 /**
  * 查询用户详情
  * 详情用
@@ -295,6 +323,10 @@ exports.main = (event, context) => {
     // 根据名字查 id
     case 'queryByName': {
       return queryByName(event)
+    }
+    // 根据名字查人
+    case 'queryByKey': {
+      return queryByKey(event)
     }
     // 核实手机号
     case 'queryByPhone': {

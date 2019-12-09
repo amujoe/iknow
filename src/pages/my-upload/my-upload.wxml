@@ -1,8 +1,4 @@
 <view class="container p-t-20">
-  <!-- title -->
-  <view class="title">
-    <i class="iconfont"></i>我的爆料
-  </view>
   <!-- 形象 -->
   <view class="image-box m-t-10">
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">

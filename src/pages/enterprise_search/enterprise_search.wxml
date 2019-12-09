@@ -3,12 +3,13 @@
 <view class="container">
 
   <view class="search-box">
-    <view class="search font-12" bindtap="goSearch">请输入姓名</view>
+    <view class="search">
+      <input type="text" bindinput="inputChange" bindconfirm="search" placeholder="请输入姓名" />
+    </view>
   </view>
-
   <!-- 列表 -->
   <view class="list-box">
-    <block wx:for="{{list}}" wx:key="{{index}}">
+    <block wx:if="{{list.length && !no_more}}" wx:for="{{list}}" wx:key="{{index}}">
       <view class="item" data-id="{{item._id}}" bindtap="goPersonDetail">
         <view class="i-img">
           <image wx:if="{{item.avatar}}" src="{{item.avatar}}" />
@@ -17,7 +18,7 @@
         <view class="i-name font-14 m-l-10">{{item.name}}</view>
       </view>
     </block>
-    <view wx:if="{{no_more}}" class="no-more font-12 m-t-10">没有更多了</view>
+    <view wx:if="{{!list.length && no_more}}" class="no-more font-12 m-t-30">没有找到此人的信息</view>
   </view>
 
 </view>

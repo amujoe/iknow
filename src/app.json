@@ -2,6 +2,7 @@
   "pages":[
 		"pages/index/index",
 		"pages/enterprise/enterprise",
+		"pages/enterprise_search/enterprise_search",
     "pages/my/my",
     "pages/person/person",
     "pages/about/about",

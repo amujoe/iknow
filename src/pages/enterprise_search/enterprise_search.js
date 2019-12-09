@@ -4,68 +4,50 @@ const { globalData, loginFn } = getApp()
 
 Page({
 	data: {
+    input_value: "",
     list: [], // 列表
     no_more: false, // 没有更多
-    pagination: {
-			page: 1,
-			limit: 10
-    },
   },
 	async onLoad() {
-    // 判断是否登陆
-    if(!globalData.user) {
-      const isLogged = await loginFn()
-      // 已经登陆
-      if(isLogged) {
-        this.getInfoList()
-      }
-    } else {
-      this.getInfoList()
-    }
   },
   onShow() {},
   // 跳转详情
   goPersonDetail(e) {
-    console.log('e', e.currentTarget.dataset.id)
-    wx.navigateTo({
+    wx.redirectTo({
       url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
     })
   },
-  // 到底部
-  onReachBottom() {
-    if(!this.data.no_more) {
-      this.data.pagination.page += 1
+  // input 改变
+  inputChange(e){
+    this.data.input_value = e.detail.value
+  },
+   // 搜索
+  search() {
+    if(this.data.input_value) {
       this.getInfoList()
     }
   },
-  // 获取详情
+  // 查询
   getInfoList() {
     this.$showLoading({title:"加载中"})
-    let page = this.data.pagination.page
     // 调用云函数
     wx.cloud.callFunction({
       name: 'account',
       data: {
-        action: 'query',
+        action: 'queryByKey',
         enterprise_id: globalData.enterprise._id,
-        page: page,
-        limit: this.data.pagination.limit,
+        keyword: this.data.input_value
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.data && result.data.length) {
-          if (page === 1) {
             this.setData({
-              list: result.data
+              list: result.data,
+              no_more: false
             })
-          } else {
-            this.setData({
-              list: [...this.data.list, ...result.data]
-            })
-          }
         } else {
           this.setData({
+            list: [],
             no_more: true
           })
         }
@@ -82,9 +64,9 @@ Page({
     })
   },
   //search input 获取焦点 or 失去焦点
-  goSearch() {
-    wx.navigateTo({
-      url: '/pages/enterprise_search/enterprise_search',
+  focusBlur() {
+    this.setData({
+      isSearch: !this.data.isSearch
     })
   }
 });
