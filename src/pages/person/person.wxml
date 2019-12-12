@@ -36,11 +36,15 @@
   <view class="image-box m-t-10">
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item">
-        <view class="i-img">
+        <view class="i-img" data-image="{{item.image}}" bindtap="previewImage">
           <image src="{{item.image}}" mode="aspectFill" />
         </view>
-        <view class="i-like">
-          <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}</view>
+        <view class="i-bottom">
+          <view>{{item.originator_name}}</view>
+          <view class="i-like">
+              <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}
+          </view>
+        </view>
       </view>
     </block>
     <view class="image-null" wx:if="{{!image_list.length}}">还没有人给 Ta 贴标签哦</view>

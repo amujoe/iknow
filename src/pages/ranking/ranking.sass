@@ -1,0 +1,36 @@
+@import "~@/styles/base/vw"
+@import "~@/styles/theme/color"
+
+.container
+  .search-box
+    padding: vw(10) vw(20)
+    background: #efefef
+    border-bottom: vw(1) solid $border-color
+    .search
+      height: vw(35)
+      line-height: vw(35)
+      text-align: center
+      border-radius: vw(4)
+      background: #fff
+      color: $text-placeholder
+      border: vw(1) solid #dedede
+        
+  .list-box
+    padding-left: vw(20)
+    padding-bottom: vw(40)
+    .item
+      display: flex
+      align-items: center
+      padding: vw(10) 0
+      border-bottom: vw(1) solid $border-color
+      .i-img,.i-img image
+        width: vw(120)
+        height: vw(160)
+        border-radius: vw(4)
+      .i-img
+        background: #efefef
+  .no-more
+    text-align: center
+    color: $text-secondary
+      
+  

@@ -8,23 +8,31 @@ const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
  * 查询企业下的
+ * 排行榜
  */
-const query = async (params) => {
-  let page = params.page || 1
-  let limit = params.limit || 10
+const queryForRanking = async (params) => {
+  let limit = params.limit ? params.limit : 15
+  const $ = db.command.aggregate
   try {
-    return await db.collection("_IMAGE")
-      .where({
+    return await db.collection("_IMAGE").aggregate()
+      .match({
         "_enterprise_id": params.enterprise_id
       })
-      .skip(limit * (page - 1)) // 跳过结果集中的前 10 条，从第 11 条开始返回, 用于分页
-      .limit(limit) // 限制返回数量为 10 条
-      .field({ // 过滤字段
-        _id: true,
-        image: true, // 图像
-        originator: true // 发起人
+      .addFields({
+        "likes": $.size('$like_list')
       })
-      .get()
+      .sort({
+        likes: -1
+      })
+      .limit(limit)
+      .project({ // 过滤
+        _id: true,
+        image: true,
+        likes: true,
+        party_name: true,
+        originator_name: true, // 发起人
+      })
+      .end()
   } catch(e) {
     console.error(e)
   }
@@ -52,8 +60,8 @@ const queryByRandom = async (params) => {
       .project({ // 过滤
         _id: true,
         image: true,
-        party: true,
         party_name: true,
+        originator_name: true,
         like_list: true,
         party_info: true,
       })
@@ -82,6 +90,7 @@ const queryByParty = async (params) => {
           _id: true,
           image: true, // 图像
           originator: true, // 发起人
+          originator_name: true, // 发起人
           like_list: true, // 点赞人
         })
         .get()
@@ -109,6 +118,7 @@ const queryByOriginator = async (params) => {
         _id: true,
         image: true, // 图像
         like_list: true, // 点赞人
+        party_name: true, // 点赞人
       })
       .get()
   } catch(e) {
@@ -129,6 +139,7 @@ const create = async (info) => {
           _enterprise_id: info.enterprise_id, // 公司 id
           image: info.image, // 形象
           originator: info.originator, // 发起人 id
+          originator_name: info.originator_name, // 发起人 id
           party: info.party, // 当事人 id
           party_name: info.party_name, // 当事人 id
           like_list: [], // 点赞人列表
@@ -228,9 +239,9 @@ const update = async (info) => {
  */
 exports.main = (event, context) => {
   switch (event.action) {
-    // 查询
-    case 'query': {
-      return query(event)
+    // 查询排行榜
+    case 'queryForRanking': {
+      return queryForRanking(event)
     }
     // 随机获取形象
     case 'queryByRandom': {

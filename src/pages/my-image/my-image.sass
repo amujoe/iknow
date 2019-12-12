@@ -86,7 +86,7 @@
   .item
     width: vw(160)
     box-sizing: border-box
-    padding: vw(10) 0 0 vw(10)
+    padding: vw(10) vw(10) 0 vw(10)
     // margin: vw(10) 0 0 vw(10)
     // border: vw(1) solid #eeeeee
     background: $bac-white
@@ -94,13 +94,15 @@
     .i-img,.i-img image
       width: vw(140)
       height: vw(140)
-    .i-like
-      text-align: center
-      line-height: vw(35)
+    .i-bottom
+      display: flex
+      justify-content: space-between
       font-size: vw(14)
       color: $text-default
-      text
-        padding-right: vw(5)
+      line-height: vw(35)
+      .i-like
+        text
+          padding-right: vw(5)
     .is-liked
       color: #FF0000
   .image-null

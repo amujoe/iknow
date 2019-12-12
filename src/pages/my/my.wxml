@@ -29,21 +29,10 @@
     </view>
   </view>
 
-  <!-- 个人信息 
-  <view class="info">
-    <view class="txt">
-      <open-data class="name" type="userNickName" lang="zh_CN"></open-data>
-      <view class="des">获得 0 称赞</view>
-    </view>
-    <view class="avatar">
-      <open-data type="userAvatarUrl"></open-data>
-    </view>
-  </view>-->
-
   <!-- menu -->
   <view class="menu-box">
     <view class="menu" bindtap="goMyImage">
-      <text class="icon iconfont iconRectangleCopy21"></text>
+      <text class="icon iconfont iconRectangleCopy4"></text>
       <text class="txt">我的形象</text>
     </view>
     <view class="menu" bindtap="goMyUpload">
@@ -56,7 +45,7 @@
     </button>
     <view class="menu" bindtap="goAbout">
       <text class="icon iconfont iconRectangleCopy6"></text>
-      <text class="txt">关于我们</text>
+      <text class="txt">关于我</text>
     </view>
   </view> 
 

@@ -109,9 +109,9 @@ const queryForMy = async (params) => {
         name: true, // 姓名
         gender: true, // 性别 0保密, 1男, 2女
         avatar: true, // 头像
-        image_list: true, // 标签
-        i_know: true, // 标签
-        know_me: true // 标签
+        image_list: true, // 形象
+        i_know: true, // 我认识
+        know_me: true // 认识我
       })
       .end()
   } catch(e) {

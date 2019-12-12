@@ -32,7 +32,6 @@ Page({
       this.getImageDetail()
       this.getTagsDetail()
     }
-    console.log("isme", globalData.user._id === option.id)
     // 设置标题
     if(globalData.user._id === option.id){
       wx.setNavigationBarTitle({
@@ -189,7 +188,9 @@ Page({
 				action: 'createBefore',
         tag: this.data.input_tag,
         originator: globalData.user._id, // 发起人 id
+        originator_name: globalData.user.name, // 发起人 id
         party: this.data.info._id, // 当事人 id
+        party_name: this.data.info.name, // 当事人姓名
         enterprise_id: globalData.enterprise._id, // 公司编码
 			},
       success: res => {
@@ -279,6 +280,7 @@ Page({
 				action: 'create',
         image: img_url,
         originator: globalData.user._id, // 发起人 id
+        originator_name: globalData.user.name, // 发起人 id
         party: this.data.info._id, // 当事人 id
         party_name: this.data.info.name, // 当事人姓名
         enterprise_id: globalData.enterprise._id, // 公司编码
@@ -327,6 +329,18 @@ Page({
         this.$hideLoading()
       }
     })
+  },
+  // 查看大图
+  previewImage(e) {
+    let url = e.currentTarget.dataset.image
+    let arr = [url]
+    if(url) {
+      wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: arr, // 需要预览的图片http链接列表
+      })
+    }
+   
   },
   // 分享
   onShareAppMessage() {

@@ -197,10 +197,7 @@ Page({
   // 查看大图
   previewImage(e) {
     let url = e.currentTarget.dataset.image
-    let arr = []
-    this.data.list.forEach(item => {
-      arr.push(item.image)
-    })
+    let arr = [url]
     if(url) {
       wx.previewImage({
         current: url, // 当前显示图片的http链接
@@ -208,5 +205,11 @@ Page({
       })
     }
    
+  },
+  // 星云榜
+  goRanking() {
+    wx.navigateTo({
+      url: '/pages/ranking/ranking',
+    })
   }
 })

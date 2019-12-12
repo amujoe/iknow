@@ -170,5 +170,16 @@ Page({
         this.$hideLoading()
       }
     })
-  }
+  },
+  // 查看大图
+  previewImage(e) {
+    let url = e.currentTarget.dataset.image
+    let arr = [url]
+    if(url) {
+      wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: arr, // 需要预览的图片http链接列表
+      })
+    }
+  },
 });

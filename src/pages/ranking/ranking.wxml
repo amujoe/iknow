@@ -1,0 +1,21 @@
+<view class="container">
+
+  <!-- 列表 -->
+  <view class="list-box">
+    <block wx:for="{{list}}" wx:key="{{index}}">
+      <view class="item" data-image="{{item.image}}" bindtap="previewImage">
+        <view class="i-img">
+          <image src="{{item.image}}" />
+        </view>
+        <view class="i-right p-l-20">
+          <view class="font-14 f-w-200">星云排行: {{index + 1}}</view>
+          <view class="font-14 f-w-200 m-t-15">点赞指数: {{item.likes}}</view>
+          <view class="font-14 f-w-200 m-t-15">当事人: {{item.party_name}}</view>
+          <view class="font-14 f-w-200 m-t-15">发起人: {{item.originator_name}}</view>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{no_more}}" class="no-more font-12 m-t-10">没有更多了</view>
+  </view>
+
+</view>

@@ -9,10 +9,17 @@
         <view class="cal font-12 f-w-200">{{date.cal}}</view>
       </view>
     </view>
-    <!-- refresh -->
-    <view class="refresh m-r-20" bindtap="changeOther">
-      <text class="iconfont iconRectangleCopy7 font-30 f-w-100"></text>
-      <text class="font-10 f-w-200">换一批</text>
+    <view class="t-right">
+      <!-- refresh -->
+      <view class="refresh m-r-20" bindtap="changeOther">
+        <text class="iconfont iconRectangleCopy7 font-30 f-w-100"></text>
+        <text class="font-10 f-w-200">换一批</text>
+      </view>
+      <!-- ranking -->
+      <view class="refresh m-r-20" bindtap="goRanking">
+        <text class="iconfont iconRectangleCopy23 font-30 f-w-100"></text>
+        <text class="font-10 f-w-200">星云榜</text>
+      </view>
     </view>
   </view>
   <!-- swiper -->

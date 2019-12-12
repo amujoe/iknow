@@ -7,26 +7,6 @@ const db = cloud.database()               // 初始化 database
 const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
- * 查询企业下的
- */
-const queryByName = async (params) => {
-  try {
-    return await db.collection("_TAG")
-      .where({
-        "party": params.party,
-        "tag": params.tag,
-        "_enterprise_id": params.enterprise_id
-      })
-      .field({ // 过滤字段
-        _id: true,
-      })
-      .get()
-  } catch(e) {
-    console.error(e)
-  }
-}
-
-/**
  * 查询
  * 根据当事人的id
  */
@@ -43,7 +23,7 @@ const queryByParty = async (params) => {
       .field({ // 过滤字段
         _id: true,
         tag: true, // 图像
-        originator: true // 发起人
+        originator_name: true // 发起人
       })
       .get()
   } catch(e) {
@@ -68,7 +48,7 @@ const queryByOriginator = async (params) => {
       .field({ // 过滤字段
         _id: true,
         tag: true, // 图像
-        party: true, // 当事人
+        party_name: true, // 当事人
       })
       .get()
   } catch(e) {
@@ -89,7 +69,9 @@ const create = async (info) => {
           _enterprise_id: info.enterprise_id, // 公司 id
           tag: info.tag, // 姓名
           originator: info.originator, // 发起人 id
+          originator_name: info.originator_name, // 发起人
           party: info.party, // 当事人 id
+          party_name: info.party_name, // 当事人
           likes: 0, // 点赞
           create_time: db.serverDate(), // 创建时间(服务端时间)
           delete: 0, // 标记删除, 0 未删除 , 1 删除

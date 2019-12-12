@@ -1,3 +1,8 @@
+/*
+ * @Author: amujoe
+ * @Date: 2019-12-09 14:45:07
+ * @Description: file content
+ */
 // 获取应用实例
 const db = wx.cloud.database()
 const { globalData, loginFn } = getApp()
@@ -5,11 +10,8 @@ const { globalData, loginFn } = getApp()
 Page({
 	data: {
     list: [], // 列表
+    limit: 20, // 只展示前20
     no_more: false, // 没有更多
-    pagination: {
-			page: 1,
-			limit: 10
-    },
   },
 	async onLoad() {
     // 判断是否登陆
@@ -24,48 +26,24 @@ Page({
     }
   },
   onShow() {},
-  // 跳转详情
-  goPersonDetail(e) {
-    console.log('e', e.currentTarget.dataset.id)
-    wx.navigateTo({
-      url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
-    })
-  },
-  // 到底部
-  onReachBottom() {
-    if(!this.data.no_more) {
-      this.data.pagination.page += 1
-      this.getInfoList()
-    }
-  },
   // 获取详情
   getInfoList() {
     this.$showLoading({title:"加载中"})
-    let page = this.data.pagination.page
-    let limit = this.data.pagination.limit
     // 调用云函数
     wx.cloud.callFunction({
-      name: 'account',
+      name: 'image',
       data: {
-        action: 'query',
+        action: 'queryForRanking',
         enterprise_id: globalData.enterprise._id,
-        page: page,
-        limit: limit,
+        limit: this.data.limit,
 			},
       success: res => {
         console.log('res', res)
         const { errMsg, requestID, result} = res
-        if(result && result.data && result.data.length) {
-          if(result.data.length < limit) {
-            this.setData({
-              list: [...this.data.list, ...result.data],
-              no_more: true
-            })
-          } else {
-            this.setData({
-              list: [...this.data.list, ...result.data],
-            })
-          }
+        if(result && result.list && result.list.length) {
+          this.setData({
+            list: result.list
+          })
         } else {
           this.setData({
             no_more: true
@@ -83,10 +61,16 @@ Page({
       }
     })
   },
-  //search input 获取焦点 or 失去焦点
-  goSearch() {
-    wx.navigateTo({
-      url: '/pages/enterprise-search/enterprise-search',
-    })
-  }
+  // 查看大图
+  previewImage(e) {
+    let url = e.currentTarget.dataset.image
+    let arr = [url]
+    if(url) {
+      wx.previewImage({
+        current: url, // 当前显示图片的http链接
+        urls: arr, // 需要预览的图片http链接列表
+      })
+    }
+   
+  },
 });
