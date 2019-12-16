@@ -31,7 +31,7 @@
     <block wx:if="{{image_list.length}}" wx:for="{{image_list}}" wx:key="{{index}}">
       <view class="item m-t-10">
         <view class="i-img" data-image="{{item.image}}" bindtap="previewImage">
-          <image src="{{item.image}}" mode="aspectFill" />
+          <image src="{{item.image}}" mode="aspectFill"></image>
         </view>
         <view class="i-bottom">
           <view>{{item.originator_name}}</view>
