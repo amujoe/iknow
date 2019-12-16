@@ -83,6 +83,15 @@ App({
       if (_version > 700 && _SDKVersion > 243) {
         this.globalData.canUseCustomerNav = true;
       }
+      // console.log("res", res)
+      console.log("微信版本", _version)
+      console.log("基础库版本", _SDKVersion)
+      if (_SDKVersion < 275){
+        console.log("版本过低")
+        wx.redirectTo({
+          url: '/pages/base/version/version',
+        })
+      }
     } catch (e) {
       console.log("app-getSystemInfo", e);
     }

@@ -9,7 +9,8 @@
     "pages/join/join",
     "pages/my-image/my-image",
 		"pages/my-upload/my-upload",
-		"pages/ranking/ranking"
+		"pages/ranking/ranking",
+		"pages/base/version/version"
 	],
 	"subPackages": [
 		{

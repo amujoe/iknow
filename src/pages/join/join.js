@@ -5,7 +5,8 @@ Page({
     user: null, // 用户授权信息
     phone: "13260269699", // 电话
     account: null, // 账户信息
-    enterprise_list: [] // 企业
+    enterprise_list: [], // 企业
+    search_over: false, // 搜索完毕
   },
 	async onLoad() {
   },
@@ -20,7 +21,6 @@ Page({
         name: 'user',
         data: {
           action: 'create',
-          enterprise_id: globalData.enterprise._id,
           ...e.detail.userInfo
         },
         success: data => {
@@ -42,7 +42,12 @@ Page({
   },
   // 获取手机号
   getPhoneNumber(e) {
-    
+    // if(!this.data.user) {
+    //   this.$showModal({
+    //     content: "请先授权用户信息"
+    //   })
+    //   return false
+    // }
     // 调用云函数
     wx.cloud.callFunction({
       name: 'common',
@@ -82,11 +87,16 @@ Page({
         const { errMsg, requestID, result} = data
         if(result.data && result.data.length) {
           this.setData({
+            search_over: true,
             enterprise_list: result.data
           })
         } else {
+          this.setData({
+            search_over: true,
+          })
           this.$showModal({
-            title: "对不起, 你还不是圈内人"
+            title: "没有找到你的身份牌",
+            content: "请联系贵公司管理员"
           })
         }
       },

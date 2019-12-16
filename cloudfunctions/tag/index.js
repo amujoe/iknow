@@ -7,6 +7,26 @@ const db = cloud.database()               // 初始化 database
 const { OPENID } = cloud.getWXContext()   // 获取 openid
 
 /**
+ * 查询当事人有木有此标签
+ */
+const queryByName = async (params) => {
+  try {
+    return await db.collection("_TAG")
+      .where({
+        "party": params.party,
+        "tag": params.tag,
+        "_enterprise_id": params.enterprise_id
+      })
+      .field({ // 过滤字段
+        _id: true,
+      })
+      .get()
+  } catch(e) {
+    console.error(e)
+  }
+}
+
+/**
  * 查询
  * 根据当事人的id
  */
@@ -90,10 +110,10 @@ const create = async (info) => {
 const createBefore = async (info) => {
   // 先查询有木有
   try {
-    const {errMsg, data} = await queryByName(info)
-    if (data && data.length) {
+    const res = await queryByName(info)
+    if (res.data && res.data.length) {
       // 更新
-      return {errMsg, data}
+      return res
     } else {
       // 写入
       return await create(info)

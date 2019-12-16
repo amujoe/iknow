@@ -200,7 +200,7 @@ Page({
             icon: 'success',
           })
         }
-        if(res.result.errMsg = "collection.get:ok") {
+        if(res.result.errMsg === "collection.get:ok") {
           _this.$showToast({
             title: '别的小伙伴和你想法一样',
           })

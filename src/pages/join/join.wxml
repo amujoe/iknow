@@ -2,9 +2,21 @@
 
 
   <view class="top-text">
-    <view>手机号</view>
-    <view>是你在这个圈子的身份标示</view>
+  <!-- 
+    <view wx:if="{{!user}}">
+      <view>头像, 昵称</view>
+      <view>有助于在圈子里快速找到朋友</view>
+    </view> -->
+    <view>
+      <view>手机号</view>
+      <view>是你在这个圈子的身份标示</view>
+    </view>
   </view>
+
+  <!-- 授权用户信息 
+  <view class="p-l-20 p-r-20">
+    <button class="btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权用户信息</button>
+  </view>-->
 
   <!-- 提交 -->
   <view class="p-l-20 p-r-20">
@@ -13,7 +25,7 @@
 
   <!-- logo -->
   <view class="enterprise m-t-30" 
-    wx:if="{{enterprise_list && enterprise_list.length}}">
+    wx:if="{{search_over && enterprise_list && enterprise_list.length}}">
     <view class="font-12 m-t-10 m-b-10">为您找到 {{enterprise_list.length}} 个企业, 请选择进入的企业:</view>
     <block wx:for="{{enterprise_list}}" wx:key="index">
       <view class="item" data-item="{{item}}" bindtap="chooseEnterprise">
@@ -25,6 +37,10 @@
         </view>
       </view>
     </block>
+  </view>
+
+  <view class="text-secondary font-14 m-t-30" wx:if="{{search_over && !enterprise_list.length}}">
+    <text>没有找到你的身份, 你联系贵公司管理员</text>
   </view>
 
 </view>

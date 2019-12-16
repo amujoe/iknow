@@ -10,7 +10,8 @@
   <view class="list-box">
     <block wx:for="{{list}}" wx:key="{{index}}">
       <view class="item" data-id="{{item._id}}" bindtap="goPersonDetail">
-        <view class="i-img">
+        <!--  gender 1男 2女-->
+        <view class="i-img {{item.gender === '2' ? 'i-girl' : 'i-boy'}}">
           <image wx:if="{{item.avatar}}" src="{{item.avatar}}" />
           <text wx:else class="font-16">{{tools.fristname(item.name)}}</text>
         </view>
