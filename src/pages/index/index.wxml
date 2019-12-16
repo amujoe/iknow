@@ -41,7 +41,7 @@
              data-name="{{item.party_name}}"
              bindtap="todoShowInput">我认识 Ta</view>
             <view class="i-input" wx:if="{{item.input_show}}">
-              <input type="text" bindinput="inputChange" confirm-type="done" bindconfirm="inputDone" placeholder="输入 ta 的名字" />
+              <input type="text" bindinput="inputChange" focus="true" confirm-type="done" bindblur="inputHide" bindconfirm="inputDone" placeholder="输入 ta 的名字" />
             </view>
           </view>
         </view>

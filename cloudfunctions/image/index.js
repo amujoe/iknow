@@ -153,13 +153,18 @@ const create = async (info) => {
 
 /**
  * 删除形象
- * @param {*} id 
  */
-const remove = async (id) => {
+const remove = async (params) => {
   try {
+    const fileIDs = [params.image]
+    const result = await cloud.deleteFile({
+      fileList: fileIDs,
+    })
+    console.log('result', result)
+
     return await db.collection("_IMAGE")
       .where({
-        "_id": id
+        "_id": params._id
       })
       .remove()
   } catch(e) {
@@ -261,7 +266,7 @@ exports.main = (event, context) => {
     }
     // 删除
     case 'remove': {
-      return remove(event.id)
+      return remove(event)
     }
     // 点赞
     case 'clickLike': {

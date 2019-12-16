@@ -8,13 +8,16 @@
         </view>
         <view class="i-bottom">
           <view>{{item.party_name}}</view>
+          <!--
           <view class="i-like">
             <text class="iconfont iconRectangleCopy12 {{item.is_liked ? 'is-liked' :''}}" data-id="{{item._id}}" bindtap="todoLiked"></text>{{item.likes}}
-          </view>
+          </view>-->
+          <view class="i-delete" data-id="{{item._id}}" data-image="{{item.image}}" bindtap="todoDelete">删除</view>
         </view>
       </view>
     </block>
-    <view class="image-null" wx:if="{{!image_list.length}}">你还没有爆出任何人的黑料</view>
+    <view class="image-null" wx:if="{{no_more && !image_list.length}}">你还没有爆出任何人的黑料</view>
+    <view class="image-no-more" wx:if="{{no_more && image_list.length}}">没有更多了</view>
   </view>
 
 </view>

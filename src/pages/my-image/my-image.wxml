@@ -41,7 +41,8 @@
         </view>
       </view>
     </block>
-    <view class="image-null" wx:if="{{!image_list.length}}">还没有人爆出我的黑料</view>
+    <view class="image-null" wx:if="{{no_more && !image_list.length}}">还没有人爆出我的黑料</view>
+    <view class="image-no-more" wx:if="{{no_more && image_list.length}}">没有更多了</view>
   </view>
 
 </view>

@@ -130,6 +130,16 @@ Page({
       }
     })
   },
+  // 认识01. 隐藏 input
+  inputHide() {
+    let list = this.data.list.map(item => {
+      item.input_show = false
+      return item
+    })
+    this.setData({
+      list: list
+    })
+  },
   // 认识01. 显示input
   todoShowInput(e){
     let id = e.currentTarget.dataset.id

@@ -89,8 +89,8 @@ Page({
       data: {
 				action: 'queryByParty',
         party: this.data.id, // 当事人
-        page: page,
-        limit: this.data.pagination.limit,
+        page: 1,
+        limit: 1000,
 			},
       success: res => {
         const { errMsg, requestID, result} = res

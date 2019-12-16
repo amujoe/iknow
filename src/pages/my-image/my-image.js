@@ -14,7 +14,8 @@ Page({
 			page: 1,
 			limit: 10,
 			total: 0,
-		}
+    },
+    no_more: false, // 没有更多
   },
 	onLoad(option) {
 		this.data.id = globalData.user._id
@@ -75,8 +76,8 @@ Page({
       data: {
 				action: 'queryByParty',
         party: this.data.id, // 当事人
-        page: page,
-        limit: this.data.pagination.limit,
+        page: 1,
+        limit: 1000,
 			},
       success: res => {
         const { errMsg, requestID, result} = res
@@ -104,6 +105,7 @@ Page({
   getImageDetail() {
     let _this = this
     let page = this.data.pagination.page
+    let limit = this.data.pagination.limit
     this.$showLoading({title:"加载中"})
     // 调用云函数
     wx.cloud.callFunction({
@@ -112,23 +114,33 @@ Page({
 				action: 'queryByParty',
         party: this.data.id, // 当事人
         page: page,
-        limit: this.data.pagination.limit,
+        limit: limit,
 			},
       success: res => {
         const { errMsg, requestID, result} = res
         if(errMsg === "cloud.callFunction:ok") {
-					this.setData({
-						image_list: result.data.map(item => {
-              if(item.like_list){
-                item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
-                item.likes = item.like_list.length
-              } else {
-                item.is_liked = false
-                item.likes = 0
-              }
-              return item
-            })
+
+          let list = result.data.map(item => {
+            if(item.like_list){
+              // item.is_liked = item.like_list.indexOf(globalData.user._id) !== -1
+              item.likes = item.like_list.length
+            } else {
+              // item.is_liked = false
+              item.likes = 0
+            }
+            return item
           })
+
+          if(result.data.length < limit) {
+            this.setData({
+              image_list: [...this.data.image_list, ...list],
+              no_more: true
+            })
+          } else {
+            this.setData({
+              image_list: [...this.data.image_list, ...list],
+            })
+          }
         }
       },
       fail: err => {
@@ -180,6 +192,13 @@ Page({
         current: url, // 当前显示图片的http链接
         urls: arr, // 需要预览的图片http链接列表
       })
+    }
+  },
+  // 到底部
+  onReachBottom() {
+    if(!this.data.no_more) {
+      this.data.pagination.page += 1
+      this.getImageDetail()
     }
   },
 });

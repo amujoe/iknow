@@ -1,3 +1,8 @@
+/*
+ * @Author: amujoe
+ * @Date: 2019-11-17 16:15:38
+ * @Description: file content
+ */
 // 获取应用实例
 const { globalData } = getApp();
 
@@ -5,8 +10,17 @@ Page({
 	data: {
 		user: {},
 	},
-	onLoad() {
-		this.getDetail()
+	async onLoad() {
+		// 判断是否登陆
+    if(!globalData.user) {
+      const isLogged = await loginFn()
+      // 已经登陆
+      if(isLogged) {
+        this.getDetail()
+      }
+    } else {
+      this.getDetail()
+    }
 	},
 	getDetail() {
     let _this = this
