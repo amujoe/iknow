@@ -6,7 +6,7 @@ Page({
 	data: {
     input_value: "",
     list: [], // 列表
-    no_more: false, // 没有更多
+    is_searched: false, // 已经搜索了
   },
 	async onLoad() {
   },
@@ -43,12 +43,12 @@ Page({
         if(result && result.data && result.data.length) {
             this.setData({
               list: result.data,
-              no_more: false
+              is_searched: true
             })
         } else {
           this.setData({
             list: [],
-            no_more: true
+            is_searched: true
           })
         }
       },

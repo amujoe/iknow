@@ -42,13 +42,17 @@ const query = async (params) => {
  * 列表用
  */
 const queryByKey = async (params) => {
+  // const D = cloud.database()
   try {
     return await db.collection("_ACCOUNT")
       .where({
         "enterprise": {
           "_id": params.enterprise_id
         },
-        "name": params.keyword
+        "name": db.RegExp({
+          regexp: params.keyword,
+          options: 'i',
+        })
       })
       .field({ // 过滤字段
         _id: true,

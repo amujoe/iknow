@@ -7,6 +7,7 @@
       <input type="text" bindinput="inputChange" bindconfirm="search" placeholder="请输入姓名" />
     </view>
   </view>
+  <view class="text-deputy font-12 f-w-100 m-t-15 m-b-15 p-l-20" wx:if="{{list.length && is_searched}}">为您搜到 {{list.length}} 条信息</view>
   <!-- 列表 -->
   <view class="list-box">
     <block wx:if="{{list.length && !no_more}}" wx:for="{{list}}" wx:key="{{index}}">
@@ -19,7 +20,7 @@
         <view class="i-name font-14 m-l-10">{{item.name}}</view>
       </view>
     </block>
-    <view wx:if="{{!list.length && no_more}}" class="no-more font-12 m-t-30">没有找到此人的信息</view>
+    <view wx:if="{{!list.length && is_searched}}" class="no-more font-12 m-t-30">没有搜到相关的信息</view>
   </view>
 
 </view>
