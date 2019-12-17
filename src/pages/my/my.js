@@ -4,7 +4,7 @@
  * @Description: file content
  */
 // 获取应用实例
-const { globalData } = getApp();
+const { globalData, loginFn } = getApp();
 
 Page({
 	data: {
@@ -52,7 +52,6 @@ Page({
 					this.setData({
 						user: info
 					})
-					console.log('res', this.data.user)
 				}
 
       },

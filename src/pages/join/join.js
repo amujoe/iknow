@@ -124,7 +124,6 @@ Page({
   chooseEnterprise(e){
 
     let item = e.currentTarget.dataset.item
-    console.log('item', item)
     globalData.user = item
     globalData.enterprise = item.enterprise
     wx.setStorage({

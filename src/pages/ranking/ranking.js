@@ -38,7 +38,6 @@ Page({
         limit: this.data.limit,
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.list && result.list.length) {
           this.setData({

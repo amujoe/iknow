@@ -43,7 +43,6 @@ Page({
 				id: this.data.id,
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.data && result.data.length) {
 					this.setData({

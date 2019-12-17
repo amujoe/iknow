@@ -1,3 +1,8 @@
+/*
+ * @Author: amujoe
+ * @Date: 2019-11-17 08:20:33
+ * @Description: file content
+ */
 // 获取应用实例
 const db = wx.cloud.database()
 const { globalData, loginFn } = getApp()
@@ -26,7 +31,6 @@ Page({
   onShow() {},
   // 跳转详情
   goPersonDetail(e) {
-    console.log('e', e.currentTarget.dataset.id)
     wx.navigateTo({
       url: '/pages/person/person?id=' + e.currentTarget.dataset.id,
     })
@@ -53,7 +57,6 @@ Page({
         limit: limit,
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.data && result.data.length) {
           if(result.data.length < limit) {

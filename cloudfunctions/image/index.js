@@ -160,7 +160,6 @@ const remove = async (params) => {
     const result = await cloud.deleteFile({
       fileList: fileIDs,
     })
-    console.log('result', result)
 
     return await db.collection("_IMAGE")
       .where({
@@ -192,7 +191,6 @@ const clickLike = async(params) => {
       let list = data[0].like_list || []
 
       let isLiked = list.indexOf(originator) !== -1
-      console.log('isLiked', isLiked)
       let object;
       if(isLiked) {
         object = {

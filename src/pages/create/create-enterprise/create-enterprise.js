@@ -27,7 +27,7 @@ Page({
         _this.uploadImg(tempFilePaths[0])
       }, 
       fail(err) {
-        console.log('err', err)
+        console.error('err', err)
       },
       complete() {
 

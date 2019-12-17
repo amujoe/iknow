@@ -51,8 +51,6 @@ const createBefore = async (params) => {
   // 先查询有木有
   try {
     const {errMsg, data} = await queryByName(params)
-    console.log('err', errMsg)
-    console.log('data', data)
     if (data && data.length) {
       // 更新
       return update(data[0]._id, params)

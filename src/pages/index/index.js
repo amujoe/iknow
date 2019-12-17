@@ -93,7 +93,7 @@ Page({
         }
       })
     } catch(err){
-      console.log('getImageList-err', err)
+      console.error('getImageList-err', err)
     }
   },
 
@@ -186,7 +186,7 @@ Page({
         party: this.data.temp_id
 			},
       success: res => {
-        console.log('res', res)
+        // console.log('res', res)
       },
       fail: err => {
         console.error('index-getImageList', err)

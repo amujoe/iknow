@@ -28,7 +28,6 @@ Page({
 				action: 'query',
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.data && result.data.length) {
 					this.setData({
@@ -62,7 +61,6 @@ Page({
   // 性别- 改变
   sexChange(e){
     const { value, cursor, keyCode } = e.detail
-    console.log('value', value)
     this.setData({
       "sex": value
     })
@@ -77,7 +75,6 @@ Page({
   // 入职日期- 完成
   dateChange(e) {
     const { value, cursor, keyCode } = e.detail
-    console.log('value', value)
     this.setData({
       "date": value
     })
@@ -91,12 +88,12 @@ Page({
       sizeType: ['original'], // 所选的图片的尺寸 original 原图、 compressed 压缩
       success(res) {
         let {tempFilePaths, tempFiles} = res
-        console.log('tempFilePaths', tempFilePaths)
-        console.log('tempFiles', tempFiles)
+        // console.log('tempFilePaths', tempFilePaths)
+        // console.log('tempFiles', tempFiles)
         _this.uploadImg(tempFilePaths[0])
       }, 
       fail(err) {
-        console.log('err', err)
+        console.error('err', err)
       },
       complete() {
 
@@ -159,7 +156,6 @@ Page({
         enterprise: this.data.enterprise_arr[this.data.enterprise], // 公司id
 			},
       success: data => {
-        console.log('shout', data)
         const { errMsg, requestID, result} = data
         if(result.errMsg === "collection.add:ok") {
           this.$showToast({

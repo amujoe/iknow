@@ -157,7 +157,6 @@ Component({
     },
     methods: {
         checkedChange: function checkedChange(checked, target) {
-            console.log('checked change', checked);
             if (this.data.multi) {
                 var vals = [];
                 this.data.targetList.forEach(function (item) {

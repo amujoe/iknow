@@ -121,7 +121,6 @@ Page({
       title: "删除提示",
       content: "你确定要删除这张照片嘛?",
       resolve: () => {
-        console.log('success')
         // 删除
         _this.$showLoading({})
         // 调用云函数
@@ -133,7 +132,6 @@ Page({
             image: image
           },
           success: res => {
-            console.log('data', res)
             // _this.getImageDetail()
             if(res.result.errMsg === "collection.remove:ok") {
               let list = this.data.image_list.filter(item => {

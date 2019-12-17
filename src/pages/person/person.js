@@ -56,7 +56,6 @@ Page({
         enterprise_id: globalData.enterprise._id,
 			},
       success: res => {
-        console.log('res', res)
         const { errMsg, requestID, result} = res
         if(result && result.data && result.data.length) {
 					this.setData({
@@ -232,12 +231,10 @@ Page({
       sizeType: ['original'], // 所选的图片的尺寸 original 原图、 compressed 压缩
       success(res) {
         let {tempFilePaths, tempFiles} = res
-        console.log('tempFilePaths', tempFilePaths)
-        console.log('tempFiles', tempFiles)
         _this.uploadImg(tempFilePaths[0])
       }, 
       fail(err) {
-        console.log('err', err)
+        console.error('err', err)
       },
       complete() {
 
@@ -286,7 +283,6 @@ Page({
         enterprise_id: globalData.enterprise._id, // 公司编码
 			},
       success: data => {
-        console.log('pers', data)
         _this.getImageDetail()
         _this.$showToast({
           title: '添加成功',
