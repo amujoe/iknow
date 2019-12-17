@@ -2,7 +2,9 @@ const { globalData } = getApp()
 
 Page({
 	data: {
+    radio_checked: false, // 单选是否选中
     user: null, // 用户授权信息
+    user_id: "", // 返回的 id
     phone: "13260269699", // 电话
     account: null, // 账户信息
     enterprise_list: [], // 企业
@@ -11,11 +13,20 @@ Page({
 	async onLoad() {
   },
   onShow() {},
+  // 单选按钮组
+  radioChange(e) {
+    console.log('e', e)
+  },
   // 获取用户授权
   getUserInfo(e) {
     let _this = this
 
-    if(e.detail.userInfo) {
+    this.setData({
+      radio_checked: !this.data.radio_checked
+    })
+
+    if(e.detail.userInfo && this.data.radio_checked && !this.data.user) {
+      this.data.user = e.detail.userInfo
       // 调用云函数
       wx.cloud.callFunction({
         name: 'user',
@@ -23,31 +34,26 @@ Page({
           action: 'create',
           ...e.detail.userInfo
         },
-        success: data => {
-          const { errMsg, requestID, result} = data
-          _this.$showToast({
-            title: '添加成功',
-            icon: 'success',
-          })
+        success: res => {
+          // const { errMsg, requestID, result} = res
+          // console.log('data', res)
+          // this.data.user = e.detail.userInfo
+          // this.data.user_id = result._id
         },
         fail: err => {
           console.error('err', err)
-          _this.$showToast({
-            title: '添加失败',
-            icon: 'fail',
-          })
         }
       })
     }
   },
   // 获取手机号
   getPhoneNumber(e) {
-    // if(!this.data.user) {
-    //   this.$showModal({
-    //     content: "请先授权用户信息"
-    //   })
-    //   return false
-    // }
+    if(!this.data.radio_checked) {
+      this.$showModal({
+        content: "请同意使用条款"
+      })
+      return false
+    }
     // 调用云函数
     wx.cloud.callFunction({
       name: 'common',
@@ -82,6 +88,7 @@ Page({
       data: {
 				action: 'queryByPhone',
         phone: this.data.phone,
+        wechat: this.data.user
 			},
       success: data => {
         const { errMsg, requestID, result} = data

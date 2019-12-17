@@ -2,18 +2,36 @@
 @import "~@/styles/theme/color"
 
 .container
-  .top-text
+
+  .top
     display: flex
     flex-direction: column
     align-items: center
     justify-content: center
-    height: 45vh
-    background: $color-primary
-    color: $color-white
-    font-size: vw(20)
-    font-weight: 200
+    margin-top: vw(120)
+    .logo
+      width: vw(100)
+      height: vw(100)
+    .txt
+      color: $text-default
+      font-size: vw(14)
+      font-weight: 200
+  .radio
+    display: flex
+    justify-content: center
+    align-items: center
+    margin-top: vw(130)
+  .btn-radio
+    width: vw(25)
+    height: vw(25)
+    background: none
+    border: none
+    line-height: 1
+    padding: 0
+    margin: 0
+    &::after
+      border: none
   .btn
-    margin-top: vw(60)
     background: $color-primary
     color: $color-white
   .enterprise

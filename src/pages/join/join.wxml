@@ -1,26 +1,26 @@
 <view class="container">
 
 
-  <view class="top-text">
-  <!-- 
-    <view wx:if="{{!user}}">
-      <view>头像, 昵称</view>
-      <view>有助于在圈子里快速找到朋友</view>
-    </view> -->
-    <view>
-      <view>手机号</view>
-      <view>是你在这个圈子的身份标示</view>
+  <view class="top">
+    <view class="logo">
+      <image src="../../images/logo.png" ></image>
     </view>
+    <view class="txt font-16">你的同事圈, 爆出你的惊喜</view>
   </view>
 
-  <!-- 授权用户信息 
-  <view class="p-l-20 p-r-20">
-    <button class="btn" open-type="getUserInfo" bindgetuserinfo="getUserInfo">授权用户信息</button>
-  </view>-->
+  <view class="radio text-default font-12">
+    <button class="btn-radio" open-type="getUserInfo" bindgetuserinfo="getUserInfo">
+      <radio-group bindchange="radioChange">
+        <radio checked="{{radio_checked}}"></radio>
+      </radio-group>
+    </button>
+    <view class="m-l-10">我同意爆你的料的《使用条款》</view>
+  </view>
 
   <!-- 提交 -->
-  <view class="p-l-20 p-r-20">
-    <button class="btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+  <view class="m-t-20 p-l-20 p-r-20">
+    <button class="btn" wx:if="{{radio_checked}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">授权手机号</button>
+    <button class="btn" wx:if="{{!radio_checked}}" bindtap="getPhoneNumber">授权手机号</button>
   </view>
 
   <!-- logo -->

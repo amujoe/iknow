@@ -4,7 +4,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init()                              // 初始化 cloud
 const db = cloud.database()               // 初始化 database
-const { OPENID } = cloud.getWXContext()   // 获取 openid
+
 
 /**
  * 查询 企业下的 用户信息, 
@@ -125,6 +125,21 @@ const queryForMy = async (params) => {
  */
 const queryByPhone = async (params) => {
   try {
+    const { OPENID } = cloud.getWXContext()   // 获取 openid
+    // 更新的 微信信息
+    await db.collection("_ACCOUNT")
+      .where({
+        "phone": params.phone,
+      })
+      .update({
+        data: {
+          _open_id: OPENID,
+          avatar: params.wechat.avatarUrl, // 形象
+          nick_name: params.wechat.nickName,
+          wechat: params.wechat
+        }
+      })
+
     return await db.collection("_ACCOUNT")
       .where({
         "phone": params.phone,
@@ -198,6 +213,7 @@ const create = async (info) => {
     return await db.collection("_ACCOUNT")
       .add({
         data: {
+          _open_id: "", // openid
           enterprise: info.enterprise, // 关联的公司 id
           name: info.name, // 姓名
           gender: info.gender, // 性别 0保密, 1男, 2女
@@ -287,7 +303,6 @@ const updateKnow = async (params) => {
     console.error(e)
   }
 }
-
 
 
 /**
